@@ -1,0 +1,21 @@
+create table motivo_os(
+	id bigint(20) primary key auto_increment,
+	descricao varchar(255) not null unique
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into motivo_os(descricao) values
+( 'PERDA DE VIDEO'),
+( 'EFETUAR GRAVAÇÕES DE IMAGENS'),
+('VERIFICAR ACESSO REMOTO'), 
+( 'MANUTENÇÃO PREVENTIVA'),
+('VERIFICAR INTERFERENCIA EM CÂMERA'),
+('SISTEMA REINICIANDO'),
+('VERIFICAR TEMPO DE GRAVAÇÃO'),
+( 'ATUALIZAR CADASTRO DE USUARIOS'),
+('VERIFICAR MONITOR DO SISTEMA'),
+( 'VERIFICAR DVR TRAVADO'),
+( 'SISTEMA DESLIGADO'),
+( 'HD DO SISTEMA COM PROBLEMA'),
+( 'REALIZA ANALISE DE RISCO'),
+( 'INFORMATIVO'),
+("Não definido");

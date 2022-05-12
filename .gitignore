@@ -1,0 +1,29 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+/backup/
+.gradle/
+.vscode/
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+java-mysql-exporter-temp/
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+keystore.p12
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/

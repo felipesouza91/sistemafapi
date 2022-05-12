@@ -1,0 +1,1 @@
+ALTER TABLE bairro DROP INDEX nome;

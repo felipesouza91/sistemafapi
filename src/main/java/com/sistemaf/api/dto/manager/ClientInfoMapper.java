@@ -1,0 +1,22 @@
+package com.sistemaf.api.dto.manager;
+
+import com.sistemaf.api.dto.input.InfoInputModel;
+import com.sistemaf.api.dto.model.ClientInfoModel;
+import com.sistemaf.domain.model.ClienteInformacao;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+@Mapper
+public interface ClientInfoMapper {
+  ClientInfoMapper INSTANCE = Mappers.getMapper(ClientInfoMapper.class);
+
+  List<ClientInfoModel> toCollectionModel(List<ClienteInformacao> list);
+
+  @Mapping(target = "clienteId", source = "info.cliente.id")
+  ClientInfoModel toDTO(ClienteInformacao info);
+
+  ClienteInformacao toModel(InfoInputModel info);
+}
