@@ -7,22 +7,23 @@ import com.sistemaf.api.dto.model.resume.ProductResumeModel;
 import com.sistemaf.api.exceptionhandler.Problem;
 import com.sistemaf.domain.filter.ProdutoFiltro;
 import com.sistemaf.domain.projection.ResumoProduto;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-@Api(tags = "Product")
+@Tag(name = "Product")
 public interface ProductResourceOpenApi {
 
     @Operation(summary = "Find products")
