@@ -1,18 +1,17 @@
 package com.sistemaf.api.dto.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Group Model")
+@Schema(name = "Group Model")
 public class GroupModel {
 
-    @ApiModelProperty(value = "Group code", example = "1")
+    @Schema(description =  "Group code", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "Group name", example = "Any group name")
+    @Schema(description =  "Group name", example = "Any group name")
     private String nome;
 }

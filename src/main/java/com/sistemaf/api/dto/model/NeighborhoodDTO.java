@@ -1,22 +1,21 @@
 package com.sistemaf.api.dto.model;
 
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("NeighborhoodDTO")
+@Schema(name = "NeighborhoodDTO")
 public class NeighborhoodDTO {
 
-    @ApiModelProperty(value = "Neighborhood code", example = "1")
+    @Schema(description =  "Neighborhood code", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "Neighborhood name", example = "Name")
+    @Schema(description =  "Neighborhood name", example = "Name")
     private String nome;
 
-    @ApiModelProperty(value = "City information")
+    @Schema(description =  "City information")
     private CityDTO cidade;
 }

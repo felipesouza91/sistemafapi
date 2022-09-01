@@ -1,16 +1,15 @@
 package com.sistemaf.domain.filter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("GroupFilter")
+@Schema(name = "GroupFilter")
 public class GrupoFilter {
 
-	@ApiModelProperty(value = "Group name", example = "Company group")
+	@Schema(description =  "Group name", example = "Company group")
 	private String nome;
 
 }

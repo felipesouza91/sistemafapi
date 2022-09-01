@@ -1,13 +1,14 @@
 package com.sistemaf.api.resource;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import com.sistemaf.api.docs.controllers.GroupResourceOpenApi;
 import com.sistemaf.api.dto.input.GroupInput;
 import com.sistemaf.api.dto.manager.GroupMapper;
 import com.sistemaf.api.dto.model.GroupModel;
-import io.swagger.annotations.Api;
+import com.sistemaf.domain.event.RecursoCriarEvent;
+import com.sistemaf.domain.filter.GrupoFilter;
+import com.sistemaf.domain.model.Grupo;
+import com.sistemaf.domain.service.GrupoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -17,24 +18,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.sistemaf.domain.event.RecursoCriarEvent;
-import com.sistemaf.domain.filter.GrupoFilter;
-import com.sistemaf.domain.model.Grupo;
-import com.sistemaf.domain.service.GrupoService;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(tags = "Group")
+@Tag(name				= "Group")
 public class GrupoResource implements GroupResourceOpenApi {
 
 	@Autowired

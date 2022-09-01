@@ -1,7 +1,6 @@
 package com.sistemaf.api.dto.input;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +10,12 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@ApiModel("Service order Reason Input")
+@Schema(name ="Service order Reason Input")
 public class ServiceOrderReasonInput {
 
     @NotNull
     @NotBlank
     @Size(min=10, max=255)
-    @ApiModelProperty(value = "Service order reason code", example = "1")
+    @Schema(description = "Service order reason code", example = "1")
     private String descricao;
 }

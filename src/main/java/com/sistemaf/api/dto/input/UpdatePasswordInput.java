@@ -1,25 +1,26 @@
 package com.sistemaf.api.dto.input;
 
-import javax.validation.constraints.NotBlank;
-
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
+@Schema(name = "Update Password Input")
 public class UpdatePasswordInput {
 	
 	@NotBlank
-	@ApiModelProperty(value = "Current password",example = "currentPassword", required = true)
+	@Schema(description = "Current password",example = "currentPassword", required = true)
 	private String oldPassword;
 	
 	@NotBlank
-	@ApiModelProperty(value = "New password",example = "newPassword", required = true)
+	@Schema(description = "New password",example = "newPassword", required = true)
 	private String newPassword;
 	
 	@NotBlank
-	@ApiModelProperty(value = "Confirmation new password",example = "newPassword", required = true)
+	@Schema(description = "Confirmation new password",example = "newPassword", required = true)
 	private String confirmationNewPassword;
 	
 }

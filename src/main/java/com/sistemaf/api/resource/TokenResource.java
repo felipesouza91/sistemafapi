@@ -1,11 +1,8 @@
 package com.sistemaf.api.resource;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import io.swagger.annotations.Api;
+import com.sistemaf.core.SistemFApiProperty;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistemaf.core.SistemFApiProperty;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(path = "/tokens", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(tags = "Token")
+@Tag(name = "Token")
 public class TokenResource {
 
 	@Autowired

@@ -1,18 +1,17 @@
 package com.sistemaf.api.dto.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Permission Model")
+@Schema(name = "Permission Model")
 public class PermissionModel {
 
-    @ApiModelProperty(value = "Permission code", example = "1")
+    @Schema(description =  "Permission code", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "Permission description", example = "Permision description")
+    @Schema(description =  "Permission description", example = "Permision description")
     private String descricao;
 }

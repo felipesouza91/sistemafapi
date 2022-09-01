@@ -1,25 +1,24 @@
 package com.sistemaf.api.dto.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("Adress Model")
+@Schema(name = "Adress Model")
 public class AddressModel {
 
-    @ApiModelProperty(value = "Street name", example = "19° Street")
+    @Schema(description = "Street name", example = "19° Street")
     private String rua;
 
-    @ApiModelProperty(value = "Address Number", example = "123")
+    @Schema(description = "Address Number", example = "123")
     private Long numero;
 
-    @ApiModelProperty(value = "Address complement", example = "house 3")
+    @Schema(description = "Address complement", example = "house 3")
     private String complemento;
 
-    @ApiModelProperty(value = "Address reference", example = "house 3")
+    @Schema(description = "Address reference", example = "house 3")
     private String referencia;
 
     private NeighborhoodDTO bairro;

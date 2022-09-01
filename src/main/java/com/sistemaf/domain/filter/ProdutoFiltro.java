@@ -1,22 +1,21 @@
 package com.sistemaf.domain.filter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ProductFilter")
+@Schema(name = "ProductFilter")
 public class ProdutoFiltro {
 
-	@ApiModelProperty(value = "Model infor", example = "MHDX1104")
+	@Schema(description = "Model infor", example = "MHDX1104")
 	private String modelo;
 
-	@ApiModelProperty(value = "Manufacturer name", example = "SONY")
+	@Schema(description = "Manufacturer name", example = "SONY")
 	private String nomeFabricante;
 
-	@ApiModelProperty(value = "Manufacturer code", example = "1")
+	@Schema(description = "Manufacturer code", example = "1")
 	private Long idFabricante;
 
 }

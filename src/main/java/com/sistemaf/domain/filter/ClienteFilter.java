@@ -1,43 +1,42 @@
 package com.sistemaf.domain.filter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ClientFilter")
+@Schema(name = "ClientFilter")
 public class ClienteFilter {
 
-	@ApiModelProperty(value = "Service code", example = "12034")
+	@Schema(description =  "Service code", example = "12034")
 	private Integer service;
 
-	@ApiModelProperty(value = "Partition code", example = "1234")
+	@Schema(description =  "Partition code", example = "1234")
 	private String codigoParticao;
 
-	@ApiModelProperty(value = "Client status", example = "true")
+	@Schema(description =  "Client status", example = "true")
 	private Boolean ativo;
 
-	@ApiModelProperty(value = "Fantasy name", example = "Any Fantasy name")
+	@Schema(description =  "Fantasy name", example = "Any Fantasy name")
 	private String fantazia;
 
-	@ApiModelProperty(value = "Company name", example = "Any Company name")
+	@Schema(description =  "Company name", example = "Any Company name")
 	private String razaoSocial;
 
-	@ApiModelProperty(value = "Street address", example = "Rua Santo Cristo")
+	@Schema(description =  "Street address", example = "Rua Santo Cristo")
 	private String endereco;
 
-	@ApiModelProperty(value = "Neighborhood name", example = "Santo Cristo")
+	@Schema(description =  "Neighborhood name", example = "Santo Cristo")
 	private String bairro;
 
-	@ApiModelProperty(value = "City name", example = "Rio de janeiro")
+	@Schema(description =  "City name", example = "Rio de janeiro")
 	private String cidade;
 
-	@ApiModelProperty(value = "Domain name", example = "domain.site.com")
+	@Schema(description =  "Domain name", example = "domain.site.com")
 	private String dominio;
 
-	@ApiModelProperty(value = "Company group name", example = "Company Group")
+	@Schema(description =  "Company group name", example = "Company Group")
 	private String nomeGrupo;
 
 }

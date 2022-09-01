@@ -1,7 +1,6 @@
 package com.sistemaf.api.dto.input;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +9,11 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@ApiModel("Group Input")
+@Schema( name ="Group Input")
 public class GroupInput {
 
     @NotNull
     @Size(min=3 , max=70)
-    @ApiModelProperty(value = "Group name", example = "Any name")
+    @Schema(description = "Group name", example = "Any name")
     private String nome;
 }

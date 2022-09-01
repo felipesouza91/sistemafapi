@@ -1,46 +1,45 @@
 package com.sistemaf.domain.filter;
 
-import java.time.LocalDate;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
-@ApiModel("ClosedOrderServiceFilter")
+@Schema(name = "ClosedOrderServiceFilter")
 public class FechamentoOsFilter {
 
-	@ApiModelProperty( value = "Closed order service code", example = "1")
+	@Schema(description =  "Closed order service code", example = "1")
 	private String codigoOs;
 
-	@ApiModelProperty( value = "Client code", example = "1")
+	@Schema(description =  "Client code", example = "1")
 	private String codigoCliente;
 
-	@ApiModelProperty( value = "Technical name", example = "John")
+	@Schema(description =  "Technical name", example = "John")
 	private String nomeTecnico;
 
-	@ApiModelProperty( value = "Client name", example = "Client name")
+	@Schema(description =  "Client name", example = "Client name")
 	private String nomeCliente;
 
-	@ApiModelProperty( value = "Closed cause description", example = "Video lost")
+	@Schema(description =  "Closed cause description", example = "Video lost")
 	private String motivoFechamento;
 
-	@ApiModelProperty( value = "Initial Closed date", example = "2020-10-30")
+	@Schema(description =  "Initial Closed date", example = "2020-10-30")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate dataFachamentoDe;
 
-	@ApiModelProperty( value = "Final Closed date", example = "2020-10-31")
+	@Schema(description =  "Final Closed date", example = "2020-10-31")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate dataFechamentoAte;
 
-	@ApiModelProperty( value = "Initial Visit date", example = "2020-01-31")
+	@Schema(description =  "Initial Visit date", example = "2020-01-31")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate dataVisitaDe;
 
-	@ApiModelProperty( value = "Final Visit date", example = "2020-03-31")
+	@Schema(description =  "Final Visit date", example = "2020-03-31")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate dataVisitaAte;
 

@@ -1,18 +1,17 @@
 package com.sistemaf.api.dto.model.resume;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("User Resume Model")
+@Schema(name = "User Resume Model")
 public class UserResumeModel {
 
-    @ApiModelProperty(value = "Codigo do usuario" , example = "1")
+    @Schema(description = "Codigo do usuario" , example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "Nome do usuario" , example = "1")
+    @Schema(description = "Nome do usuario" , example = "1")
     private String nome;
 }

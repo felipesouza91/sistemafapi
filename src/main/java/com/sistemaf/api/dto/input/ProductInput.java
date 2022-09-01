@@ -1,23 +1,17 @@
 package com.sistemaf.api.dto.input;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sistemaf.api.dto.input.id.ManufacturerInputId;
-import com.sistemaf.domain.model.Fabricante;
-import com.sistemaf.infrastructure.util.customserializer.FabricanteSerializer;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@ApiModel("Product Input")
+@Schema(name = "Product Input")
 public class ProductInput {
 
     @NotBlank

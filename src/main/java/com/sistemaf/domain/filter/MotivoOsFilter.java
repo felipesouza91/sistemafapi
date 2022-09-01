@@ -1,16 +1,15 @@
 package com.sistemaf.domain.filter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel(description = "ServiceOrderReasonFilter")
+@Schema(name = "ServiceOrderReasonFilter")
 public class MotivoOsFilter {
 
-	@ApiModelProperty(value = "Reason description", example = "Some cause")
+	@Schema(description =  "Reason description", example = "Some cause")
 	private String descricao;
 	
 }

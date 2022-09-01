@@ -1,26 +1,25 @@
 package com.sistemaf.api.dto.model;
 
-import com.sistemaf.api.dto.input.id.PermissionInputId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 @Getter
 @Setter
-@ApiModel("Access Group Model")
+@Schema(name = "Access Group Model")
 public class AccessGroupModel {
 
-    @ApiModelProperty(value = "Access group code", example = "1")
+    @Schema(description = "Access group code", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "Permission status", example = "true")
+    @Schema(description = "Permission status", example = "true")
     private Boolean ativo;
 
-    @ApiModelProperty(value = "Permission description", example = "Any description")
+    @Schema(description = "Permission description", example = "Any description")
     private String descricao;
 
-    @ApiModelProperty(value = "Permission list")
+    @Schema(description = "Permission list")
     private List<PermissionModel> permissoes;
 }
