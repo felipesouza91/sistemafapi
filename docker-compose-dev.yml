@@ -16,7 +16,7 @@ services:
       - 3306:3306
 
   myapp:
-    image: sistemafapi:0.0.7
+    image: sistemafapi:0.0.8a
     restart: on-failure
     depends_on:
       - myapp-mysql
