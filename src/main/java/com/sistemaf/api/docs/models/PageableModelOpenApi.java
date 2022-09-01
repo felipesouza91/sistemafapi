@@ -1,7 +1,6 @@
 package com.sistemaf.api.docs.models;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,13 +8,13 @@ import java.util.List;
 
 @Getter
 @Setter
-@ApiModel("Pageable")
+@Schema(name = "Pageable")
 public class PageableModelOpenApi {
 
-    @ApiModelProperty(value = "Page number, start with 0",example = "0")
+    @Schema(description = "Page number, start with 0",example = "0")
     private int page;
-    @ApiModelProperty(value = "Elements quantity for page",example = "10")
+    @Schema(description = "Elements quantity for page",example = "10")
     private int size;
-    @ApiModelProperty(value = "Properties name for ordination", example = "nome,asc")
+    @Schema(description = "Properties name for ordination", example = "nome,asc")
     private List<String> sort;
 }

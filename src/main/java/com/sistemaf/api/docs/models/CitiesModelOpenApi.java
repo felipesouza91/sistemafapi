@@ -1,7 +1,7 @@
 package com.sistemaf.api.docs.models;
 
 import com.sistemaf.domain.model.Cidade;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel("CitiesModel")
+@Schema(name = "CitiesModel")
 public class CitiesModelOpenApi extends PagedModelOpenApi<Cidade>{}
