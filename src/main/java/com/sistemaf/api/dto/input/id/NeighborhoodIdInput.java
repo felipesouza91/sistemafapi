@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema( name="Neighborhood Id Input")
+@Schema()
 public class NeighborhoodIdInput {
 
     @NotNull

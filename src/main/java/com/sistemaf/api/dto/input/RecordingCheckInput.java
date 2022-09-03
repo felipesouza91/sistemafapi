@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name = "Recording Check Input")
+@Schema()
 public class RecordingCheckInput {
 
     @NotNull

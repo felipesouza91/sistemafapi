@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name ="Service order Reason Input")
+@Schema()
 public class ServiceOrderReasonInput {
 
     @NotNull

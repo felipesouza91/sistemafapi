@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name = "Service order input")
+@Schema()
 public class ServiceOrderInput {
 
     @Schema(description = "Service code (integration code Inside Sistemas)", example = "1555")

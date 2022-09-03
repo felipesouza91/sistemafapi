@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema(name = "Product Input")
+@Schema()
 public class ProductInput {
 
     @NotBlank

@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name ="Client Input")
+@Schema()
 public class ClientInput {
 
     private Integer codigoService;

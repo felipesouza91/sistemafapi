@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name = "User Input")
+@Schema()
 public class UserInput {
 
     @NotNull

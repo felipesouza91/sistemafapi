@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Schema(name="Closed Order Input")
+@Schema()
 public class ClosedOrderInput {
 
     @NotBlank

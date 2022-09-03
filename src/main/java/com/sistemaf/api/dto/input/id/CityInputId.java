@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema(name = "CityInputId")
+@Schema()
 public class CityInputId {
     @NotNull
     @Schema(description = "City code", example = "1")

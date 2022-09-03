@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(name="Access Group Input")
+@Schema()
 public class AccessGroupInput {
 
     @NotNull

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(name = "Access Group Id Input")
+@Schema()
 public class AccessGroupIdInput {
 
     @Schema(description =  "Acess group id", example = "1")

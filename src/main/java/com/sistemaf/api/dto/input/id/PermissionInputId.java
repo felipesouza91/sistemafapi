@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(name = "Permission Input Id")
+@Schema()
 public class PermissionInputId {
 
     @Schema(description =  "Permission code", example = "1")

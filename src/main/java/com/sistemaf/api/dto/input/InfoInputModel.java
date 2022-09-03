@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema(name="Infor Input Model")
+@Schema()
 public class InfoInputModel {
 
     @NotBlank

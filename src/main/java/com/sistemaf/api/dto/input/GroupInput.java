@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema( name ="Group Input")
+@Schema()
 public class GroupInput {
 
     @NotNull

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema( name = "Address Input")
+@Schema()
 public class AddressInput {
 
     @NotNull

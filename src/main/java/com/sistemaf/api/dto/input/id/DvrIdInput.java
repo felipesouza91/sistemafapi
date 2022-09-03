@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Schema(name = "Dvr Id Input")
+@Schema()
 public class DvrIdInput {
 
     @NotNull

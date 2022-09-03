@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-@Schema(name = "Update Password Input")
+@Schema()
 public class UpdatePasswordInput {
 	
 	@NotBlank

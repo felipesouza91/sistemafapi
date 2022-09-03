@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name="City Input")
+@Schema()
 public class CidadeInput {
 	
 	@NotBlank

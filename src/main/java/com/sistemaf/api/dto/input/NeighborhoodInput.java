@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name = "NeighborhoodInput")
+@Schema()
 public class NeighborhoodInput {
 
     @NotNull

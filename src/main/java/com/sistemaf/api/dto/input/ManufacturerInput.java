@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-@Schema(name ="Manufacturer Input Model")
+@Schema()
 public class ManufacturerInput {
 
     @NotBlank
