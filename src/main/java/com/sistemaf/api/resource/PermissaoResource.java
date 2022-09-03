@@ -3,6 +3,7 @@ package com.sistemaf.api.resource;
 import com.sistemaf.domain.model.Permissao;
 import com.sistemaf.domain.repository.security.PermissaoRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/permissao", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Permission")
+@SecurityRequirement(name = "security_auth")
 public class PermissaoResource {
 	
 	@Autowired

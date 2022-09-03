@@ -7,7 +7,7 @@ import com.sistemaf.domain.model.RelatoAtendimento;
 import com.sistemaf.domain.projection.ResumoAtendimento;
 import com.sistemaf.domain.service.AtendimentoService;
 import com.sistemaf.domain.service.RelatoAtendimentoService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/atendimentos", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Treatment")
 public class AtendimentoResource {
 
 	@Autowired
@@ -38,18 +37,21 @@ public class AtendimentoResource {
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('36')")
+	@Operation(hidden = true)
 	public Page<Atendimento> listarTodos(AtendimentoFilter filter, Pageable page){
 		return atendimentoService.listar(filter, page);
 	}
 	
 	@GetMapping(params = "resumo" )
 	@PreAuthorize("hasAuthority('36')")
+	@Operation(hidden = true)
 	public Page<ResumoAtendimento> resumo(AtendimentoFilter filter, Pageable page){
 		return atendimentoService.resumo(filter, page);
 	}
 	
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('36')")
+	@Operation(hidden = true)
 	public ResponseEntity<Atendimento> buscarPorCodigo(@PathVariable Long codigo){
 		Atendimento atendimento = atendimentoService.buscarPorCodigo(codigo);
 		return atendimento != null ? ResponseEntity.ok(atendimento) : ResponseEntity.notFound().build();
@@ -57,6 +59,7 @@ public class AtendimentoResource {
 	
 	@GetMapping("/{idAtendimento}/relatos")
 	@PreAuthorize("hasAuthority('36')")
+	@Operation(hidden = true)
 	public ResponseEntity<List<RelatoAtendimento>> buscarAtendimento(@PathVariable Long idAtendimento) {
 		List<RelatoAtendimento> list = relatoService.findAtendimento(idAtendimento);
 		return ResponseEntity.ok(list);
@@ -64,6 +67,7 @@ public class AtendimentoResource {
 	
 	@PostMapping
 	@PreAuthorize("hasAuthority('34')")
+	@Operation(hidden = true)
 	public ResponseEntity<Atendimento> salvar(@Valid @RequestBody Atendimento atendimento,
 				HttpServletResponse response) {
 		Atendimento atendimentoSalvo = atendimentoService.salvar(atendimento);
@@ -73,6 +77,7 @@ public class AtendimentoResource {
 	
 	@PostMapping("/{idAtendimento}/relatos")
 	@PreAuthorize("hasAuthority('34')")
+	@Operation(hidden = true)
 	public ResponseEntity<RelatoAtendimento> adicionarRelato(@PathVariable Long idAtendimento,
 				@Valid @RequestBody RelatoAtendimento relato,
 					HttpServletResponse response) {
@@ -83,6 +88,7 @@ public class AtendimentoResource {
 	
 	@PutMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('34')")
+	@Operation(hidden = true)
 	public ResponseEntity<Atendimento> atualizar(@PathVariable Long codigo,@Valid @RequestBody Atendimento atendimento) {
 		Atendimento atendimentoSalvo = atendimentoService.atualizar(codigo, atendimento);
 		return ResponseEntity.ok(atendimentoSalvo);
@@ -90,6 +96,7 @@ public class AtendimentoResource {
 	
 	@PutMapping("/relato/{codigo}")
 	@PreAuthorize("hasAuthority('34')")
+	@Operation(hidden = true)
 	public ResponseEntity<RelatoAtendimento> atualizarRelato(@PathVariable Long codigo, 
 			@RequestBody RelatoAtendimento relato) {
 		RelatoAtendimento relatoSalvo = relatoService.atualizar(codigo, relato);
