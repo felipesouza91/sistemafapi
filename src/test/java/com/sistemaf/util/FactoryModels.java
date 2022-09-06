@@ -1,6 +1,5 @@
 package com.sistemaf.util;
 
-import com.mysql.cj.xdevapi.Client;
 import com.sistemaf.domain.model.*;
 
 import java.time.LocalDateTime;
