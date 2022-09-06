@@ -16,10 +16,10 @@ import java.util.List;
 @SecurityRequirement(name = "security_auth")
 public interface PartitionResourceOpenApi {
 
-    @Operation(summary = "Find Partition")
+    @Operation(summary = "Find Partition",hidden = true)
     List<Particao> findAll();
 
-    @Operation(summary = "Create a Partition")
+    @Operation(summary = "Create a Partition", hidden = true)
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Partition created")
     })
