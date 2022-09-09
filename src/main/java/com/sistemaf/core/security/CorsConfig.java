@@ -1,10 +1,7 @@
 package com.sistemaf.core.security;
 
 
-import java.util.Collections;
-
 import com.sistemaf.core.SistemFApiProperty;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +10,8 @@ import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.Collections;
 
 @Configuration
 public class CorsConfig {
@@ -24,7 +23,7 @@ public class CorsConfig {
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(properties.getOrigemPermitida());
+		config.setAllowedOriginPatterns(properties.getOrigemPermitida());
 		config.setAllowedMethods(Collections.singletonList("*"));
 		config.setAllowedHeaders(Collections.singletonList("*"));
 		
