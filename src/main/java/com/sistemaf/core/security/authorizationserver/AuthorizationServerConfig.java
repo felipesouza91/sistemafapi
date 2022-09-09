@@ -1,9 +1,6 @@
 package com.sistemaf.core.security.authorizationserver;
 
-import java.util.Arrays;
-
 import com.sistemaf.core.SistemFApiProperty;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +15,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.Arrays;
 
 
 
@@ -46,8 +45,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret(passwordEncode.encode("@ngul@r0"))
 				.scopes("read", "write")
 				.authorizedGrantTypes("password", "refresh_token")
-				.accessTokenValiditySeconds(1800)
-				.refreshTokenValiditySeconds(3600*12)
+				.accessTokenValiditySeconds(envProperties.getAccessTokenValiditySeconds())
+				.refreshTokenValiditySeconds(envProperties.getRefreshTokenValiditySeconds())
 			.and()
 				.withClient("checktoken")
 					.secret(passwordEncode.encode("check123"));;
