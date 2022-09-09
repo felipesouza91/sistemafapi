@@ -1,11 +1,10 @@
 package com.sistemaf.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.validation.constraints.NotBlank;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.util.ArrayList;
+import java.util.List;
 
 @ConfigurationProperties("app-env")
 public class SistemFApiProperty {
@@ -18,6 +17,10 @@ public class SistemFApiProperty {
 	private String apiIntegrationUrl = null;
 	
 	private String pastaBackup = "backup";
+
+	private int accessTokenValiditySeconds = 1800 ; // 30 minutos
+
+	private int refreshTokenValiditySeconds = 3600*12; // 24 hours
 	
 	private final Seguranca seguranca = new Seguranca();
 	
@@ -57,7 +60,21 @@ public class SistemFApiProperty {
 		this.apiUrl = apiUrl;
 	}
 
+	public int getAccessTokenValiditySeconds() {
+		return accessTokenValiditySeconds;
+	}
 
+	public void setAccessTokenValiditySeconds(int accessTokenValiditySeconds) {
+		this.accessTokenValiditySeconds = accessTokenValiditySeconds;
+	}
+
+	public int getRefreshTokenValiditySeconds() {
+		return refreshTokenValiditySeconds;
+	}
+
+	public void setRefreshTokenValiditySeconds(int refreshTokenValiditySeconds) {
+		this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
+	}
 
 	public static class Seguranca {
 		private boolean enableHttps;
