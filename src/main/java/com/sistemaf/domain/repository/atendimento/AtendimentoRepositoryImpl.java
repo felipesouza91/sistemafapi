@@ -61,7 +61,7 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery {
 	
 	private Predicate[] criarRestricoes(AtendimentoFilter filter, CriteriaBuilder builder, Root<Atendimento> root) {
 		List<Predicate> predicates = new ArrayList<>();
-		if(!StringUtils.isEmpty(filter.getIdCliente())) {
+		if(filter.getIdCliente() != null ) {
 			predicates.add(builder.equal(
 					root.get(Atendimento_.cliente).get(Cliente_.id),
 						filter.getIdCliente()));
