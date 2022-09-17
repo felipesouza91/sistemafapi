@@ -9,7 +9,7 @@ services:
       - MYSQL_DATABASE=MyAppDb
       - MYSQL_USER=myapp-user
       - MYSQL_PASSWORD=password
-      - TZ=America/Sao_Paulo
+      - TZ=UTC
     networks:
       - spring-boot-mysql-network
     ports:

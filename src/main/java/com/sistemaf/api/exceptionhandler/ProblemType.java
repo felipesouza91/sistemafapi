@@ -14,9 +14,9 @@ public enum ProblemType {
 	DADOS_INVALIDOS("Dados Invalidos", "/dados-invalidos"),
 	ACESSO_NEGADO("Acesso Negado", "/acesso-negado");
 	
-	private String title;
-	
-	private String path;
+	final private String title;
+
+	final private String path;
 	
 	ProblemType(String title, String path) {
 		this.title = title;

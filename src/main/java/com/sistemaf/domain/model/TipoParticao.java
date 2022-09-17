@@ -7,7 +7,7 @@ public enum TipoParticao {
 	ALARME("ALARME"),
 	CONTROLE_ACESSO("CONTROLE DE ACESSO");
 
-	private String descricao;
+	final private String descricao;
 	
 	TipoParticao(String descricao){
 		this.descricao=descricao;

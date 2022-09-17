@@ -8,7 +8,7 @@ public enum TipoFabricante {
 	INTELBRAS("INTELBRAS"),
 	VID8("VID8");
 
-	private String descricao;
+	final private String descricao;
 	
 	TipoFabricante(String descricao){
 		this.descricao=descricao;

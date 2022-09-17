@@ -1,9 +1,5 @@
 package com.sistemaf.domain.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.GrupoAcesso;
@@ -11,10 +7,13 @@ import com.sistemaf.domain.model.Permissao;
 import com.sistemaf.domain.projection.ResumoGrupoAcesso;
 import com.sistemaf.domain.repository.security.PermissaoRepository;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
