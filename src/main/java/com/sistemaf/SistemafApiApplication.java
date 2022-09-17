@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.sistemaf.core.SistemFApiProperty;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @EnableScheduling
 @EnableConfigurationProperties(SistemFApiProperty.class)
@@ -15,6 +17,7 @@ import com.sistemaf.core.SistemFApiProperty;
 public class SistemafApiApplication {
 
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		SpringApplication.run(SistemafApiApplication.class, args);
 	}
 	
