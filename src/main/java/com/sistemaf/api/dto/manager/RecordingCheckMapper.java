@@ -1,12 +1,8 @@
 package com.sistemaf.api.dto.manager;
 
-import com.sistemaf.api.dto.input.ProductInput;
 import com.sistemaf.api.dto.input.RecordingCheckInput;
-import com.sistemaf.api.dto.model.ProductModel;
 import com.sistemaf.api.dto.model.RecordingCheckModel;
-import com.sistemaf.api.dto.model.resume.ProductResumeModel;
 import com.sistemaf.api.dto.model.resume.RecordingCheckResumeModel;
-import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.model.VerificacaoGravacao;
 import com.sistemaf.domain.projection.ResumoVerificacaoGravacao;
 import org.mapstruct.Mapper;
@@ -25,6 +21,8 @@ public interface RecordingCheckMapper {
   List<RecordingCheckModel> toCollectionModel(List<VerificacaoGravacao> content);
 
   RecordingCheckModel toDto( VerificacaoGravacao produto);
+
+  RecordingCheckResumeModel toResumeDto(ResumoVerificacaoGravacao resumoVerificacaoGravacao);
 
   VerificacaoGravacao toModel(RecordingCheckInput inputBody);
 

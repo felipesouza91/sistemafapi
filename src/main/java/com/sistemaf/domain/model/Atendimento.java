@@ -1,39 +1,24 @@
 package com.sistemaf.domain.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sistemaf.infrastructure.util.customserializer.ClienteSerializer;
 import com.sistemaf.infrastructure.util.customserializer.UsuarioSerializer;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="atendimento")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-	property = "id", scope=Atendimento.class)
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Atendimento {
 	
 	@Id
@@ -57,15 +42,14 @@ public class Atendimento {
 	@JsonSerialize(using=ClienteSerializer.class)
 	@JoinColumn(name="codigo_cliente")
 	private Cliente cliente;
-	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+
 	@NotNull
 	@Column(name="data_inicio")
-	private LocalDateTime dataInicio;
+	private OffsetDateTime dataInicio;
 	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+
 	@Column(name="data_termino")
-	private LocalDateTime dataTermino;
+	private OffsetDateTime dataTermino;
 	
 	@NotNull
 	@ManyToOne
@@ -81,9 +65,5 @@ public class Atendimento {
 	@OneToMany(fetch= FetchType.LAZY, mappedBy="atendimento")
     @JsonManagedReference
 	private List<RelatoAtendimento> relatos;
-	
-	public Atendimento() {
-		
-	}
 
 }

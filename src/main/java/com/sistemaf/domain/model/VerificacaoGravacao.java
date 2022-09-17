@@ -1,17 +1,13 @@
 package com.sistemaf.domain.model;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name="verificacao_gravacoes")
@@ -19,6 +15,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class VerificacaoGravacao {
 	
 	@Id
@@ -35,10 +33,9 @@ public class VerificacaoGravacao {
 	@Column(name="qtd_gravacao")
 	private int qtdGravacao;
 
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name="data_teste", nullable=false)
 	@CreatedDate
-	private LocalDateTime dataTeste;
+	private OffsetDateTime dataTeste;
 
 	@ManyToOne
 	@JoinColumn(name="codigo_dvr")
@@ -48,8 +45,6 @@ public class VerificacaoGravacao {
 	@ManyToOne
 	@JoinColumn(name="codigo_usuario")
 	private Usuario usuario;
-	
-	public VerificacaoGravacao(Dvr dvr) { this.dvr = dvr; 	}
-	public VerificacaoGravacao() {}
+
 
 }

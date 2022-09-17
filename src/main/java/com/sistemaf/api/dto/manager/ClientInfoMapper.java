@@ -4,7 +4,6 @@ import com.sistemaf.api.dto.input.InfoInputModel;
 import com.sistemaf.api.dto.model.ClientInfoModel;
 import com.sistemaf.domain.model.ClienteInformacao;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface ClientInfoMapper {
 
   List<ClientInfoModel> toCollectionModel(List<ClienteInformacao> list);
 
-  @Mapping(target = "clienteId", source = "info.cliente.id")
+  //@Mapping( source = "cliente.id", target = "clienteId")
   ClientInfoModel toDTO(ClienteInformacao info);
 
   ClienteInformacao toModel(InfoInputModel info);

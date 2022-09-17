@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -38,7 +38,7 @@ public class ServiceOrderModel {
     private Dvr dvr;
 
     @Schema(description =  "Service open date", example = "2020-10-20 12:00:00")
-    private LocalDateTime dataAbertura;
+    private OffsetDateTime dataAbertura;
 
     @Schema(description =  "Service order status", example = "true")
     private Boolean fechado;

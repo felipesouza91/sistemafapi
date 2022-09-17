@@ -1,6 +1,6 @@
 package com.sistemaf.domain.projection;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class ResumoVerificacaoGravacao {
 
@@ -13,7 +13,7 @@ public class ResumoVerificacaoGravacao {
 	
 	private int qtdGravacao;
 	
-	private LocalDateTime dataTeste;
+	private OffsetDateTime dataTeste;
 	
 	private Long idDvr;
 	
@@ -27,7 +27,7 @@ public class ResumoVerificacaoGravacao {
 	
 	private String nomeFantazia;
 
-	public ResumoVerificacaoGravacao(Long id, String status, String hd, int qtdGravacao, LocalDateTime dataTeste,
+	public ResumoVerificacaoGravacao(Long id, String status, String hd, int qtdGravacao, OffsetDateTime dataTeste,
 			Long idDvr, String fabricante ,String modeloDVr, String nomeUsuario, Long idCliente, String nomeFantazia) {
 		super();
 		this.id = id;
@@ -75,11 +75,11 @@ public class ResumoVerificacaoGravacao {
 		this.qtdGravacao = qtdGravacao;
 	}
 
-	public LocalDateTime getDataTeste() {
+	public OffsetDateTime getDataTeste() {
 		return dataTeste;
 	}
 
-	public void setDataTeste(LocalDateTime dataTeste) {
+	public void setDataTeste(OffsetDateTime dataTeste) {
 		this.dataTeste = dataTeste;
 	}
 

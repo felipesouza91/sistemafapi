@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -17,13 +17,12 @@ public class ClientInfoModel {
     private Long id;
 
     @Schema(description = "Data da criação" , example = "2020-05-05T12:30:00")
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     @Schema(description = "Descrição da informação" , example = "descricao")
     private String descricao;
 
     @Schema(description = "Codigo da cliente" , example = "1")
-
     private Long clienteId;
 
     private UserResumeModel createdBy;

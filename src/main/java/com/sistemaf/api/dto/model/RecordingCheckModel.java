@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -28,7 +28,7 @@ public class RecordingCheckModel {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Schema(description =  "Check create date", example = "2020-12-20 12:00:00")
-    private LocalDateTime dataTeste;
+    private OffsetDateTime dataTeste;
 
     private DvrResumeModel dvr;
 

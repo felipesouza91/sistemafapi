@@ -1,34 +1,21 @@
 package com.sistemaf.domain.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sistemaf.domain.model.custompk.ParticaoPk;
 import com.sistemaf.infrastructure.util.customserializer.ClienteSerializer;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "particao")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "particaoPk", scope = Particao.class)
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Particao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -73,11 +60,5 @@ public class Particao implements Serializable {
 	@JoinColumn(name = "cod_conf_control_acess")
 	private ConfiguracaoControleAcesso configControleAcesso;
 
-	public Particao() {	}
-
-	@JsonIgnore
-	public ParticaoPk getId() {
-		return this.particaoPk;
-	}
 
 }
