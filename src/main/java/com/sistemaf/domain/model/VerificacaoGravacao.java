@@ -1,7 +1,7 @@
 package com.sistemaf.domain.model;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,7 +34,7 @@ public class VerificacaoGravacao {
 	private int qtdGravacao;
 
 	@Column(name="data_teste", nullable=false)
-	@CreatedDate
+	@CreationTimestamp
 	private OffsetDateTime dataTeste;
 
 	@ManyToOne
