@@ -9,6 +9,7 @@ import lombok.Setter;
 @Schema(name = "ClientFilter")
 public class ClienteFilter {
 
+
 	@Schema(description =  "Service code", example = "12034")
 	private Integer service;
 

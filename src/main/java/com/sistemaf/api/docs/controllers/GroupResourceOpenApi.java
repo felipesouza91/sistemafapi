@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ import javax.validation.Valid;
 public interface GroupResourceOpenApi {
 
     @Operation(summary = "Find Groups")
-    Page<GroupModel> listar(GrupoFilter grupoFilter, Pageable pageable);
+    Page<GroupModel> listar(@ParameterObject GrupoFilter grupoFilter,@ParameterObject Pageable pageable);
 
     @Operation(summary = "Find Group by id")
     @ApiResponses({

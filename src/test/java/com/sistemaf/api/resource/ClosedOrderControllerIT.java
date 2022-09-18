@@ -9,7 +9,7 @@ import io.restassured.http.ContentType;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -89,7 +89,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
         ServiceOrderInputId order = new ServiceOrderInputId();
         order.setId(1L);
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("service order concluded");
         body.setObservcaoServico("observation");
@@ -131,7 +131,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
     @Test
     public void shouldReturn400_whenServiceOrderInputIsNull_onPost() {
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("service order concluded");
         body.setObservcaoServico("observation");
@@ -153,7 +153,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
     public void shouldReturn400_whenServiceOrderInputIdIsNull_onPost() {
         ServiceOrderInputId order = new ServiceOrderInputId();
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("service order concluded");
         body.setObservcaoServico("observation");
@@ -177,7 +177,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
         ServiceOrderInputId order = new ServiceOrderInputId();
         order.setId(8888L);
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("service order concluded");
         body.setObservcaoServico("observation");
@@ -202,7 +202,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
         ServiceOrderInputId order = new ServiceOrderInputId();
         order.setId(1L);
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("service order concluded");
         body.setObservcaoServico("observation");
@@ -244,7 +244,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
         ServiceOrderInputId order = new ServiceOrderInputId();
         order.setId(1L);
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("new service order concluded");
         body.setObservcaoServico("observation");
@@ -299,7 +299,7 @@ public class ClosedOrderControllerIT extends BasicTestIntegration {
         ServiceOrderInputId order = new ServiceOrderInputId();
         order.setId(1L);
         ClosedOrderInput body = new ClosedOrderInput();
-        body.setDataVisita(LocalDateTime.now());
+        body.setDataVisita(OffsetDateTime.now());
         body.setTecnico("Any technician");
         body.setMotivoFechamento("service order concluded");
         body.setObservcaoServico("observation");

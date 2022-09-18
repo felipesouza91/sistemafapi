@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public interface ServiceOrderResourceOpenApi {
             @Parameter(description = "Show resume information", name = "resumo",in = ParameterIn.QUERY
               ,example = "resume")
     })
-    Page<ServiceOrderModel> filtrar(OrdemServicoFilter filter, Pageable pageable);
+    Page<ServiceOrderModel> filtrar(@ParameterObject OrdemServicoFilter filter,@ParameterObject Pageable pageable);
 
     @Operation(summary = "Find Service orders resume",hidden = true)
     Page<ResumOrdemServico> resumir(OrdemServicoFilter filter, Pageable pageable);

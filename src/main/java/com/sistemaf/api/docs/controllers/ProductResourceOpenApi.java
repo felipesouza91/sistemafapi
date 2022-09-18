@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,10 @@ import javax.validation.Valid;
 public interface ProductResourceOpenApi {
 
     @Operation(summary = "Find products")
-    Page<ProductResumeModel> listar(ProdutoFiltro produtoFilter, Pageable pageable);
+    Page<ProductResumeModel> listar(@ParameterObject ProdutoFiltro produtoFilter, @ParameterObject Pageable pageable);
 
     @Operation(summary = "Find products resume")
-    Page<ResumoProduto> listarResumo(ProdutoFiltro produtoFilter, Pageable pageable);
+    Page<ResumoProduto> listarResumo(@ParameterObject ProdutoFiltro produtoFilter, @ParameterObject Pageable pageable);
 
     @Operation(summary = "Find product by code")
     @ApiResponses({

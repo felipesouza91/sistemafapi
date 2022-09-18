@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ import javax.validation.Valid;
 public interface CityResourceOpenApi {
 
     @Operation(summary =  "Find Citys")
-    Page<CityDTO> listar(CidadeFilter cidadeFilter, Pageable pageable);
+    Page<CityDTO> listar(@ParameterObject CidadeFilter cidadeFilter,@ParameterObject Pageable pageable);
 
     @Operation(summary =  "Find City by code")
     @ApiResponses({
