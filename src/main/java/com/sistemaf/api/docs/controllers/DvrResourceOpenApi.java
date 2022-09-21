@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ import javax.validation.Valid;
 public interface DvrResourceOpenApi {
 
     @Operation(summary = "Find Dvr´s")
-    Page<Dvr> listar(DvrFilter dvrFilter, Pageable pageable);
+    Page<Dvr> listar(@ParameterObject DvrFilter dvrFilter,@ParameterObject Pageable pageable);
 
     @Operation(summary = "Find Dvr by code")
     @ApiResponses({

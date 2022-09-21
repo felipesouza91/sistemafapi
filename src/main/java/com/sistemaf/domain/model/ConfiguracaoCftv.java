@@ -1,21 +1,21 @@
 package com.sistemaf.domain.model;
 
+import com.sistemaf.domain.model.definition.ConfigParticao;
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.sistemaf.domain.model.definition.ConfigParticao;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name="config_part_cftv")
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConfiguracaoCftv extends ConfigParticao{
 		
 	@NotNull

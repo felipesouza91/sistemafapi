@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -29,10 +29,10 @@ public class ProductModel {
     private UserResumeModel createdBy;
 
     @Schema(description =  "Product created date", example = "2020-12-20 12:00:00")
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     private UserResumeModel lastModifiedBy;
 
     @Schema(description =  "Product updated date", example = "2020-12-20 12:00:00")
-    private LocalDateTime lastModifiedDate;
+    private OffsetDateTime lastModifiedDate;
 }

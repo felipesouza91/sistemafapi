@@ -2,7 +2,7 @@ package com.sistemaf.util;
 
 import com.sistemaf.domain.model.*;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class FactoryModels {
 
@@ -62,8 +62,8 @@ public class FactoryModels {
         infoClient.setDescricao("descricao");
         infoClient.setCliente(getCliente());
         infoClient.setLastModifiedBy(getUsuario());
-        infoClient.setLastModifiedDate(LocalDateTime.now());
-        infoClient.setCreationDate(LocalDateTime.now());
+        infoClient.setLastModifiedDate(OffsetDateTime.now());
+        infoClient.setCreationDate(OffsetDateTime.now());
         return infoClient;
     }
 }

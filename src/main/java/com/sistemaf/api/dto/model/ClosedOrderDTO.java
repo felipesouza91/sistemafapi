@@ -1,12 +1,11 @@
 package com.sistemaf.api.dto.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sistemaf.api.dto.model.resume.ServiceOrderResumeModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -20,12 +19,10 @@ public class ClosedOrderDTO {
     private String motivoFechamento;
 
     @Schema(description =  "Closed date", example = "2020-12-20 12:00:00")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dataFechamento;
+    private OffsetDateTime dataFechamento;
 
     @Schema(description =  "Visit date", example = "2020-12-20 12:00:00")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dataVisita;
+    private OffsetDateTime dataVisita;
 
     @Schema(description =  "Technician name", example = "John")
     private String tecnico;

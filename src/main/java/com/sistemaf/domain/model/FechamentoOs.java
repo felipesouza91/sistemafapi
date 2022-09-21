@@ -1,26 +1,18 @@
 package com.sistemaf.domain.model;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name="fechamento_os")
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class FechamentoOs {
 
 	@Id
@@ -33,10 +25,10 @@ public class FechamentoOs {
 
 	@CreationTimestamp
 	@Column(name="data_fechamento",nullable=false)
-	private LocalDateTime dataFechamento;
+	private OffsetDateTime dataFechamento;
 	
 	@Column(name="data_visita",nullable=false)
-	private LocalDateTime dataVisita;
+	private OffsetDateTime dataVisita;
 	
 	@Column(nullable=false)
 	private String tecnico;

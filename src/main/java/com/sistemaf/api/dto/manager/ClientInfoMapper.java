@@ -15,7 +15,7 @@ public interface ClientInfoMapper {
 
   List<ClientInfoModel> toCollectionModel(List<ClienteInformacao> list);
 
-  @Mapping(target = "clienteId", source = "info.cliente.id")
+  @Mapping( source = "info.cliente.id", target = "clienteId")
   ClientInfoModel toDTO(ClienteInformacao info);
 
   ClienteInformacao toModel(InfoInputModel info);

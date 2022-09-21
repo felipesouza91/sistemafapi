@@ -4,19 +4,19 @@ import com.sistemaf.api.dto.input.InfoInputModel;
 import com.sistemaf.api.dto.model.ClientInfoModel;
 import com.sistemaf.api.exceptionhandler.Problem;
 import com.sistemaf.domain.filter.InformacaoFilter;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -33,8 +33,10 @@ public interface ClientInfoResourceOpenApi {
                     content = @Content(	schema =  @Schema(implementation = Problem.class))),
     })
      Page<ClientInfoModel> listarInformacoes(
-            @Parameter( description = "Client id", required = true, example = "1") @PathVariable Long clientId,
-            InformacaoFilter filter, Pageable pageable);
+            @Parameter( description = "Client id", required = true, example = "1")
+            @PathVariable Long clientId,
+            @ParameterObject InformacaoFilter filter,
+            @ParameterObject Pageable pageable);
 
     @Operation(summary = "Find Clint Information by Id")
     @ApiResponses({

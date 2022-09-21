@@ -1,21 +1,27 @@
 package com.sistemaf.infrastructure.util.auditing;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.sistemaf.domain.model.Usuario;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.sistemaf.domain.model.Usuario;
+import java.time.OffsetDateTime;
 
 
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class AuditingHibernate {
 
 	@LastModifiedBy
@@ -24,23 +30,8 @@ public abstract class AuditingHibernate {
 	@JoinColumn(name="modofied_user")
 	protected Usuario modifiedBy;
 	
-	@LastModifiedDate
+	@UpdateTimestamp
 	@Column(name="modified_date")
-	protected LocalDateTime modifiedDate;
-	
-	public Usuario getModifiedBy() {
-		return modifiedBy;
-	}
+	protected OffsetDateTime modifiedDate;
 
-	public void setModifiedBy(Usuario modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
-	public LocalDateTime getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(LocalDateTime modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
 }

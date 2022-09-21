@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ import java.util.List;
 public interface UserResourceOpenApi {
 
     @Operation(summary = "Find system users informations")
-    Page<UserModel> filtar(UsuarioFilter filter, Pageable page);
+    Page<UserModel> filtar(@ParameterObject UsuarioFilter filter,@ParameterObject Pageable page);
 
     @Operation(summary = "Find resume system users informations",
             parameters = @Parameter(name = "resume"))

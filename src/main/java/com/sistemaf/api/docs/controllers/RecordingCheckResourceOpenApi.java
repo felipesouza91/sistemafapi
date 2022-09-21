@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +28,10 @@ import javax.validation.Valid;
 public interface RecordingCheckResourceOpenApi {
 
     @Operation(summary = "Find Recording Check")
-    Page<RecordingCheckModel> filtrar(VerificarGravacaoFilter filter, Pageable pageable);
+    Page<RecordingCheckModel> filtrar(@ParameterObject VerificarGravacaoFilter filter,@ParameterObject Pageable pageable);
 
     @Operation(summary = "Find Recording Check resume")
-    Page<RecordingCheckResumeModel> resumo(VerificarGravacaoFilter filter, Pageable pageable);
+    Page<RecordingCheckResumeModel> resumo(@Parameter(required = false) VerificarGravacaoFilter filter, Pageable pageable);
 
     @Operation(summary = "Find Recording Check by code")
     @ApiResponses({

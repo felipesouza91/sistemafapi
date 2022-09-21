@@ -12,8 +12,8 @@ import java.util.List;
 
 @Tag(name="Problem")
 @JsonInclude(Include.NON_NULL)
-@Getter
-@Builder
+@Getter()
+@Builder()
 public class Problem {
 	
 	@Schema(description = "400")
