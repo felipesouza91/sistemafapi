@@ -24,12 +24,11 @@
 		<squiggly.version>1.3.18</squiggly.version>
 		<nimbsds.version>9.42</nimbsds.version>
 		<org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
-		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
-		<spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
 		<dockermavenplugin.version>0.30.0</dockermavenplugin.version>
 		<springdoc-version>1.6.11</springdoc-version>
 		<lombok.mapstruck.binding.version>0.2.0</lombok.mapstruck.binding.version>
 		<lombok.version>1.18.24</lombok.version>
+		<spring.oauth.server.version>0.3.1</spring.oauth.server.version>
 	</properties>
 
 	<dependencies>
@@ -70,21 +69,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
-		<!--<dependency>
-			<groupId>com.nimbusds</groupId>
-			<artifactId>oauth2-oidc-sdk</artifactId>
-			<version>${nimbsds.version}</version>
-			<scope>runtime</scope>
-		</dependency>-->
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>${spring-security-oauth2.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-jwt</artifactId>
-			<version>${spring-security-jwt.version}</version>
+			<artifactId>spring-security-oauth2-authorization-server</artifactId>
+			<version>${spring.oauth.server.version}</version>
 		</dependency>
 		
 		<!-- Swagger Docs -->
