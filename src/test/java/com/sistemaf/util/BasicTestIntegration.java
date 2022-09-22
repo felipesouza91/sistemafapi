@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
@@ -68,6 +68,6 @@ public class BasicTestIntegration {
 				.formParam("password", "admin")
 		.when()
 			.post("/token")
-			.as(OAuth2AccessToken.class).getValue();
+			.as(OAuth2AccessToken.class).getTokenValue();
 	}
 }
