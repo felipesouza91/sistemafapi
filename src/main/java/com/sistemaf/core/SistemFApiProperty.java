@@ -18,9 +18,7 @@ public class SistemFApiProperty {
 	
 	private String pastaBackup = "backup";
 
-	private int accessTokenValiditySeconds = 1800 ; // 30 minutos
 
-	private int refreshTokenValiditySeconds = 3600*12; // 24 hours
 	
 	private final Seguranca seguranca = new Seguranca();
 	
@@ -58,22 +56,6 @@ public class SistemFApiProperty {
 
 	public void setApiUrl(String apiUrl) {
 		this.apiUrl = apiUrl;
-	}
-
-	public int getAccessTokenValiditySeconds() {
-		return accessTokenValiditySeconds;
-	}
-
-	public void setAccessTokenValiditySeconds(int accessTokenValiditySeconds) {
-		this.accessTokenValiditySeconds = accessTokenValiditySeconds;
-	}
-
-	public int getRefreshTokenValiditySeconds() {
-		return refreshTokenValiditySeconds;
-	}
-
-	public void setRefreshTokenValiditySeconds(int refreshTokenValiditySeconds) {
-		this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
 	}
 
 	public static class Seguranca {
