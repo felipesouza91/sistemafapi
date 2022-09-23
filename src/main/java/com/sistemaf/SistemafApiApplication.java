@@ -1,5 +1,6 @@
 package com.sistemaf;
 
+import com.sistemaf.core.io.Base64ProtocolResolver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,7 +19,9 @@ public class SistemafApiApplication {
 
 	public static void main(String[] args) {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-		SpringApplication.run(SistemafApiApplication.class, args);
+		SpringApplication application = new SpringApplication(SistemafApiApplication.class);
+		application.addListeners(new Base64ProtocolResolver());
+		application.run(args);
 	}
 	
 }
