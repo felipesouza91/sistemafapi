@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Validated
 @Component
-@ConfigurationProperties("app.env.security.jwt.keystore")
+@ConfigurationProperties("app.security.jwt.keystore")
 public class JwtKeyStoreProperties {
 
   @NotNull

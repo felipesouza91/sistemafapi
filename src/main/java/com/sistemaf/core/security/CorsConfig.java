@@ -17,13 +17,13 @@ import java.util.Collections;
 public class CorsConfig {
 
 	@Autowired
-	private SistemFApiProperty properties;
+	private SistemFApiProperty appProperties;
 
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOriginPatterns(properties.getOrigemPermitida());
+		config.setAllowedOriginPatterns(appProperties.getAllowOrigins());
 		config.setAllowedMethods(Collections.singletonList("*"));
 		config.setAllowedHeaders(Collections.singletonList("*"));
 		

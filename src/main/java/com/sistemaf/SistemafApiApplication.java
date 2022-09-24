@@ -13,7 +13,6 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties(SistemFApiProperty.class)
 @EnableCaching
 public class SistemafApiApplication {
 

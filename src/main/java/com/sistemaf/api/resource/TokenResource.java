@@ -1,6 +1,7 @@
 package com.sistemaf.api.resource;
 
 import com.sistemaf.core.SistemFApiProperty;
+import com.sistemaf.core.security.authorizationserver.AppSecurityProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TokenResource {
 
 	@Autowired
-	private SistemFApiProperty renthelpProperty;
+	private AppSecurityProperties appProperty;
 
 	@Operation(summary = "Logoff application")
 	@DeleteMapping("/revoke")
@@ -31,7 +32,7 @@ public class TokenResource {
 	public void revoke(HttpServletRequest request, HttpServletResponse response) {
 		Cookie cookie = new	Cookie("refreshToken", null);
 		cookie.setHttpOnly(true);
-		cookie.setSecure(renthelpProperty.getSeguranca().isEnableHttps()); 
+		cookie.setSecure(appProperty.isEnableHttps());
 		cookie.setPath(request.getContextPath() +"/oauth/token");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);

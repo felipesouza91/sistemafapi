@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
 @Setter
 @Component
 @Validated
-@ConfigurationProperties("app.env.security")
+@ConfigurationProperties("app.security")
 public class AppSecurityProperties {
 
   @NotBlank
@@ -25,10 +26,10 @@ public class AppSecurityProperties {
   @NotBlank
   private String clientSecret;
 
-  @NotBlank
+  @NotNull
   private Set<String> redirectUris;
 
-  private boolean enableHttps;
+  private boolean enableHttps = false;
 
   private int accessTokenValiditySeconds = 1800 ; // 30 minutos
 
