@@ -22,6 +22,7 @@ public class SistemaFSecurity {
 	}
 
 	public boolean hasAuthority(String authority) {
+		System.out.println(getAuthentication().getAuthorities().stream().anyMatch(autho -> autho.getAuthority().equals(authority)));
 		return getAuthentication().getAuthorities().stream().anyMatch(autho -> autho.getAuthority().equals(authority));
 	}
 

@@ -5,7 +5,6 @@ import com.sistemaf.domain.repository.security.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +29,7 @@ public class AppUserDetailsService implements UserDetailsService {
 		if(!usuario.getAtivo()) {
 			throw new UsernameNotFoundException("Usuário desabilitado");
 		}
-		return new User(usuario.getApelido(), usuario.getSenha(), getPermissoes(usuario));
+		return new UsuarioSistema(usuario, getPermissoes(usuario));
 	}
 
 	private Collection<? extends GrantedAuthority> getPermissoes(Usuario usuario) {

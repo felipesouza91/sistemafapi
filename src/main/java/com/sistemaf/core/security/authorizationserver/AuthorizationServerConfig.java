@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -24,12 +25,15 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Configuration
 public class AuthorizationServerConfig {
@@ -57,10 +61,12 @@ public class AuthorizationServerConfig {
             .clientSecret(passwordEncoder.encode(appSecurityProperties.getClientSecret()))
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .scopes((value) -> value.addAll(Arrays.asList("READ", "WRITE")))
             .tokenSettings(TokenSettings.builder()
                     .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
                     .accessTokenTimeToLive(Duration.ofSeconds(appSecurityProperties.getAccessTokenValiditySeconds()))
+                    .reuseRefreshTokens(false)
                     .refreshTokenTimeToLive(Duration.ofSeconds(appSecurityProperties.getRefreshTokenValiditySeconds()))
                     .build())
             .redirectUris((value) -> value.addAll(appSecurityProperties.getRedirectUris()))
@@ -81,6 +87,21 @@ public class AuthorizationServerConfig {
     keyStore.load(inputStream, keyStorePassword);
     RSAKey rsaKey = RSAKey.load(keyStore, keypairAlias, keyStorePassword);
     return new ImmutableJWKSet<>(new JWKSet(rsaKey));
+  }
+
+  @Bean
+  public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
+      return context -> {
+        Authentication principal = context.getPrincipal();
+        if(principal.getPrincipal() instanceof  UsuarioSistema) {
+          UsuarioSistema user = (UsuarioSistema) principal.getPrincipal();
+          context.getClaims().claim("userId", user.getUsuario().getId().toString());
+          context.getClaims().claim("userName", user.getUsuario().getNome());
+          context.getClaims().claim("authorities", user.getAuthorities()
+                  .stream().map((item) -> item.getAuthority()).collect(Collectors.toSet()));
+        }
+
+      };
   }
 
 }
