@@ -1,4 +1,5 @@
 package com.sistemaf.core.security.authorizationserver;
+
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.Resource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
@@ -23,8 +25,6 @@ import org.springframework.security.oauth2.server.authorization.config.ClientSet
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
-
-import org.springframework.core.io.Resource;
 
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -68,6 +68,8 @@ public class AuthorizationServerConfig {
             .build();
     return new InMemoryRegisteredClientRepository(Arrays.asList(registeredClient));
   }
+
+
 
   @Bean
   public JWKSource<SecurityContext> jwkSource(JwtKeyStoreProperties  properties) throws  Exception{
