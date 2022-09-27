@@ -12,15 +12,13 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.OAuth2TokenFormat;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -31,6 +29,7 @@ import org.springframework.security.oauth2.server.authorization.config.TokenSett
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -47,8 +46,20 @@ public class AuthorizationServerConfig {
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public SecurityFilterChain authFilterChain(HttpSecurity httpSecurity) throws  Exception{
-    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
-    return httpSecurity.formLogin(Customizer.withDefaults()).build();
+    OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer =
+            new OAuth2AuthorizationServerConfigurer<>();
+    RequestMatcher endpointsMatcher = authorizationServerConfigurer
+            .getEndpointsMatcher();
+    authorizationServerConfigurer.authorizationEndpoint(customizer -> customizer.consentPage("/oauth2/consent"))
+                    .getEndpointsMatcher();
+    httpSecurity
+            .requestMatcher(endpointsMatcher)
+            .authorizeRequests(authorizeRequests ->
+                    authorizeRequests.anyRequest().authenticated()
+            )
+            .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+            .apply(authorizationServerConfigurer);
+    return httpSecurity.formLogin(customizer -> customizer.loginPage("/login")).build();
   }
 
   @Bean
