@@ -31,8 +31,8 @@ public class AppSecurityProperties {
 
   private boolean enableHttps = false;
 
-  private int accessTokenValiditySeconds = 1800 ; // 30 minutos
+  private int accessTokenValidity = 30 ; // 30 minutos
 
-  private int refreshTokenValiditySeconds = 3600*12; // 24 hours
+  private int refreshTokenValidity = 1440; // 24 hours
 
 }
