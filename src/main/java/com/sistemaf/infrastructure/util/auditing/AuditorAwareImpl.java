@@ -21,6 +21,7 @@ public class AuditorAwareImpl implements AuditorAware<Usuario> {
 
 	@Override
 	public Optional<Usuario> getCurrentAuditor() {
+
 		return usuarioRepository.findById(security.getUsuarioId());
 	}
 

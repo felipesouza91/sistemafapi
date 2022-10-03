@@ -18,7 +18,7 @@ public class SistemaFSecurity {
 
 	public Long getUsuarioId() {
 		Jwt jwt = (Jwt) getAuthentication().getPrincipal();
-		return jwt.getClaim("id");
+		return Long.parseLong(jwt.getClaim("userId"));
 	}
 
 	public boolean hasAuthority(String authority) {
