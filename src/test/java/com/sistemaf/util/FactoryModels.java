@@ -3,6 +3,8 @@ package com.sistemaf.util;
 import com.sistemaf.domain.model.*;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class FactoryModels {
 
@@ -65,5 +67,20 @@ public class FactoryModels {
         infoClient.setLastModifiedDate(OffsetDateTime.now());
         infoClient.setCreationDate(OffsetDateTime.now());
         return infoClient;
+    }
+
+    public static List<Permissao> getListPermissao() {
+        return Arrays.asList(
+            new Permissao().builder().id(1L).descricao("RL_CAD_CLIENTE").build(),
+            new Permissao().builder().id(1L).descricao("RL_PES_CLIENTE").build(),
+            new Permissao().builder().id(1L).descricao("RL_REM_CLIENTE").build(),
+            new Permissao().builder().id(1L).descricao("RL_CAD_GRUPO").build(),
+            new Permissao().builder().id(1L).descricao("RL_PES_GRUPO").build(),
+            new Permissao().builder().id(1L).descricao("RL_REM_GRUPO").build()
+        );
+    }
+
+    public static Permissao getPermissao() {
+        return  new Permissao().builder().id(1L).descricao("RL_CAD_CLIENTE").build();
     }
 }

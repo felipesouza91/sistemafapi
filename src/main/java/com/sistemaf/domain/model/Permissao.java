@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Permissao {
 	
 	@Id
