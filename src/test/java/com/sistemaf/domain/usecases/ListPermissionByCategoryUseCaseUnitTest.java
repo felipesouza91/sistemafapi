@@ -35,7 +35,7 @@ public class ListPermissionByCategoryUseCaseUnitTest {
      Set<PermissionDto> result =  sut.execute();
      assertThat(result.size(), is(4));
      assertThat(result.toArray()[0], instanceOf(PermissionDto.class));
-     assertThat(result.stream().filter(item -> item.getDecription().contains("CLIENTE")).collect(Collectors.toSet()).size(),
+     assertThat(result.stream().filter(item -> item.getNameId().contains("CLIENTE")).collect(Collectors.toSet()).size(),
          not(is(0)));
   }
 

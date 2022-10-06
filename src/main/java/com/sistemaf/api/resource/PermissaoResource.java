@@ -1,7 +1,9 @@
 package com.sistemaf.api.resource;
 
+import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.Permissao;
 import com.sistemaf.domain.repository.security.PermissaoRepository;
+import com.sistemaf.domain.usecases.ListPermissionByCategoryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +27,9 @@ public class PermissaoResource {
 	
 	@Autowired
 	private PermissaoRepository permissaoRepository;
+
+	@Autowired
+	private ListPermissionByCategoryUseCase listPermissionByCategoryUseCase;
 	
 	@Cacheable("permisao")
 	@GetMapping
@@ -34,5 +39,10 @@ public class PermissaoResource {
 		return permissaoRepository.findAll(); 
 	}
 
+	@GetMapping("available")
+	@Operation(summary = "Find available permissions to use")
+	public Set<PermissionDto> findAvailablePermissions() {
+		return this.listPermissionByCategoryUseCase.execute();
+	}
 
 }

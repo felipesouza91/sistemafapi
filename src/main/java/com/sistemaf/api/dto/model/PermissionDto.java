@@ -9,8 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PermissionDto {
-  private String decription;
+  private String nameId;
+  private String formattedName;
   private Boolean read;
   private Boolean write;
-  private Boolean delete;
+  private Boolean remove;
 }
