@@ -71,12 +71,18 @@ public class FactoryModels {
 
     public static List<Permissao> getListPermissao() {
         return Arrays.asList(
-            new Permissao().builder().id(1L).descricao("RL_CAD_CLIENTE").build(),
-            new Permissao().builder().id(1L).descricao("RL_PES_CLIENTE").build(),
-            new Permissao().builder().id(1L).descricao("RL_REM_CLIENTE").build(),
-            new Permissao().builder().id(1L).descricao("RL_CAD_GRUPO").build(),
-            new Permissao().builder().id(1L).descricao("RL_PES_GRUPO").build(),
-            new Permissao().builder().id(1L).descricao("RL_REM_GRUPO").build()
+             Permissao.builder().id(1L).descricao("RL_CAD_CLIENTE").build(),
+             Permissao.builder().id(1L).descricao("RL_PES_CLIENTE").build(),
+             Permissao.builder().id(1L).descricao("RL_REM_CLIENTE").build(),
+             Permissao.builder().id(1L).descricao("RL_CAD_GRUPO").build(),
+             Permissao.builder().id(1L).descricao("RL_PES_GRUPO").build(),
+             Permissao.builder().id(1L).descricao("RL_REM_GRUPO").build(),
+            Permissao.builder().id(1L).descricao("RL_CAD_ORDEM_FECHAMENTO_ORDEM").build(),
+            Permissao.builder().id(1L).descricao("RL_PES_ORDEM_FECHAMENTO_ORDEM").build(),
+            Permissao.builder().id(1L).descricao("RL_REM_ORDEM_FECHAMENTO_ORDEM").build(),
+            Permissao.builder().id(1L).descricao("RL_CAD_MOTIVO_OS").build(),
+            Permissao.builder().id(1L).descricao("RL_PES_MOTIVO_OS").build(),
+            Permissao.builder().id(1L).descricao("RL_REM_MOTIVO_OS").build()
         );
     }
 
