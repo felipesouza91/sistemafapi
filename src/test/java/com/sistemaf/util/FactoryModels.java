@@ -1,10 +1,13 @@
 package com.sistemaf.util;
 
+import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.*;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FactoryModels {
 
@@ -88,5 +91,25 @@ public class FactoryModels {
 
     public static Permissao getPermissao() {
         return  new Permissao().builder().id(1L).descricao("RL_CAD_CLIENTE").build();
+    }
+
+    public static GrupoAcesso getGrupoAcesso() {
+        GrupoAcesso grupoAcesso = new GrupoAcesso();
+        grupoAcesso.setId(1L);
+        grupoAcesso.setDescricao("Administrador");
+        grupoAcesso.setAtivo(true);
+        List<Permissao> permitions = FactoryModels.getListPermissao().subList(2,FactoryModels.getListPermissao().size());
+        grupoAcesso.setPermissoes(permitions);
+        return grupoAcesso;
+      }
+
+    public static Set<PermissionDto> getFormatedPermissinByGroup() {
+        return Arrays.asList(
+                PermissionDto.builder().nameId("CLIENTE").formattedName("Cliente").read(false).write(false).remove(false).build(),
+                PermissionDto.builder().nameId("GRUPO").formattedName("Grupo").read(false).write(false).remove(false).build(),
+                PermissionDto.builder().nameId("ORDEM_FECHAMENTO_ORDEM").formattedName("Ordem Fechamento OOrdem").read(false).write(false).remove(false).build(),
+                PermissionDto.builder().nameId("MOTIVO_OS").formattedName("Motivo Os").read(false).write(false).remove(false).build()
+        ).stream().collect(Collectors.toSet());
+
     }
 }

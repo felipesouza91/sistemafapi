@@ -1,34 +1,24 @@
 package com.sistemaf.api.resource;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import com.sistemaf.api.docs.controllers.AccessGroupResourceOpenApi;
 import com.sistemaf.api.dto.input.AccessGroupInput;
 import com.sistemaf.api.dto.manager.AccessGroupMapper;
 import com.sistemaf.api.dto.model.AccessGroupModel;
+import com.sistemaf.domain.event.RecursoCriarEvent;
+import com.sistemaf.domain.model.GrupoAcesso;
+import com.sistemaf.domain.projection.ResumoGrupoAcesso;
+import com.sistemaf.domain.service.GrupoAcessoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.sistemaf.domain.event.RecursoCriarEvent;
-import com.sistemaf.domain.model.GrupoAcesso;
-import com.sistemaf.domain.projection.ResumoGrupoAcesso;
-import com.sistemaf.domain.service.GrupoAcessoService;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/grupoacesso", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,7 +55,16 @@ public class GrupoAcessoResource implements AccessGroupResourceOpenApi {
 		GrupoAcesso grupoAcesso = grupoAcessoService.buscarPorCodigo(codigo);
 		return ResponseEntity.ok(dtoManager.toDTO(grupoAcesso));
 	}
-	
+
+	@GetMapping("/v2/{codigo}")
+	@PreAuthorize("hasAuthority('33')")
+	public ResponseEntity<AccessGroupModel> findByCode(@PathVariable Long codigo) {
+		GrupoAcesso grupoAcesso = grupoAcessoService.buscarPorCodigo(codigo);
+
+		return ResponseEntity.ok(dtoManager.toDTO(grupoAcesso));
+	}
+
+
 	@Override
 	@PostMapping
 	@PreAuthorize("hasAuthority('31')")
