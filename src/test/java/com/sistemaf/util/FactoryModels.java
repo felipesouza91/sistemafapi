@@ -1,5 +1,6 @@
 package com.sistemaf.util;
 
+import com.sistemaf.api.dto.input.PermissionsInput;
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.*;
 
@@ -111,5 +112,14 @@ public class FactoryModels {
                 PermissionDto.builder().nameId("MOTIVO_OS").formattedName("Motivo Os").read(false).write(false).remove(false).build()
         ).stream().collect(Collectors.toSet());
 
+    }
+
+    public static List<PermissionsInput> getPermissionsInput() {
+        return Arrays.asList(
+                PermissionsInput.builder().nameId("CLIENTE").read(true).write(false).remove(false).build(),
+                PermissionsInput.builder().nameId("GRUPO").read(true).write(true).remove(true).build(),
+                PermissionsInput.builder().nameId("ORDEM_FECHAMENTO_ORDEM").read(true).write(false).remove(false).build(),
+                PermissionsInput.builder().nameId("MOTIVO_OS").read(true).write(true).remove(false).build()
+        );
     }
 }
