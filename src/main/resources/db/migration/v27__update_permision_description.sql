@@ -1,1 +1,0 @@
-UPDATE permissao SET descricao='RL_CAD_ORDEM_FECHAMENTO_ORDEM' where id= 22;

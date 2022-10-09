@@ -3,11 +3,13 @@ package com.sistemaf.api.resource;
 import com.sistemaf.api.docs.controllers.AccessGroupResourceOpenApi;
 import com.sistemaf.api.dto.input.AccessGroupInput;
 import com.sistemaf.api.dto.manager.AccessGroupMapper;
+import com.sistemaf.api.dto.model.AccessGroupDto;
 import com.sistemaf.api.dto.model.AccessGroupModel;
 import com.sistemaf.domain.event.RecursoCriarEvent;
 import com.sistemaf.domain.model.GrupoAcesso;
 import com.sistemaf.domain.projection.ResumoGrupoAcesso;
 import com.sistemaf.domain.service.GrupoAcessoService;
+import com.sistemaf.domain.usecases.LoadFormattedGroupAccessUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,8 @@ public class GrupoAcessoResource implements AccessGroupResourceOpenApi {
 	@Autowired
 	private GrupoAcessoService grupoAcessoService;
 
+	@Autowired
+	private LoadFormattedGroupAccessUseCase loadFormattedGroupAccessUseCase;
 
 	private AccessGroupMapper dtoManager = AccessGroupMapper.INSTANCE;
 	
@@ -49,19 +53,18 @@ public class GrupoAcessoResource implements AccessGroupResourceOpenApi {
 	}
 	
 	@Override
-	@GetMapping("/{codigo}")
+	@GetMapping("/{codigo}/test")
 	@PreAuthorize("hasAuthority('33')")
 	public ResponseEntity<AccessGroupModel> porCodigo(@PathVariable Long codigo) {
 		GrupoAcesso grupoAcesso = grupoAcessoService.buscarPorCodigo(codigo);
 		return ResponseEntity.ok(dtoManager.toDTO(grupoAcesso));
 	}
 
-	@GetMapping("/v2/{codigo}")
+	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('33')")
-	public ResponseEntity<AccessGroupModel> findByCode(@PathVariable Long codigo) {
-		GrupoAcesso grupoAcesso = grupoAcessoService.buscarPorCodigo(codigo);
-
-		return ResponseEntity.ok(dtoManager.toDTO(grupoAcesso));
+	public ResponseEntity<AccessGroupDto> findByCode(@PathVariable Long codigo) {
+		AccessGroupDto accessGroupDto = loadFormattedGroupAccessUseCase.execute(codigo);
+		return ResponseEntity.ok(accessGroupDto);
 	}
 
 

@@ -1,5 +1,6 @@
 package com.sistemaf.domain.usecases;
 
+import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
 import com.sistemaf.util.FactoryModels;
 import org.junit.Before;
@@ -37,10 +38,17 @@ public class LoadFormattedGroupAccessUseCaseUnitTest {
   }
 
   @Test
-  public void giveValidGroupI_whenFindById_success() {
+  public void giveValidGroupId_whenFindById_success() {
     var permissionGroupDto =  sut.execute(1L);
     assertThat(permissionGroupDto.getId(), is(1L) );
     assertThat(permissionGroupDto.getPermissions().size(), not(is(0)));
+    assertThat(permissionGroupDto.getPermissions().stream().anyMatch(item -> item.getNameId().equals("CLIENTE") && !item.getWrite()), is(true));
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void giveInvalidGroupIp_whenExecute_thenErro() {
+    when(repository.findById(any())).thenReturn(Optional.empty());
+    sut.execute(2L);
   }
 
 }
