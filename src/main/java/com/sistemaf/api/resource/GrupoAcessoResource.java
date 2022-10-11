@@ -1,15 +1,17 @@
 package com.sistemaf.api.resource;
 
 import com.sistemaf.api.docs.controllers.AccessGroupResourceOpenApi;
-import com.sistemaf.api.dto.input.AccessGroupInput;
+import com.sistemaf.api.dto.input.AccessGroupInputData;
 import com.sistemaf.api.dto.manager.AccessGroupMapper;
 import com.sistemaf.api.dto.model.AccessGroupDto;
-import com.sistemaf.api.dto.model.AccessGroupModel;
 import com.sistemaf.domain.event.RecursoCriarEvent;
 import com.sistemaf.domain.model.GrupoAcesso;
 import com.sistemaf.domain.projection.ResumoGrupoAcesso;
 import com.sistemaf.domain.service.GrupoAcessoService;
-import com.sistemaf.domain.usecases.LoadFormattedGroupAccessUseCase;
+import com.sistemaf.domain.usecases.accessgroup.LoadFormattedGroupAccessUseCase;
+import com.sistemaf.domain.usecases.accessgroup.SaveAccessGroupUseCase;
+import com.sistemaf.domain.usecases.accessgroup.UpdateAccessGroupUseCase;
+import com.sistemaf.domain.usecases.permission.PermissionMapperUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -30,19 +32,22 @@ public class GrupoAcessoResource implements AccessGroupResourceOpenApi {
 	private GrupoAcessoService grupoAcessoService;
 
 	@Autowired
+	private PermissionMapperUseCase permissionMapperUseCase;
+
+	@Autowired
 	private LoadFormattedGroupAccessUseCase loadFormattedGroupAccessUseCase;
+
+	@Autowired
+	private UpdateAccessGroupUseCase updateAccessGroupUseCase;
+
+	@Autowired
+	private SaveAccessGroupUseCase saveAccessGroupUseCase;
 
 	private AccessGroupMapper dtoManager = AccessGroupMapper.INSTANCE;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
-	@Override
-	@GetMapping
-	@PreAuthorize("hasAuthority('33')")
-	public List<AccessGroupModel> listar(){
-		return dtoManager.mapToDTO(grupoAcessoService.filtrar());
-	}
+
 	
 	@Override
 	@GetMapping(params = "resumo")
@@ -52,13 +57,6 @@ public class GrupoAcessoResource implements AccessGroupResourceOpenApi {
 		return resumos;
 	}
 	
-	@Override
-	@GetMapping("/{codigo}/test")
-	@PreAuthorize("hasAuthority('33')")
-	public ResponseEntity<AccessGroupModel> porCodigo(@PathVariable Long codigo) {
-		GrupoAcesso grupoAcesso = grupoAcessoService.buscarPorCodigo(codigo);
-		return ResponseEntity.ok(dtoManager.toDTO(grupoAcesso));
-	}
 
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('33')")
@@ -72,18 +70,24 @@ public class GrupoAcessoResource implements AccessGroupResourceOpenApi {
 	@PostMapping
 	@PreAuthorize("hasAuthority('31')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<AccessGroupModel> salvar(@Valid @RequestBody AccessGroupInput input, HttpServletResponse response){
-		GrupoAcesso grupoAcessoSalvo = grupoAcessoService.salvar(dtoManager.toModel(input));
+	public ResponseEntity<AccessGroupDto> salvar(@Valid @RequestBody AccessGroupInputData input, HttpServletResponse response){
+		GrupoAcesso grupoAcessoSalvo = saveAccessGroupUseCase.execute(input);
+		AccessGroupDto groupDto = AccessGroupDto.builder().id(grupoAcessoSalvo.getId()).ativo(grupoAcessoSalvo.getAtivo())
+										.descricao(grupoAcessoSalvo.getDescricao())
+						.permissions(this.permissionMapperUseCase.toListDto(grupoAcessoSalvo.getPermissoes())).build();
 		publisher.publishEvent(new RecursoCriarEvent(this, response, grupoAcessoSalvo.getId()));
-		return ResponseEntity.status(HttpStatus.CREATED).body(dtoManager.toDTO(grupoAcessoSalvo));
+		return ResponseEntity.status(HttpStatus.CREATED).body(groupDto);
 	}
 	
 	@Override
 	@PutMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('31')")
-	public ResponseEntity<AccessGroupModel> atualizar(@PathVariable Long codigo, @Valid @RequestBody AccessGroupInput input){
-		GrupoAcesso grupoAcessoSalvo = grupoAcessoService.atualizar(codigo, dtoManager.toModel(input));
-		return ResponseEntity.ok(dtoManager.toDTO(grupoAcessoSalvo));
+	public ResponseEntity<AccessGroupDto> atualizar(@PathVariable Long codigo, @Valid @RequestBody AccessGroupInputData input){
+		GrupoAcesso grupoAcesso = updateAccessGroupUseCase.execute(codigo, input);
+		AccessGroupDto groupDto = AccessGroupDto.builder().id(grupoAcesso.getId()).ativo(grupoAcesso.getAtivo())
+						.descricao(grupoAcesso.getDescricao())
+						.permissions(this.permissionMapperUseCase.toListDto(grupoAcesso.getPermissoes())).build();
+		return ResponseEntity.ok(groupDto);
 	}
 	
 	@Override

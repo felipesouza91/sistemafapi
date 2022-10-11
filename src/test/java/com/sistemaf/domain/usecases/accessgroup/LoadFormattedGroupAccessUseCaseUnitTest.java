@@ -1,7 +1,8 @@
-package com.sistemaf.domain.usecases;
+package com.sistemaf.domain.usecases.accessgroup;
 
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
+import com.sistemaf.domain.usecases.permission.PermissionMapperUseCase;
 import com.sistemaf.util.FactoryModels;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +27,14 @@ public class LoadFormattedGroupAccessUseCaseUnitTest {
   private GrupoAcessoRepository repository;
 
   @Mock
-  private ListPermissionByCategoryUseCase listPermissionByCategoryUseCase;
+  private PermissionMapperUseCase permissionMapperUseCase;
 
   @InjectMocks
   private LoadFormattedGroupAccessUseCase sut;
 
   @Before
   public void setup() {
-    when(listPermissionByCategoryUseCase.execute()).thenReturn(FactoryModels.getFormatedPermissinByGroup());
+    when(permissionMapperUseCase.toListDto(any())).thenReturn(FactoryModels.getFormatedPermissinByGroup());
     when(repository.findById(any())).thenReturn(Optional.of(FactoryModels.getGrupoAcesso()));
   }
 

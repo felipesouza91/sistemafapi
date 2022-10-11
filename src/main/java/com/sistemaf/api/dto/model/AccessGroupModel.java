@@ -8,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(name = "Access Group Model")
 public class AccessGroupModel {
 
     @Schema(description = "Access group code", example = "1")

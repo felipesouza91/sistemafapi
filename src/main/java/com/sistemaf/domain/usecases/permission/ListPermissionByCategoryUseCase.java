@@ -1,4 +1,4 @@
-package com.sistemaf.domain.usecases;
+package com.sistemaf.domain.usecases.permission;
 
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.repository.security.PermissaoRepository;

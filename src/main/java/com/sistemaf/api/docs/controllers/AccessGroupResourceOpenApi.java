@@ -1,7 +1,7 @@
 package com.sistemaf.api.docs.controllers;
 
-import com.sistemaf.api.dto.input.AccessGroupInput;
-import com.sistemaf.api.dto.model.AccessGroupModel;
+import com.sistemaf.api.dto.input.AccessGroupInputData;
+import com.sistemaf.api.dto.model.AccessGroupDto;
 import com.sistemaf.api.exceptionhandler.Problem;
 import com.sistemaf.domain.projection.ResumoGrupoAcesso;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +24,6 @@ import java.util.List;
 @SecurityRequirement(name = "security_auth")
 public interface AccessGroupResourceOpenApi {
 
-  @Operation(summary = "Find Access Group")
-  List<AccessGroupModel> listar();
-
   @Operation(summary = "Find Access Group Resume")
   List<ResumoGrupoAcesso> listarResumo();
 
@@ -37,17 +34,17 @@ public interface AccessGroupResourceOpenApi {
           @ApiResponse(responseCode = "404", description = "Access Grupo not found",
                   content = @Content(schema = @Schema(implementation = Problem.class)))
   })
-  ResponseEntity<AccessGroupModel> porCodigo(
+  ResponseEntity<AccessGroupDto> findByCode(
           @Parameter(description = "Access Group code", required = true, example = "1") @PathVariable Long codigo);
 
   @Operation(summary = "Create Access Group")
   @ApiResponses({
           @ApiResponse(responseCode = "201", description = "Access Group created")
   })
-  ResponseEntity<AccessGroupModel> salvar(
+  ResponseEntity<AccessGroupDto> salvar(
           @Parameter(description = "Access Group fields", required = true, name = "body")
           @Valid
-          @RequestBody AccessGroupInput input,
+          @RequestBody AccessGroupInputData input,
           HttpServletResponse response);
 
   @Operation(summary = "Update an Access Group by code")
@@ -56,10 +53,10 @@ public interface AccessGroupResourceOpenApi {
           @ApiResponse(responseCode = "404", description = "Access Group not found",
                   content = @Content(schema = @Schema(implementation = Problem.class)))
   })
-  ResponseEntity<AccessGroupModel> atualizar(
+  ResponseEntity<AccessGroupDto> atualizar(
           @Parameter(description = "Access Group code", required = true, example = "1") @PathVariable Long codigo,
           @Parameter(description = "Access Group updated fields", required = true, name = "body")
-            @Valid @RequestBody AccessGroupInput grupoAcesso);
+            @Valid @RequestBody AccessGroupInputData grupoAcesso);
 
   @Operation(summary = "Delete an Access Group by code")
   @ApiResponses({

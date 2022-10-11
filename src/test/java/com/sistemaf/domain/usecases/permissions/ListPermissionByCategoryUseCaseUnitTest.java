@@ -1,12 +1,10 @@
-package com.sistemaf.domain.usecases;
+package com.sistemaf.domain.usecases.permissions;
 
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.repository.security.PermissaoRepository;
+import com.sistemaf.domain.usecases.permission.ListPermissionByCategoryUseCase;
 import com.sistemaf.util.FactoryModels;
 import org.junit.Before;
-import static org.mockito.Mockito.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,6 +13,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ListPermissionByCategoryUseCaseUnitTest {

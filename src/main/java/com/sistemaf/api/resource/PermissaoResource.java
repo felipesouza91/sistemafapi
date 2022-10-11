@@ -3,7 +3,7 @@ package com.sistemaf.api.resource;
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.Permissao;
 import com.sistemaf.domain.repository.security.PermissaoRepository;
-import com.sistemaf.domain.usecases.ListPermissionByCategoryUseCase;
+import com.sistemaf.domain.usecases.permission.ListPermissionByCategoryUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/permissao", produces = MediaType.APPLICATION_JSON_VALUE)

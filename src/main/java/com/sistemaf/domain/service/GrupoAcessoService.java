@@ -33,29 +33,7 @@ public class GrupoAcessoService {
 		return grupoAcessoRepository.listarResumo();
 	}
 	
-	public GrupoAcesso buscarPorCodigo(Long id) {
-		return buscarPorCodigoOptional(id);
-	}
-	
-	public GrupoAcesso salvar(GrupoAcesso grupoAcesso) {
-		grupoAcesso.getPermissoes().stream().forEach(
-			permission -> this.permissionRepository.findById(permission.getId())
-				.orElseThrow( () -> new BusinessException("A Permissão não foi valida")));
-		//TODO: Change Permissoes type for Set<> bacause they type not accept duplicated values
-		for(int i =0 ; i < this.getPermisaoBasica().size(); i++ ) {
-			if (!grupoAcesso.getPermissoes().contains(this.getPermisaoBasica().get(i)) ) {
-				grupoAcesso.getPermissoes().add(this.getPermisaoBasica().get(i));
-			}
-		}
-		return grupoAcessoRepository.save(grupoAcesso);
-	}
-	
-	public GrupoAcesso atualizar(Long id, GrupoAcesso grupoAcesso) {
-		GrupoAcesso grupoAcessoBuscado= buscarPorCodigoOptional(id);
-		BeanUtils.copyProperties(grupoAcesso, grupoAcessoBuscado, "id");
-		return grupoAcessoRepository.save(grupoAcessoBuscado);
-	}
-	
+
 	public void remover(Long codigo) {
 		this.buscarPorCodigoOptional(codigo);
 		grupoAcessoRepository.deleteById(codigo);
