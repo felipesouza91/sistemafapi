@@ -47,7 +47,6 @@ public class PermissionMapperUseCase {
     Set<PermissionDto> permattedList =  listPermissionByCategoryUseCase.execute().stream().map(
             item -> {
               PermissionDto permissionDto = item;
-
               if(permissionList.stream().anyMatch(permision -> permision.getDescricao().equals("RL_CAD_"+item.getNameId()))) {
                 item.setWrite(true);
               }
