@@ -57,6 +57,7 @@ public class SaveAccessGroupUseCaseUnitTest {
 
   @Test(expected = BusinessException.class)
   public void giveEmptyPermissionListInInputAccessGroup_whenExecute_thenError() {
+    when(permissionMapperUseCase.toListModel(any())).thenThrow(BusinessException.class);
     AccessGroupInputData data = AccessGroupInputData.builder().ativo(true).descricao("Tecnico").build();
     sut.execute(data);
 

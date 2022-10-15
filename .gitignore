@@ -17,7 +17,7 @@ java-mysql-exporter-temp/
 *.iws
 *.iml
 *.ipr
-
+*.properties
 keystore.p12
 
 ### NetBeans ###

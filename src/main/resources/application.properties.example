@@ -1,21 +1,24 @@
 #SPRING DATA
+
 spring.jpa.database=MYSQL
-spring.datasource.url=jdbc:mysql://${DATABASE_HOST:localhost}/${DATABASE_NAME}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-spring.datasource.username=${DATABASE_USER}
-spring.datasource.password=${DATABASE_PASSWORD}
+spring.datasource.url=DATABASE CONNECTION URL
+spring.datasource.username=DATABASE CONNECTION URL
+spring.datasource.password=DATABASE CONNECTION URL
 
 spring.jpa.properties.javax.persistence.sharedCache.mode=ENABLE_SELECTIVE
 spring.jpa.properties.org.hibernate.envers.store_data_at_delete=true
 spring.jpa.properties.org.hibernate.cache.use_second_level_cache=true
 spring.jpa.properties.org.hibernate.cache.region.factory_class=org.hibernate.cache.ehcache.EhCacheRegionFactory
 spring.flyway.locations=classpath:db/migration
+
 spring.jpa.show-sql=false
+
 spring.jackson.deserialization.fail-on-unknown-properties=true
+
 spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
 spring.main.allow-bean-definition-overriding=true
 spring.profiles.active=oauth-security
 
-# HTTP Server
 server.compression.enabled=true
 
 # The comma-separated list of mime types that should be compressed
@@ -33,3 +36,18 @@ springdoc.oAuthFlow.authorizationUrl=${app.env.apiUrl}/oauth2/authorize
 springdoc.oAuthFlow.tokenUrl=${app.env.apiUrl}/oauth2/token
 springdoc.swagger-ui.oauth.use-pkce-with-authorization-code-grant=true
 springdoc.swagger-ui.oauth2RedirectUrl=${app.env.apiUrl}/swagger-ui/oauth2-redirect.html
+
+#App Props
+app.env.allowOrigins= Allow origins
+app.env.apiUrl= api url
+
+#Secutiry
+spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/oauth2/jwks
+app.security.jwt.keystore.jksLocation= jwt path or base64
+app.security.jwt.keystore.password= jwt password
+app.security.jwt.keystore.keypairAlias=jwt alias
+app.security.client-name= WEB CLIENTE NAME
+app.security.client-secret=WEB CLIENTE PASSWORD
+app.security.provider-url= PROVIDER URL
+app.security.redirect-uris=REDIRECT URL LISTS
+
