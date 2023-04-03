@@ -1,27 +1,27 @@
 package com.sistemaf.domain.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Usuario;
 import com.sistemaf.domain.repository.security.usuario.UsuarioRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 public class ProfileServiceUnitTest {
-	
 	@Mock
 	private UsuarioRepository repository;
 	
@@ -33,7 +33,7 @@ public class ProfileServiceUnitTest {
 	@InjectMocks
 	private ProfileService sut;
 	
-	@Before
+	@BeforeEach
 	public void setup() {
 		user = new Usuario();
 		user.setId(1L);
@@ -43,21 +43,29 @@ public class ProfileServiceUnitTest {
 		user.setSenha("encryptPassword");
 	}
 		
-	@Test(expected = EntityNotFoundException.class)
+	@Test()
 	public void giveUserNotExists_updateUserPassword_fails() {
-		sut.updatePassword(1L, "old_assword","new_password", "confirmation_new_password");
+		Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.updatePassword(1L, "old_assword","new_password", "confirmation_new_password"));
+		assertTrue(exception instanceof EntityNotFoundException);
+		assertEquals("O usuario solicitado não existe", exception.getMessage());
+
 	}
 	
-	@Test(expected = BusinessException.class)
+	@Test()
 	public void giveOldPasswordIsInvalid_updateUserPassword_fails() {
 		when(repository.findById(Mockito.any())).thenReturn(Optional.of(user));
-		sut.updatePassword(1L, "invalid_encryptPassword","new_password", "confirmation_new_password");
+		Exception exception = assertThrows(BusinessException.class, () -> sut.updatePassword(1L, "invalid_encryptPassword","new_password", "confirmation_new_password"));
+		assertTrue(exception instanceof BusinessException);
+
 	}
 	
-	@Test(expected = BusinessException.class)
+	@Test()
 	public void giveNewPasswordAndConfirmationIsInvalid_updateUserPassword_fails() {
 		when(repository.findById(Mockito.any())).thenReturn(Optional.of(user));
-		sut.updatePassword(1L, "encryptPassword","new_password", "invalid_new_password");
+		Exception exception = assertThrows(BusinessException.class, () -> sut.updatePassword(1L, "encryptPassword","new_password", "invalid_new_password"));
+
+		assertTrue(exception instanceof BusinessException);
+
 	}
 	
 	@Test
