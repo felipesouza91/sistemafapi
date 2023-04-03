@@ -4,12 +4,12 @@ import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.repository.security.PermissaoRepository;
 import com.sistemaf.domain.usecases.permission.ListPermissionByCategoryUseCase;
 import com.sistemaf.util.FactoryModels;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ListPermissionByCategoryUseCaseUnitTest {
 
   @Mock
@@ -27,13 +27,9 @@ public class ListPermissionByCategoryUseCaseUnitTest {
   @InjectMocks
   private ListPermissionByCategoryUseCase sut;
 
-  @Before
-  public void setup(){
-    when(repository.findAll()).thenReturn(FactoryModels.getListPermissao());
-  }
-
   @Test
   public void giveFormatedValue_whenCalled_success() {
+    when(repository.findAll()).thenReturn(FactoryModels.getListPermissao());
      Set<PermissionDto> result =  sut.execute();
      assertThat(result.size(), is(4));
      assertThat(result.toArray()[0], instanceOf(PermissionDto.class));
