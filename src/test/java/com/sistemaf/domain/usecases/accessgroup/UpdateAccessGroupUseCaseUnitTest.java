@@ -9,12 +9,13 @@ import com.sistemaf.domain.model.Permissao;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
 import com.sistemaf.domain.usecases.permission.PermissionMapperUseCase;
 import com.sistemaf.util.FactoryModels;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.when;
 import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 import static org.testcontainers.shaded.org.hamcrest.Matchers.is;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UpdateAccessGroupUseCaseUnitTest {
 
   @Mock
@@ -36,10 +37,9 @@ public class UpdateAccessGroupUseCaseUnitTest {
   @InjectMocks
   private UpdateAccessGroupUseCase sut;
 
-  @Before
+  @BeforeEach
   public void setup() {
     when(repository.findById(any())).thenReturn(Optional.of(FactoryModels.getGrupoAcesso()));
-    when(permissionMapperUseCase.toListModel(any())).thenReturn(FactoryModels.getListPermissao());
   }
 
   @Test
