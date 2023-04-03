@@ -7,22 +7,23 @@ import com.sistemaf.domain.model.GrupoAcesso;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
 import com.sistemaf.domain.usecases.permission.PermissionMapperUseCase;
 import com.sistemaf.util.FactoryModels;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 import static org.testcontainers.shaded.org.hamcrest.Matchers.is;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SaveAccessGroupUseCaseUnitTest {
 
   @Mock
@@ -35,13 +36,10 @@ public class SaveAccessGroupUseCaseUnitTest {
   private SaveAccessGroupUseCase sut;
 
 
-  @Before
-  public void setup() {
-    when(permissionMapperUseCase.toListModel(any())).thenReturn(FactoryModels.getListPermissao());
-  }
 
   @Test
   public void giveValidInputAccessGroup_whenExecute_thenSuccess() {
+    when(permissionMapperUseCase.toListModel(any())).thenReturn(FactoryModels.getListPermissao());
     GrupoAcesso grupoAcesso = new GrupoAcesso();
     grupoAcesso.setId(2L);
     grupoAcesso.setDescricao("Tecnico");
@@ -55,20 +53,21 @@ public class SaveAccessGroupUseCaseUnitTest {
     assertThat(result.getDescricao(), is("Tecnico"));
   }
 
-  @Test(expected = BusinessException.class)
+  @Test( )
   public void giveEmptyPermissionListInInputAccessGroup_whenExecute_thenError() {
     when(permissionMapperUseCase.toListModel(any())).thenThrow(BusinessException.class);
     AccessGroupInputData data = AccessGroupInputData.builder().ativo(true).descricao("Tecnico").build();
-    sut.execute(data);
-
+    Exception exception = Assert.assertThrows(BusinessException.class, () -> sut.execute(data)) ;
+    assertTrue(exception instanceof BusinessException );
   }
 
-  @Test(expected = BusinessException.class)
+  @Test()
   public void giveEnvalidPermissionNameInInputAccessGrou_whenExecute_thenError() {
     when(permissionMapperUseCase.toListModel(any())).thenThrow(BusinessException.class);
     AccessGroupInputData data = AccessGroupInputData.builder().ativo(true).descricao("Tecnico")
             .permissions(Arrays.asList(PermissionsInput.builder().nameId("INVALID_PERMISION").read(true).remove(true).write(true).build()))
             .build();
-    sut.execute(data);
+    Exception exception = Assert.assertThrows(BusinessException.class, () -> sut.execute(data)) ;
+    assertTrue(exception instanceof BusinessException );
   }
 }
