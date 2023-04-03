@@ -1,10 +1,8 @@
 #SPRING DATA
-
 spring.jpa.database=MYSQL
 spring.datasource.url=DATABASE CONNECTION URL
 spring.datasource.username=DATABASE CONNECTION URL
 spring.datasource.password=DATABASE CONNECTION URL
-
 spring.jpa.properties.javax.persistence.sharedCache.mode=ENABLE_SELECTIVE
 spring.jpa.properties.org.hibernate.envers.store_data_at_delete=true
 spring.jpa.properties.org.hibernate.cache.use_second_level_cache=true
@@ -48,6 +46,6 @@ app.security.jwt.keystore.password= jwt password
 app.security.jwt.keystore.keypairAlias=jwt alias
 app.security.client-name= WEB CLIENTE NAME
 app.security.client-secret=WEB CLIENTE PASSWORD
-app.security.provider-url= PROVIDER URL
+app.security.provider-url=PROVIDER URL
 app.security.redirect-uris=REDIRECT URL LISTS
 

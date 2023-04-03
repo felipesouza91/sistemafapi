@@ -36,6 +36,7 @@ public class OpenApiConfig {
                                         .name("Felipe Santana")
                                         .url( "https://fsantana.dev" )))
 
+
                 .addSecurityItem(new SecurityRequirement().addList("client_id", "angular"));
     }
 

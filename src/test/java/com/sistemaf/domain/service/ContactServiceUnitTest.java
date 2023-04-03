@@ -4,21 +4,22 @@ import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Contato;
 import com.sistemaf.domain.repository.contato.ContatoRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.*;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ContactServiceUnitTest {
 
     @Mock
@@ -27,52 +28,56 @@ public class ContactServiceUnitTest {
     @InjectMocks
     private ContactService sut;
 
-    @Before
-    public void setup() {
-        when(contactRepository.findByNome(any()))
-                .thenReturn(Optional.empty());
-        when(contactRepository.findByTelefone(any()))
-            .thenReturn(Optional.empty());
-        when(contactRepository.save(any()))
-            .thenReturn(getMockContact());
-    }
 
 
-    @Test(expected = EntityNotFoundException.class)
+
+    @Test()
     public void giveInvalidContactId_whenFindContactById_throwError() {
-        sut.findById(1L);
+        when(contactRepository.findById(any())).thenReturn(Optional.empty());
+        Exception exception = assertThrows(EntityNotFoundException.class, () ->  sut.findById(1L));
+        assertTrue(exception instanceof EntityNotFoundException);
+        assertEquals("Contact not exists!", exception.getMessage());
+
     }
 
     @Test()
     public void giveValidContactId_whenFindContactById_success()  {
         when(contactRepository.findById(any())).thenReturn(Optional.of(getMockContact()));
         var result = sut.findById(1L);
-        Assert.assertNotNull(result);
+        assertNotNull(result);
         assertThat(result.getId(), is(1L));
     }
 
-    @Test(expected = BusinessException.class)
+    @Test()
     public void giveAExistsContactName_whenSave_error() {
         Contato inputContact = new Contato();
         inputContact.setCelular("219999999");
         inputContact.setContraSenha("any password");
         inputContact.setNome("Any name");
         when(contactRepository.findByNome(any())).thenReturn(Optional.of(getMockContact()));
-        sut.save(inputContact);
+        Exception exception = assertThrows(BusinessException.class, () ->  sut.save(inputContact));
+        assertTrue(exception instanceof BusinessException);
+        assertEquals("Esse contato já esta cadastrado", exception.getMessage());
     }
 
-    @Test(expected = BusinessException.class)
+    @Test()
     public void giveAExistsPhoneNumber_whenSave_error() {
         Contato inputContact = new Contato();
         inputContact.setCelular("219999999");
         inputContact.setContraSenha("any password");
         inputContact.setNome("Any name");
         when(contactRepository.findByTelefone(any())).thenReturn(Optional.of(getMockContact()));
-        sut.save(inputContact);
+        Exception exception = assertThrows(BusinessException.class, () ->  sut.save(inputContact));
+        assertTrue(exception instanceof BusinessException);
+        assertEquals("Esse contato já esta cadastrado", exception.getMessage());
+
     }
 
     @Test()
     public void giveAValidContact_whenSave_success() {
+        when(this.contactRepository.findByNome(any())).thenReturn(Optional.empty());
+        when(this.contactRepository.findByTelefone(any())).thenReturn(Optional.empty());
+        when(this.contactRepository.save(any())).thenReturn(getMockContact());
         Contato inputContact = new Contato();
         inputContact.setCelular("219999999");
         inputContact.setContraSenha("any password");
