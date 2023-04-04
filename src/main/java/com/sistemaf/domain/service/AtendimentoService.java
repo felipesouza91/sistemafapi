@@ -1,19 +1,17 @@
 package com.sistemaf.domain.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.filter.AtendimentoFilter;
 import com.sistemaf.domain.model.Atendimento;
 import com.sistemaf.domain.projection.ResumoAtendimento;
 import com.sistemaf.domain.repository.atendimento.AtendimentoRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AtendimentoService {
@@ -39,15 +37,12 @@ public class AtendimentoService {
 	
 	public Atendimento atualizar(Long codigo, Atendimento atendimento) {
 		Atendimento salvo = this.buscarPorCodigoOptional(codigo);
-		if(salvo == null) {
-			throw new EmptyResultDataAccessException(1);
-		}
-		BeanUtils.copyProperties(atendimento, salvo, "id");
+		BeanUtils.copyProperties(atendimento, salvo, "id", "cliente");
 		return atendimentoRepository.save(salvo);
 	}
 
 	private Atendimento buscarPorCodigoOptional(Long codigo) {
 		Optional<Atendimento> attendanceOptional = atendimentoRepository.findById(codigo);
-	return attendanceOptional.orElseThrow(() -> new EntityNotFoundException("Atendimento não encontrada ou não existe"));
+		return attendanceOptional.orElseThrow(() -> new EntityNotFoundException("Atendimento não encontrada ou não existe"));
 	}
 }
