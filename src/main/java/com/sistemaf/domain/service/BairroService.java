@@ -8,6 +8,7 @@ import com.sistemaf.domain.filter.BairroFilter;
 import com.sistemaf.domain.model.Bairro;
 import com.sistemaf.domain.model.Cidade;
 import com.sistemaf.domain.repository.bairro.BairroRepository;
+import com.sistemaf.domain.repository.cidade.CidadeRepository;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class BairroService {
 
 	@Autowired
-	private CidadeService cityService;
+	private CidadeRepository cidadeRepository;
 
 	@Autowired
 	private BairroRepository bairroRepository;
@@ -33,26 +34,25 @@ public class BairroService {
 	}
 
 	public Bairro salvar(Bairro bairro) {
-		try {
-			this.cityService.buscaPorCodigo(bairro.getCidade().getId());
-			if(this.bairroRepository.findByCidadeAndNome(bairro.getCidade(), bairro.getNome()).isPresent()) {
-				throw new BusinessException("O Bairro já existe");
-			}
-			return bairroRepository.save(bairro);
-		}catch (EntityNotFoundException e ) {
-			throw new BusinessException(e.getMessage());
+		this.cidadeRepository.findById(bairro.getCidade().getId())
+				.orElseThrow(() -> new BusinessException("Cidade invalida"));
+		Optional<Bairro> bairroExists = this.bairroRepository.findByCidadeAndNome(bairro.getCidade(), bairro.getNome());
+		if (bairroExists.isPresent()) {
+			throw new BusinessException("O Bairro já existe");
 		}
+		return bairroRepository.save(bairro);
 	}
 
 	public Bairro atualizar(Long codigo, Bairro bairro) {
-		try {
-			this.cityService.buscaPorCodigo(bairro.getCidade().getId());
-		}catch (EntityNotFoundException e) {
-			throw new BusinessException(e.getMessage());
+		Cidade updatedCidade = this.cidadeRepository.findById(bairro.getCidade().getId())
+				.orElseThrow(() -> new BusinessException("Cidade invalida"));
+		Bairro savedBairro = this.getBairroOptional(codigo);
+		if (savedBairro.getCidade().getId() != updatedCidade.getId()) {
+			this.bairroRepository.findByCidadeAndNome(bairro.getCidade(), bairro.getNome())
+					.ifPresentOrElse(null, null);
 		}
-		Bairro salvo = this.getBairroOptional(codigo);
-		BeanUtils.copyProperties(bairro, salvo, "id");
-		return bairroRepository.save(salvo);
+		BeanUtils.copyProperties(bairro, savedBairro, "id");
+		return bairroRepository.save(savedBairro);
 	}
 
 	public void deletar(Long codigo) {
@@ -62,12 +62,14 @@ public class BairroService {
 
 	private Bairro buscarBairroPorCidadeENome(Cidade cidade, String nome) {
 		Optional<Bairro> neighborhoodOptional = bairroRepository.findByCidadeAndNome(cidade, nome);
-		return neighborhoodOptional.orElseThrow(() -> new EntityNotFoundException("O Bairro não foi encontrado ou não existe")) ;
+		return neighborhoodOptional
+				.orElseThrow(() -> new EntityNotFoundException("O Bairro não foi encontrado ou não existe"));
 	}
 
 	private Bairro getBairroOptional(Long codigo) {
 		Optional<Bairro> neighborhoodOptional = bairroRepository.findById(codigo);
-		return neighborhoodOptional.orElseThrow(() -> new EntityNotFoundException("O Bairro não foi encontrado ou não existe")) ;
+		return neighborhoodOptional
+				.orElseThrow(() -> new EntityNotFoundException("O Bairro não foi encontrado ou não existe"));
 	}
 
 }
