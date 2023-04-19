@@ -37,7 +37,6 @@ public class ContactServiceUnitTest {
         Exception exception = assertThrows(EntityNotFoundException.class, () ->  sut.findById(1L));
         assertTrue(exception instanceof EntityNotFoundException);
         assertEquals("Contact not exists!", exception.getMessage());
-
     }
 
     @Test()

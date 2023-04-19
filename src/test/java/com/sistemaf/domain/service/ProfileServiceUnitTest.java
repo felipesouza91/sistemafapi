@@ -45,7 +45,8 @@ public class ProfileServiceUnitTest {
 		
 	@Test()
 	public void giveUserNotExists_updateUserPassword_fails() {
-		Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.updatePassword(1L, "old_assword","new_password", "confirmation_new_password"));
+		Exception exception = assertThrows(EntityNotFoundException.class,
+						() -> sut.updatePassword(1L, "old_assword","new_password", "confirmation_new_password"));
 		assertTrue(exception instanceof EntityNotFoundException);
 		assertEquals("O usuario solicitado não existe", exception.getMessage());
 
@@ -54,7 +55,8 @@ public class ProfileServiceUnitTest {
 	@Test()
 	public void giveOldPasswordIsInvalid_updateUserPassword_fails() {
 		when(repository.findById(Mockito.any())).thenReturn(Optional.of(user));
-		Exception exception = assertThrows(BusinessException.class, () -> sut.updatePassword(1L, "invalid_encryptPassword","new_password", "confirmation_new_password"));
+		Exception exception = assertThrows(BusinessException.class,
+						() -> sut.updatePassword(1L, "invalid_encryptPassword","new_password", "confirmation_new_password"));
 		assertTrue(exception instanceof BusinessException);
 
 	}
@@ -62,7 +64,8 @@ public class ProfileServiceUnitTest {
 	@Test()
 	public void giveNewPasswordAndConfirmationIsInvalid_updateUserPassword_fails() {
 		when(repository.findById(Mockito.any())).thenReturn(Optional.of(user));
-		Exception exception = assertThrows(BusinessException.class, () -> sut.updatePassword(1L, "encryptPassword","new_password", "invalid_new_password"));
+		Exception exception = assertThrows(BusinessException.class,
+						() -> sut.updatePassword(1L, "encryptPassword","new_password", "invalid_new_password"));
 
 		assertTrue(exception instanceof BusinessException);
 
