@@ -29,6 +29,7 @@ public class FactoryModels {
         client.setCodigoParticao("1234");
         client.setCodigoService(1234);
         client.setEndereco(getEndereco());
+        client.setGrupo(getGrupo());
         client.setDominio("dominio.dominio.com");
         client.setFantazia("Empresa 01");
         client.setRazaoSocial("Empresa 01");
@@ -45,6 +46,13 @@ public class FactoryModels {
         end.setNumero(123L);
         end.setBairro(getBarrio());
         return end;
+    }
+
+    public static Grupo getGrupo() {
+        Grupo grupo = new Grupo();
+        grupo.setId(1L);
+        grupo.setNome("Grupo 1");
+        return grupo;
     }
 
     public static Bairro getBarrio(){

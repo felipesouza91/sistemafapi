@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -49,14 +50,18 @@ public class ClienteService {
 
 
 	public Cliente atualizar(Long codigo, @Valid Cliente cliente) {
-		Cliente clienteSalvo = listarPorCodigo(codigo);
+		Cliente clienteSalvo = this.listarPorCodigo(codigo);
 		this.verifyNeighborhood(cliente.getEndereco().getBairro().getId());
 		this.verifyGroup(cliente.getGrupo().getId());
-		BeanUtils.copyProperties(cliente, clienteSalvo, "id");
 		Optional<Cliente> partitionCodeExists = this.clienteRepository.findByCodigoParticao(cliente.getCodigoParticao());
-		if(partitionCodeExists.isPresent() && partitionCodeExists.get().getId() != clienteSalvo.getId()) {
-			throw new BusinessException("Já existe cliente com partição solicitada");
-		}
+
+		partitionCodeExists.ifPresentOrElse((client) -> {
+			if (!Objects.equals(client.getId(), clienteSalvo.getId())) {
+				throw new BusinessException("Já existe cliente com partição solicitada");
+			}
+		}, null);
+
+		BeanUtils.copyProperties(cliente, clienteSalvo, "id");
 		return clienteRepository.save(clienteSalvo);
 	}
 	
@@ -75,10 +80,12 @@ public class ClienteService {
 	}
 
 	private void verifyNeighborhood(Long  neighborhoodCode) {
-		this.bairroRepository.findById(neighborhoodCode).orElseThrow(() -> new BusinessException("O Bairro inserido não existe"));
+		this.bairroRepository.findById(neighborhoodCode)
+						.orElseThrow(() -> new BusinessException("O Bairro inserido não existe"));
 	}
 
 	private void verifyGroup(Long  groupCode) {
-		this.grupoRepository.findById(groupCode).orElseThrow(() -> new BusinessException("O Grupo inserido não existe"));
+		this.grupoRepository.findById(groupCode)
+						.orElseThrow(() -> new BusinessException("O Grupo inserido não existe"));
 	}
 }
