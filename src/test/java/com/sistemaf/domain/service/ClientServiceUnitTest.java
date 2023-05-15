@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 
 import java.util.Optional;
 
@@ -90,13 +91,13 @@ public class ClientServiceUnitTest {
 
 
   @Test
-  public void givenInvalidClienteId_whenDeleteById_thenThrows() {
+  public void givenInvalidClientId_whenDeleteById_thenThrows() {
     Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.deleteById(1L));
     assertTrue(exception instanceof  EntityNotFoundException);
   }
 
   @Test
-  public void givenUsedClienteId_whenDeleteById_thenThrows() {
+  public void givenUsedClientId_whenDeleteById_thenThrows() {
     when(clienteRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCliente()));
     doThrow(new BusinessException("Erro ao realizar exclusão de cliente") ).when(clienteRepository).deleteById(any());
     Exception exception = assertThrows(BusinessException.class, () -> sut.deleteById(1L));
@@ -109,5 +110,75 @@ public class ClientServiceUnitTest {
     when(clienteRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCliente()));
     sut.deleteById(1L);
     verify(sut, times(1)).deleteById(any());
+  }
+
+  @Test
+  public void givenInvalidClientId_whenUpdate_thenThrows() {
+    Cliente newClient  = FactoryModels.getCliente();
+    newClient.setFantazia("Update fantazia");
+    Exception exception = assertThrows(BusinessException.class, () -> sut.atualizar(1L, newClient));
+    assertTrue(exception instanceof  BusinessException);
+    assertEquals("O Cliente não encontrado ou não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenInvalidNeighborhoodId_whenUpdate_thenTrows() {
+    Cliente newClient  = FactoryModels.getCliente();
+    newClient.setFantazia("Update fantazia");
+    when(clienteRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCliente()));
+    Exception exception = assertThrows(BusinessException.class, () -> sut.atualizar(1L, newClient));
+    assertTrue(exception instanceof  BusinessException);
+    assertEquals("O Bairro inserido não existe", exception.getMessage());
+  }
+  @Test
+  public void givenInvalidGroupId_whenUpdate_thenTrows() {
+    Cliente newClient  = FactoryModels.getCliente();
+    newClient.setFantazia("Update fantazia");
+    when(clienteRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCliente()));
+    when(bairroRepository.findById(newClient.getEndereco().getBairro().getId())).thenReturn(Optional.of(FactoryModels.getBarrio()));
+    Exception exception = assertThrows(BusinessException.class, () -> sut.atualizar(1L, newClient));
+    assertTrue(exception instanceof  BusinessException);
+    assertEquals("O Grupo inserido não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenDuplicatedPartitionCode_whenUpdate_thenTrows() {
+    Cliente newClient  = FactoryModels.getCliente();
+    Cliente duplicatedPartitionCodeClient = FactoryModels.getCliente();
+    duplicatedPartitionCodeClient.setId(2L);
+    duplicatedPartitionCodeClient.setCodigoParticao("1234");
+    newClient.setFantazia("Update fantazia");
+    when(clienteRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCliente()));
+    when(bairroRepository.findById(newClient.getEndereco().getBairro().getId())).thenReturn(Optional.of(FactoryModels.getBarrio()));
+    when(grupoRepository.findById(newClient.getGrupo().getId())).thenReturn(Optional.of(FactoryModels.getGrupo()));
+    when(clienteRepository.findByCodigoParticao(newClient.getCodigoParticao())).thenReturn(Optional.of(duplicatedPartitionCodeClient));
+    Exception exception = assertThrows(BusinessException.class, () -> sut.atualizar(1L, newClient));
+    assertTrue(exception instanceof  BusinessException);
+    assertEquals("Já existe cliente com partição solicitada", exception.getMessage());
+  }
+
+  @Test
+  public void givenValidData_whenUpdate_thenSuccess() {
+    Cliente newClient  = FactoryModels.getCliente();
+    newClient.setFantazia("Update fantazia");
+    when(clienteRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCliente()));
+    when(bairroRepository.findById(newClient.getEndereco().getBairro().getId())).thenReturn(Optional.of(FactoryModels.getBarrio()));
+    when(grupoRepository.findById(newClient.getGrupo().getId())).thenReturn(Optional.of(FactoryModels.getGrupo()));
+    when(clienteRepository.findByCodigoParticao(newClient.getCodigoParticao())).thenReturn(Optional.of(newClient));
+    when(clienteRepository.save(any())).then( arguments -> {
+      Cliente cliente = arguments.getArgument(0);
+      cliente.setFantazia("Update fantazia");
+      return  cliente;
+    });
+    Cliente updateCliente = sut.atualizar(1L, newClient);
+    assertEquals(1L, updateCliente.getId());
+    assertEquals("Update fantazia", updateCliente.getFantazia());
+  }
+
+  @Test
+  public void givenNoFilter_whenFind_thenSuccess() {
+    when(clienteRepository.filtrar(any(),any())).thenReturn(Page.empty());
+    Page<Cliente> results = sut.filtrar(null, null);
+    assertEquals(0, results.getSize());
   }
 }
