@@ -130,4 +130,13 @@ public class FactoryModels {
                 PermissionsInput.builder().nameId("MOTIVO_OS").read(true).write(true).remove(false).build()
         );
     }
+
+  public static Atendimento getAtendimento() {
+    Atendimento atendimento = new Atendimento();
+    atendimento.setCliente(FactoryModels.getCliente());
+    atendimento.setSolicitante("Felipe");
+    atendimento.setDataInicio(OffsetDateTime.now());
+    atendimento.setDescricaoProblema("Problema");
+    return atendimento;
+  }
 }
