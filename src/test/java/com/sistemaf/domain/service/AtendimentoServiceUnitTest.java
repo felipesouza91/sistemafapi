@@ -29,6 +29,8 @@ public class AtendimentoServiceUnitTest {
   @Mock
   private AtendimentoRepository atendimentoRepository;
 
+
+
   @Test
   public void givenAll_whenFind_thenSuccess() {
     when(atendimentoRepository.filtrar(any(), any())).thenReturn(Page.empty());
