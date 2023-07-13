@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 
 import java.util.Optional;
 
@@ -18,12 +21,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CidadeServiceUnitTest {
 
+  @Spy
   @InjectMocks
   private CidadeService sut;
   @Mock
@@ -33,6 +36,19 @@ public class CidadeServiceUnitTest {
   public void givenInvalidCidadeId_whenFindById_thenThrows() {
     Exception exception = Assertions.assertThrows(EntityNotFoundException.class, () -> sut.buscaPorCodigo(1L));
     assertTrue(exception instanceof  EntityNotFoundException);
+  }
+
+  @Test
+  public void givenFilte_whenFilter_thenSuccess() {
+    when(repository.filtrar(any(),any())).thenReturn(Page.empty());
+    Page page = sut.filtrar(null,null);
+    assertEquals(0, page.getSize());
+  }
+
+  @Test
+  public void givenInvalidId_whenFindById_thenThrows() {
+    Exception exception = assertThrows(EntityNotFoundException.class, ( ) -> sut.buscaPorCodigo(1L));
+    assertEquals("A cidade buscado não foi encontrada ou não existe", exception.getMessage());
   }
 
   @Test
@@ -62,17 +78,34 @@ public class CidadeServiceUnitTest {
   }
 
   @Test
+  public void givenCidadeData_whenSave_thenThrows() {
+    when(repository.save(any())).then(( arguments) -> {
+      Cidade cidade = arguments.getArgument(0);
+      cidade.setId(1L);
+      return cidade;
+    });
+    Cidade cidade = sut.salvar(FactoryModels.getCidade());
+    assertEquals(cidade.getId(), 1L);
+  }
+
+  @Test
   public void givenInvalidCidadeId_whenDeleteById_thenThrows() {
     Exception exception = Assertions.assertThrows(EntityNotFoundException.class, () -> sut.deletar(1L));
-    assertTrue(exception instanceof  EntityNotFoundException);
+    assertEquals("A cidade buscado não foi encontrada ou não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenValidId_whenDeleteBuId_thenSuccess() {
+    when(repository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCidade()));
+    sut.deletar(1L);
+    verify(sut, times(1)).deletar(1L);
   }
 
   @Test
   public void givenUsedCidadeId_whenDeleteById_thenThrows() {
     when(repository.findById(1L)).thenReturn(Optional.of(FactoryModels.getCidade()));
-    doThrow(new BusinessException("Não foi possivel excluir a cidades solicitada")).when(repository).deleteById(any());
+    doThrow(new DataIntegrityViolationException("")).when(repository).deleteById(1L);
     Exception exception = Assertions.assertThrows(BusinessException.class, () -> sut.deletar(1L));
-    assertTrue(exception instanceof  BusinessException);
     assertEquals("Não foi possivel excluir a cidades solicitada", exception.getMessage());
   }
 }
