@@ -3,6 +3,7 @@ package com.sistemaf.util;
 import com.sistemaf.api.dto.input.PermissionsInput;
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.*;
+import org.instancio.Instancio;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -138,5 +139,10 @@ public class FactoryModels {
     atendimento.setDataInicio(OffsetDateTime.now());
     atendimento.setDescricaoProblema("Problema");
     return atendimento;
+  }
+
+  public static Dvr getDvr() {
+      Dvr dvr = Instancio.create(Dvr.class);
+      return dvr;
   }
 }
