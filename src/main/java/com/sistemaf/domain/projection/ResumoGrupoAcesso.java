@@ -1,5 +1,14 @@
 package com.sistemaf.domain.projection;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResumoGrupoAcesso {
 	
 	private Long id;
@@ -7,38 +16,6 @@ public class ResumoGrupoAcesso {
 	private Boolean ativo;
 	
 	private String descricao;
-	
-	public ResumoGrupoAcesso(Long id, Boolean ativo, String descricao) {
-		super();
-		this.id = id;
-		this.ativo = ativo;
-		this.descricao = descricao;
-	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Boolean getAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	
-	
 
 }

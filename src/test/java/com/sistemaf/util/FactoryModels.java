@@ -3,6 +3,7 @@ package com.sistemaf.util;
 import com.sistemaf.api.dto.input.PermissionsInput;
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.*;
+import com.sistemaf.domain.projection.ResumoGrupoAcesso;
 import org.instancio.Instancio;
 
 import java.time.OffsetDateTime;
@@ -152,5 +153,13 @@ public class FactoryModels {
 
   public static FechamentoOs getFechamentoOs() {
     return Instancio.create(FechamentoOs.class);
+  }
+
+  public static List<GrupoAcesso> getListGrupoAcesso() {
+    return Instancio.stream(GrupoAcesso.class).limit(3).collect(Collectors.toList());
+  }
+
+  public static List<ResumoGrupoAcesso> getListGrupoAcessoResumo() {
+    return Instancio.stream(ResumoGrupoAcesso.class).limit(3).collect(Collectors.toList());
   }
 }
