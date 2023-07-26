@@ -1,24 +1,21 @@
 package com.sistemaf.domain.service;
 
-import java.util.Optional;
-
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.exception.EntityNotFoundException;
+import com.sistemaf.domain.filter.FechamentoOsFilter;
+import com.sistemaf.domain.model.FechamentoOs;
 import com.sistemaf.domain.model.OrdemServico;
+import com.sistemaf.domain.repository.fechamentoos.FechamentoOsRepository;
 import com.sistemaf.domain.repository.ordemservico.OrdemServicoRepository;
 import org.apache.commons.lang3.BooleanUtils;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import com.sistemaf.domain.exception.EntityNotFoundException;
-import com.sistemaf.domain.filter.FechamentoOsFilter;
-import com.sistemaf.domain.model.FechamentoOs;
-import com.sistemaf.domain.repository.fechamentoos.FechamentoOsRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class FechamentoOsService {
@@ -39,28 +36,28 @@ public class FechamentoOsService {
 
 	@Transactional
 	public FechamentoOs salvar(FechamentoOs fechamentoOs) {
-		Optional<OrdemServico> serviceOrder = serviceOrderRepository.findById(fechamentoOs.getOs().getId());
-		if(serviceOrder.isEmpty()) {
-			throw new BusinessException("A ordem de serviço não existe!");
-		}
-		if(BooleanUtils.isTrue(serviceOrder.get().getFechado())) {
+		OrdemServico serviceOrder =
+						serviceOrderRepository.findById(fechamentoOs.getOs().getId())
+										.orElseThrow(() -> new BusinessException("A ordem de serviço não existe!") );
+
+		if(BooleanUtils.isTrue(serviceOrder.getFechado())) {
 			throw new BusinessException("A ordem de serviço já está fechada");
 		}
 		FechamentoOs closedOrder = fechamentoOsReposioty.save(fechamentoOs);
-		serviceOrder.get().setFechado(true);
+		serviceOrder.setFechado(true);
 		return closedOrder;
 	}
 
-	public FechamentoOs atualizar(Long codigo, FechamentoOs fechamentoOs) {
-		FechamentoOs fechamentoOsSalvo = getFechamentoOptional(codigo);
-		BeanUtils.copyProperties(fechamentoOs, fechamentoOsSalvo, "id", "os", "dataFechamento");
-		return salvar(fechamentoOsSalvo);
-	}
 
 	public void remover(Long codigo) {
-		this.getFechamentoOptional(codigo);
+		FechamentoOs fechamentoOs = this.getFechamentoOptional(codigo);
+		OrdemServico ordemServico =
+						serviceOrderRepository.findById(fechamentoOs.getId())
+										.orElseThrow(() -> new BusinessException("A ordem de serviço não foi encontrada"));
+		ordemServico.setFechado(false);
 		try {
 			fechamentoOsReposioty.deleteById(codigo);
+			serviceOrderRepository.save(ordemServico);
 		}catch (DataIntegrityViolationException e) {
 			throw  new BusinessException("Erro ao excluir fechamento de ordem de serviço");
 		}

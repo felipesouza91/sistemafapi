@@ -48,17 +48,6 @@ public interface ClosedOrderServiceResourceOpenApi {
             @RequestBody @Valid ClosedOrderInput input,
             HttpServletResponse response);
 
-    @Operation(summary = "Update Close Order Services by code")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Close Order Services Updated",
-                    content = @Content(schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404", description = "Close Order Services not found",
-                    content = @Content(schema = @Schema(implementation = Problem.class))),
-    })
-    ResponseEntity<ClosedOrderDTO> atualizar(
-            @Parameter(description = "Cloded Order service code", example = "1", required = true)  @PathVariable Long codigo,
-            @Parameter(description = "Closed Order Service updated fields", name = "body",required = true)
-            @Valid @RequestBody ClosedOrderInput input);
 
     @Operation(summary = "Delete Close Order Services by code")
     @ApiResponses({

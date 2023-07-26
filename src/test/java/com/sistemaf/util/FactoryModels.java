@@ -149,4 +149,8 @@ public class FactoryModels {
   public static Fabricante getFabricante() {
     return Instancio.create(Fabricante.class);
   }
+
+  public static FechamentoOs getFechamentoOs() {
+    return Instancio.create(FechamentoOs.class);
+  }
 }
