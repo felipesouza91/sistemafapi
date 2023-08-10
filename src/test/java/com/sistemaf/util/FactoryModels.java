@@ -162,4 +162,11 @@ public class FactoryModels {
   public static List<ResumoGrupoAcesso> getListGrupoAcessoResumo() {
     return Instancio.stream(ResumoGrupoAcesso.class).limit(3).collect(Collectors.toList());
   }
+
+  public static MotivoOs getMotivoOs() {
+    MotivoOs motivoOs = new MotivoOs();
+    motivoOs.setId(1L);
+    motivoOs.setDescricao("Teste de Chamada");
+    return motivoOs;
+  }
 }

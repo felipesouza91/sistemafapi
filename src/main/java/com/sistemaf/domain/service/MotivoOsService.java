@@ -29,7 +29,6 @@ public class MotivoOsService {
 	}
 
 	public MotivoOs salvar(MotivoOs motivoOs) {
-		//TODO: Make a business rules when client is created for not duplicated clients
 		return motivoOsRepository.save(motivoOs);
 	}
 
