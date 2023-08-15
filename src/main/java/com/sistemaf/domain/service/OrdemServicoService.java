@@ -8,7 +8,6 @@ import com.sistemaf.domain.projection.ResumOrdemServico;
 import com.sistemaf.domain.repository.cliente.ClienteRepository;
 import com.sistemaf.domain.repository.motivoos.MotivoOsRepository;
 import com.sistemaf.domain.repository.ordemservico.OrdemServicoRepository;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,7 +52,7 @@ public class OrdemServicoService {
 		this.clienteRepository.findById(ordemServico.getCliente().getId())
 						.orElseThrow(() -> new BusinessException("O Cliente não existe"));
 		this.motivoOsRepository.findById(ordemServico.getMotivoOs().getId()).orElseThrow(() -> new BusinessException("O Motivo da Ordem não existe"));
-		if(BooleanUtils.isTrue(osSalva.getFechado())) {
+		if(osSalva.getFechado()) {
 			throw  new BusinessException("A ordem já encontra-se fechada, não é possivel atualizar");
 		}
 		BeanUtils.copyProperties(ordemServico, osSalva, "id", "cliente", "dataAbertura");

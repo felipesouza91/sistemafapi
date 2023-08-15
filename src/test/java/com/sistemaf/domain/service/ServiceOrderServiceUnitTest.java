@@ -67,7 +67,6 @@ public class ServiceOrderServiceUnitTest {
 
   @Test
   public void givenInvalidClientId_whenSave_thenThrows() {
-
     Exception exception = assertThrows(BusinessException.class,
             () -> sut.salvar(FactoryModels.getOrdemServico()));
     assertEquals("O Cliente não existe", exception.getMessage());
@@ -120,10 +119,10 @@ public class ServiceOrderServiceUnitTest {
   public void givenData_whenUpdate_thenSuccess() {
     OrdemServico mockOrdemServico = FactoryModels.getOrdemServico();
     mockOrdemServico.setFechado(false);
+    when(ordemServicoRepository.findById(mockOrdemServico.getId())).thenReturn(Optional.of(mockOrdemServico));
     when(clienteRepository.findById(mockOrdemServico.getCliente().getId()))
             .thenReturn(Optional.of(mockOrdemServico.getCliente()));
     when(motivoOsRepository.findById(mockOrdemServico.getMotivoOs().getId())).thenReturn(Optional.of(mockOrdemServico.getMotivoOs()));
-    when(ordemServicoRepository.findById(mockOrdemServico.getId())).thenReturn(Optional.of(mockOrdemServico));
     when(ordemServicoRepository.save(mockOrdemServico)).thenReturn(mockOrdemServico);
     OrdemServico ordemServico = sut.atualizar(mockOrdemServico.getId(), mockOrdemServico);
     verify(ordemServicoRepository, times(1)).save(mockOrdemServico);
