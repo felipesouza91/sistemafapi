@@ -169,4 +169,9 @@ public class FactoryModels {
     motivoOs.setDescricao("Teste de Chamada");
     return motivoOs;
   }
+
+  public static OrdemServico getOrdemServico() {
+    OrdemServico ordemServico = Instancio.create(OrdemServico.class);
+    return ordemServico;
+  }
 }
