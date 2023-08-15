@@ -50,7 +50,7 @@ public class MotivoOsServiceUnitTest {
   }
 
   @Test
-  public void givenDuplicateDescricao_whenSave_thenThrows() {
+  public void givenValidData_whenSave_thenThrows() {
     MotivoOs motivoOs = new MotivoOs();
     motivoOs.setDescricao("Teste");
     when(motivoOsRepository.save(motivoOs)).then(arguments -> {
@@ -63,5 +63,37 @@ public class MotivoOsServiceUnitTest {
     assertNotNull(savedData);
     assertEquals(1L, savedData.getId());
     assertEquals(motivoOs.getDescricao(), savedData.getDescricao());
+  }
+
+  @Test
+  public void givenInvalidId_whenUpdate_thenThrows() {
+    MotivoOs motivoOs = FactoryModels.getMotivoOs();
+    motivoOs.setDescricao("Update data");
+    Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.atualizar(1L, motivoOs));
+    assertEquals("O Grupo solicitado não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenValidData_whenUpdate_thenSuccess() {
+    MotivoOs motivoOs = FactoryModels.getMotivoOs();
+    motivoOs.setDescricao("Update data");
+    when(motivoOsRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getMotivoOs()));
+    when(motivoOsRepository.save(any())).thenReturn(motivoOs);
+    MotivoOs updatedOs = sut.atualizar(1L, motivoOs);
+    verify(motivoOsRepository, times(1)).save(motivoOs);
+    assertEquals(1L, updatedOs.getId());
+  }
+
+  @Test
+  public void givenInvalidId_whenDelete_thenThrows() {
+    Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.remover(1L));
+    assertEquals("O Grupo solicitado não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenValidId_whenDelete_thenSuccess() {
+    when(motivoOsRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getMotivoOs()));
+    sut.remover(1L);
+    verify(motivoOsRepository, times(1)).deleteById(1L);
   }
 }
