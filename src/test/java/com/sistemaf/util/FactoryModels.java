@@ -174,4 +174,9 @@ public class FactoryModels {
     OrdemServico ordemServico = Instancio.create(OrdemServico.class);
     return ordemServico;
   }
+
+  public static Particao getParticao() {
+    Particao particao = Instancio.create(Particao.class);
+    return particao;
+  }
 }
