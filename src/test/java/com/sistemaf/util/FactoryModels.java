@@ -179,4 +179,9 @@ public class FactoryModels {
     Particao particao = Instancio.create(Particao.class);
     return particao;
   }
+
+  public static Produto getProduto() {
+    Produto produto = Instancio.create(Produto.class);
+    return produto;
+  }
 }

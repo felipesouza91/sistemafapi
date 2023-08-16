@@ -1,7 +1,5 @@
 package com.sistemaf.domain.service;
 
-import java.util.Optional;
-
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.exception.EntityUsedException;
@@ -10,13 +8,13 @@ import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.projection.ResumoProduto;
 import com.sistemaf.domain.repository.estoque.fabricante.FabricanteRepository;
 import com.sistemaf.domain.repository.estoque.produto.ProdutoRepository;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -27,7 +25,7 @@ public class ProdutoService {
 
 	@Autowired
 	private FabricanteRepository fabricanteRepository;
-	
+
 	public Page<Produto> filtrar(ProdutoFiltro grupoFilter, Pageable pageable){
 		return produtoRepository.filtrar(grupoFilter, pageable);
 	}
@@ -35,20 +33,18 @@ public class ProdutoService {
 	public Page<ResumoProduto> resumo(ProdutoFiltro produtoFilter, Pageable pageable) {
 		return produtoRepository.resumo(produtoFilter, pageable);
 	}
-	
+
 	public Produto listaPorCodigo(Long codigo) {
 		return this.getProdutoOptional(codigo);
 	}
-	
+
 	public Produto salvar(Produto produto) {
 		findManufacturer(produto.getFabricante().getId());
-		Optional<Produto> productOptional = null;
-		try {
-			productOptional = this.produtoRepository.findByModeloWithoutSpaces(produto.getModelo());
-			if(productOptional.isPresent() ) {
-				throw new EntityUsedException("O produto já encontra-se cadastrado");
-			}
-		} catch (EmptyResultDataAccessException e ) {		}
+		Optional<Produto> productOptional =
+						this.produtoRepository.findByModeloWithoutSpaces(produto.getModelo());
+		if(productOptional.isPresent() ) {
+			throw new EntityUsedException("O produto já encontra-se cadastrado");
+		}
 		return produtoRepository.save(produto);
 	}
 
@@ -63,10 +59,9 @@ public class ProdutoService {
 		BeanUtils.copyProperties(produto, produtoSalvo, "id", "createdBy", "creationDate");
 		return produtoRepository.save(produtoSalvo);
 	}
-	
+
 	private Produto getProdutoOptional(Long codigo) {
 		Optional<Produto> productOptional = produtoRepository.findById(codigo);
-	
 		return productOptional.orElseThrow(()-> new EntityNotFoundException("O Produto solicitado não existe"));
 	}
 
