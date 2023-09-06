@@ -44,8 +44,10 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: docker build
-      run: docker build --platform linux/amd64,linux/arm64,linux/arm/v7 -f "Dockerfile" -t ${{secrets.DOCKERHUB_USERNAME}}/sistemafapi:${{steps.getVersion.outputs.version}} "."
-
-    - name: docker push image
-      run: docker push ${{secrets.DOCKERHUB_USERNAME}}/sistemafapi:${{steps.getVersion.outputs.version}}
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/sistemafapi:${{steps.getVersion.outputs.version}}
