@@ -44,7 +44,9 @@ public class ResourceServerConfig {
                 }
                 httpServletResponse.setStatus(302);
                 httpServletResponse.sendRedirect(returnTo);
-              });
+              }).clearAuthentication(true)
+              .invalidateHttpSession(true)
+              .deleteCookies("JSESSIONID");
     });
     return httpSecurity.formLogin(customizer -> customizer.loginPage("/login")).build();
 

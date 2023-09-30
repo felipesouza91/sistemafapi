@@ -59,6 +59,7 @@ public class AuthorizationServerConfig {
             )
             .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
             .apply(authorizationServerConfigurer);
+
     return httpSecurity.formLogin(customizer -> customizer.loginPage("/login")).build();
   }
 
