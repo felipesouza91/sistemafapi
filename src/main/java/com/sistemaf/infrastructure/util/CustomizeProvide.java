@@ -2,7 +2,6 @@ package com.sistemaf.infrastructure.util;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import com.sistemaf.infrastructure.util.integration.ApiConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -19,12 +18,7 @@ public class CustomizeProvide {
 	public RestTemplate restTemplate() {
 	    return new RestTemplate();
 	}
-	
-	@Bean
-	public ApiConnection getApiConnection() {
-		return new ApiConnection();
-	}
-	
+
 	@Bean
 	protected Module module() {
 	    return new Hibernate5Module();
