@@ -1,10 +1,12 @@
 package com.sistemaf.domain.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.exception.EntityNotFoundException;
+import com.sistemaf.domain.filter.UsuarioFilter;
+import com.sistemaf.domain.model.Usuario;
+import com.sistemaf.domain.projection.UserSimpleModel;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
+import com.sistemaf.domain.repository.security.usuario.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,11 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sistemaf.domain.exception.EntityNotFoundException;
-import com.sistemaf.domain.filter.UsuarioFilter;
-import com.sistemaf.domain.model.Usuario;
-import com.sistemaf.domain.projection.UserSimpleModel;
-import com.sistemaf.domain.repository.security.usuario.UsuarioRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {

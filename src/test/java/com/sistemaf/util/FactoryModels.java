@@ -4,6 +4,7 @@ import com.sistemaf.api.dto.input.PermissionsInput;
 import com.sistemaf.api.dto.model.PermissionDto;
 import com.sistemaf.domain.model.*;
 import com.sistemaf.domain.projection.ResumoGrupoAcesso;
+import com.sistemaf.domain.projection.UserSimpleModel;
 import org.instancio.Instancio;
 
 import java.time.OffsetDateTime;
@@ -21,6 +22,7 @@ public class FactoryModels {
     user.setApelido("any_username");
     user.setNome("User name");
     user.setSenha("encryptPassword");
+    user.setGrupoAcesso(getGrupoAcesso());
     return user;
   }
 
@@ -183,5 +185,9 @@ public class FactoryModels {
   public static Produto getProduto() {
     Produto produto = Instancio.create(Produto.class);
     return produto;
+  }
+
+  public static List<UserSimpleModel> getUserResumeList() {
+    return Instancio.stream(UserSimpleModel.class).limit(3).collect(Collectors.toList());
   }
 }
