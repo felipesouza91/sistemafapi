@@ -1,6 +1,7 @@
 package com.sistemaf.domain.service;
 
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Usuario;
 import com.sistemaf.domain.projection.UserSimpleModel;
 import com.sistemaf.domain.repository.security.grupoacesso.GrupoAcessoRepository;
@@ -57,7 +58,7 @@ public class UserServiceUnitTest {
   public void givenInvalidUserGroupId_whenCreate_thenThrows() {
     var newUser = FactoryModels.getUsuario();
     Exception exception = assertThrows(BusinessException.class, () -> sut.salvar(newUser));
-    assertEquals(exception.getMessage(), "O Grupo de Acesso não existe");
+    assertEquals( "O Grupo de Acesso não existe", exception.getMessage());
   }
 
   @Test
@@ -66,7 +67,7 @@ public class UserServiceUnitTest {
     when(grupoAcessoRepository.findById(any())).thenReturn(Optional.of(FactoryModels.getGrupoAcesso()));
     when(usuarioRepository.findByApelido(newUser.getApelido())).thenReturn(Optional.of(FactoryModels.getUsuario()));
     Exception exception = assertThrows(BusinessException.class, () -> sut.salvar(newUser));
-    assertEquals(exception.getMessage(), "O apelido já esta em uso");
+    assertEquals( "O apelido já esta em uso", exception.getMessage());
   }
 
 
@@ -99,5 +100,44 @@ public class UserServiceUnitTest {
     Usuario user = sut.salvar(newUser);
     assertNotNull(user);
     assertNotEquals(newUser.getSenha(), user.getSenha());
+  }
+
+  @Test
+  public  void givenInvalidId_whenFindUnique_thenThrows() {
+    Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.buscarPorCodigo(1L));
+    assertEquals("O usuario solicitado não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenValidId_whenFindUnique_thenSuccess() {
+    when(usuarioRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getUsuario()));
+    Usuario usuario = sut.buscarPorCodigo(1L);
+    assertNotNull(usuario);
+    assertEquals(1L, usuario.getId());
+  }
+
+  @Test
+  public void givenInvalidGroupId_whenUpdate_thenThrows() {
+    Usuario user = FactoryModels.getUsuario();
+    Exception exception = assertThrows(BusinessException.class, () -> sut.atualizar(1L,user) );
+    assertEquals("O Grupo de Acesso não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenInvalidUserId_whenUpdate_thenThrows() {
+    Usuario user = FactoryModels.getUsuario();
+    when(grupoAcessoRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getGrupoAcesso()));
+    Exception exception = assertThrows(EntityNotFoundException.class, () -> sut.atualizar(1L,user) );
+    assertEquals("O usuario solicitado não existe", exception.getMessage());
+  }
+
+  @Test
+  public void givenValidData_whenUpdate_thenSuccess() {
+    Usuario user = FactoryModels.getUsuario();
+    when(grupoAcessoRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getGrupoAcesso()));
+    when(usuarioRepository.findById(1L)).thenReturn(Optional.of(FactoryModels.getUsuario()));
+    when(usuarioRepository.save(any())).thenReturn(FactoryModels.getUsuario());
+    Usuario updatedUse = sut.atualizar(1L, user);
+    assertNotNull(updatedUse);
   }
 }
