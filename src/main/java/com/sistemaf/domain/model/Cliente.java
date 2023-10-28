@@ -61,4 +61,6 @@ public class Cliente implements Serializable{
 	@OneToMany(mappedBy="cliente", fetch=FetchType.LAZY)
 	private List<Particao> listParticoes = new ArrayList<Particao>();
 
+	@OneToMany(mappedBy="client", fetch=FetchType.LAZY)
+	private List<ClientFile> clientFiles = new ArrayList<>();
 }
