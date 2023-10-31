@@ -1,6 +1,7 @@
 package com.sistemaf.domain.model;
 
 import com.sistemaf.domain.model.definition.FileReference;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

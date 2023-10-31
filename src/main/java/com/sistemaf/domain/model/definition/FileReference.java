@@ -25,17 +25,17 @@ public class FileReference {
     @Column(columnDefinition = "char(36)")
     @org.hibernate.annotations.Type(type = "org.hibernate.type.UUIDCharType")
     @EqualsAndHashCode.Include
-    private UUID id;
+    protected UUID id;
 
-    private String fileName;
+    protected String fileName;
 
-    private String originalFileName;
+    protected String originalFileName;
 
-    private String contentType;
+    protected String contentType;
 
-    private Boolean temp = true;
+    protected Boolean temp = true;
 
     @CreationTimestamp
-    private OffsetDateTime createdAt;
+    protected OffsetDateTime createdAt;
 
 }
