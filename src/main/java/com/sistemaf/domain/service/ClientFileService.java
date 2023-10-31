@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URL;
+import java.time.OffsetDateTime;
 
 @Service
 @AllArgsConstructor
@@ -19,18 +20,20 @@ public class ClientFileService {
 
     private final ClienteRepository clientRepository;
     private final ClientFileRepository clientFileRepository;
-
     private final FileService fileService;
 
     @Transactional
     public UploadFileUrlDTO generateSignedUrl(Long clientId, FileReference fileReference) {
         Cliente cliente = clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("O Cliente não foi encontrado"));
-        ClientFile clientFile = (ClientFile) fileReference;
+        ClientFile clientFile = new ClientFile();
+        clientFile.setOriginalFileName(fileReference.getFileName());
+        clientFile.setFileName(OffsetDateTime.now().toEpochSecond()+fileReference.getFileName());
+        clientFile.setContentType(fileReference.getContentType());
         clientFile.setClient(cliente);
-        clientFileRepository.save(clientFile);
+        ClientFile savedClientFile = clientFileRepository.save(clientFile);
         URL signedUrl = fileService.generateUploadSignedUrl(fileReference);
         return UploadFileUrlDTO.builder()
-                .fileReferenceId(clientFile.getId())
+                .fileReferenceId(savedClientFile.getId())
                 .uploadUrl(signedUrl)
                 .build();
     }
