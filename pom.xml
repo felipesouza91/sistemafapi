@@ -29,6 +29,7 @@
 		<lombok.mapstruck.binding.version>0.2.0</lombok.mapstruck.binding.version>
 		<lombok.version>1.18.24</lombok.version>
 		<spring.oauth.server.version>0.3.1</spring.oauth.server.version>
+		<minio.version>8.5.6</minio.version>
 	</properties>
 
 	<dependencies>
@@ -214,7 +215,11 @@
 		</dependency>
 		
 		<!-- Hibernate Utils -->
-		
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>${minio.version}</version>
+		</dependency>
 		<dependency>
 		    <groupId>com.fasterxml.jackson.datatype</groupId>
 		    <artifactId>jackson-datatype-hibernate5</artifactId>
