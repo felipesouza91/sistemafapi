@@ -17,7 +17,7 @@ public class ClientFileController {
 
     private final ClientFileService clientFileService;
 
-    private final FileReferenceMapper fileReferenceMapper;
+    private final FileReferenceMapper fileReferenceMapper = FileReferenceMapper.INSTANCE;
 
     @PutMapping("/upload")
     public ResponseEntity<UploadFileUrlDTO> newUploadSignedUrl(@PathVariable Long clientId, @RequestBody FileInput fileInput) {
