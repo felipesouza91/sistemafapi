@@ -11,6 +11,14 @@ services:
     ports:
       - 3306:3306
 
+
+  minio-server:
+    image: minio/minio
+    command: 'server /data --console-address ":9001"'
+    ports:
+      - 9000:9000
+      - 9001:9001
+
   myapp-main:
     image: sistemfapi
     restart: on-failure
