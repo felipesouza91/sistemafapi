@@ -27,7 +27,9 @@ public class ClientFileService {
         Cliente cliente = clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("O Cliente não foi encontrado"));
         ClientFile clientFile = new ClientFile();
         clientFile.setOriginalFileName(fileReference.getFileName());
-        clientFile.setFileName(OffsetDateTime.now().toEpochSecond()+fileReference.getFileName());
+        String fileName = OffsetDateTime.now().toEpochSecond()+fileReference.getFileName();
+        clientFile.setFileName(fileName);
+        fileReference.setFileName(fileName);
         clientFile.setContentType(fileReference.getContentType());
         clientFile.setClient(cliente);
         ClientFile savedClientFile = clientFileRepository.save(clientFile);
