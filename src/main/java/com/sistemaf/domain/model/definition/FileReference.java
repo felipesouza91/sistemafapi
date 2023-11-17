@@ -27,15 +27,19 @@ public class FileReference {
     @EqualsAndHashCode.Include
     protected UUID id;
 
+    @Column(name = "file_name")
     protected String fileName;
 
+    @Column(name = "original_file_name")
     protected String originalFileName;
 
+    @Column(name = "content_type")
     protected String contentType;
 
     protected Boolean temp = true;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     protected OffsetDateTime createdAt;
 
 }
