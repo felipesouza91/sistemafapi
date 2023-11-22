@@ -2,6 +2,7 @@ package com.sistemaf.domain.service;
 
 import com.sistemaf.api.dto.model.UploadFileUrlDTO;
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.ClientFile;
 import com.sistemaf.domain.model.Cliente;
 import com.sistemaf.domain.model.definition.FileReference;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URL;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class ClientFileService {
     private final FileService fileService;
 
     @Transactional
-    public UploadFileUrlDTO generateSignedUrl(Long clientId, FileReference fileReference) {
+    public UploadFileUrlDTO generateUploadData(Long clientId, FileReference fileReference) {
         Cliente cliente = clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("O Cliente não foi encontrado"));
         ClientFile clientFile = new ClientFile();
         clientFile.setOriginalFileName(fileReference.getFileName());
@@ -38,5 +40,12 @@ public class ClientFileService {
                 .fileReferenceId(savedClientFile.getId())
                 .uploadUrl(signedUrl)
                 .build();
+    }
+
+    public URL generateDownloadSignedUrl(Long clientId, UUID fileId) {
+        Cliente cliente = clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("O Cliente não foi encontrado"));
+        ClientFile clientFile =  clientFileRepository.findById(fileId).orElseThrow(() -> new EntityNotFoundException("O Arquivo não foi encontrado"));
+        URL url = fileService.generateDownloadSignedUrl(clientFile);
+        return url;
     }
 }
