@@ -38,7 +38,7 @@ public class ClientFileServiceUnitTest {
     @Test
     public void givenInvalidClientID_whenGenerateUrl_thenThrows() {
         FileReference fileReference = Instancio.create(FileReference.class);
-        Exception exception = assertThrows(BusinessException.class, () -> sut.generateSignedUrl(1L,fileReference));
+        Exception exception = assertThrows(BusinessException.class, () -> sut.generateUploadData(1L,fileReference));
         assertEquals("O Cliente não foi encontrado", exception.getMessage());
     }
 
@@ -53,7 +53,7 @@ public class ClientFileServiceUnitTest {
             file.setClient(cliente);
             return file;
         });
-        sut.generateSignedUrl(1L, fileReference);
+        sut.generateUploadData(1L, fileReference);
         verify(fileService, times(1)).generateUploadSignedUrl(fileReference);
     }
 
@@ -64,7 +64,7 @@ public class ClientFileServiceUnitTest {
 
         when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
         when(fileService.generateUploadSignedUrl(any())).thenThrow(new BusinessException("Erro ao gerar URL"));
-        Exception exception = assertThrows(BusinessException.class, () -> sut.generateSignedUrl(1L, fileReference));
+        Exception exception = assertThrows(BusinessException.class, () -> sut.generateUploadData(1L, fileReference));
         assertEquals("Erro ao gerar URL", exception.getMessage());
     }
 
@@ -80,7 +80,7 @@ public class ClientFileServiceUnitTest {
             file.setClient(cliente);
             return file;
         });
-        UploadFileUrlDTO fileUrlDTO = sut.generateSignedUrl(1L, fileReference);
+        UploadFileUrlDTO fileUrlDTO = sut.generateUploadData(1L, fileReference);
         assertNotNull(fileUrlDTO);
         assertEquals(fileUrlDTO.getFileReferenceId(), fileReference.getId());
         assertNotNull(fileUrlDTO.getUploadUrl());
