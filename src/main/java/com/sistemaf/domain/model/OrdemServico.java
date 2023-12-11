@@ -54,7 +54,7 @@ public class OrdemServico {
 	@CreationTimestamp
 	@Column(name="data_abertura",nullable=false)
 	private OffsetDateTime dataAbertura;
-	
-	private Boolean fechado;
+
+	private Boolean fechado = false;
 
 }
