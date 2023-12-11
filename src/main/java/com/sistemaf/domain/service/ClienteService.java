@@ -55,11 +55,11 @@ public class ClienteService {
 		this.verifyGroup(cliente.getGrupo().getId());
 		Optional<Cliente> partitionCodeExists = this.clienteRepository.findByCodigoParticao(cliente.getCodigoParticao());
 
-		partitionCodeExists.ifPresentOrElse((client) -> {
+		partitionCodeExists.ifPresent((client) -> {
 			if (!Objects.equals(client.getId(), clienteSalvo.getId())) {
 				throw new BusinessException("Já existe cliente com partição solicitada");
 			}
-		}, null);
+		});
 
 		BeanUtils.copyProperties(cliente, clienteSalvo, "id");
 		return clienteRepository.save(clienteSalvo);
