@@ -1,6 +1,6 @@
 package com.sistemaf.domain.service;
 
-import com.sistemaf.api.dto.model.UploadFileUrlDTO;
+import com.sistemaf.api.dto.model.UploadFileUrlResponse;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.ClientFile;
@@ -25,7 +25,7 @@ public class ClientFileService {
     private final FileService fileService;
 
     @Transactional
-    public UploadFileUrlDTO generateUploadData(Long clientId, FileReference fileReference) {
+    public UploadFileUrlResponse generateUploadData(Long clientId, FileReference fileReference) {
         Cliente cliente = clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("O Cliente não foi encontrado"));
         ClientFile clientFile = new ClientFile();
         clientFile.setOriginalFileName(fileReference.getFileName());
@@ -36,7 +36,7 @@ public class ClientFileService {
         clientFile.setClient(cliente);
         ClientFile savedClientFile = clientFileRepository.save(clientFile);
         URL signedUrl = fileService.generateUploadSignedUrl(fileReference);
-        return UploadFileUrlDTO.builder()
+        return UploadFileUrlResponse.builder()
                 .fileReferenceId(savedClientFile.getId())
                 .uploadUrl(signedUrl)
                 .build();

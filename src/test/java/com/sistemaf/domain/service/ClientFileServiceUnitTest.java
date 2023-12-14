@@ -1,6 +1,6 @@
 package com.sistemaf.domain.service;
 
-import com.sistemaf.api.dto.model.UploadFileUrlDTO;
+import com.sistemaf.api.dto.model.UploadFileUrlResponse;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.model.ClientFile;
 import com.sistemaf.domain.model.Cliente;
@@ -80,7 +80,7 @@ public class ClientFileServiceUnitTest {
             file.setClient(cliente);
             return file;
         });
-        UploadFileUrlDTO fileUrlDTO = sut.generateUploadData(1L, fileReference);
+        UploadFileUrlResponse fileUrlDTO = sut.generateUploadData(1L, fileReference);
         assertNotNull(fileUrlDTO);
         assertEquals(fileUrlDTO.getFileReferenceId(), fileReference.getId());
         assertNotNull(fileUrlDTO.getUploadUrl());
