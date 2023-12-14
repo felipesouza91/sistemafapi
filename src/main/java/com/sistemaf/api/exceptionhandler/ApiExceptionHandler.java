@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.sistemaf.api.exceptionhandler.Problem.Field;
 import com.sistemaf.core.SistemFApiProperty;
-import com.sistemaf.domain.exception.BusinessException;
-import com.sistemaf.domain.exception.EntityNotFoundException;
-import com.sistemaf.domain.exception.EntityUsedException;
-import com.sistemaf.domain.exception.StorageException;
+import com.sistemaf.domain.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
@@ -51,8 +48,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	private final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
 			+ "Tente novamente e se o problema persistir, entre em contato " + "com o administrador do sistema.";
 
-	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<?>  handlerEntidadeNaoEncontrado(EntityNotFoundException ex, WebRequest request) {
+	@ExceptionHandler({EntityNotFoundException.class, FileNotExistsException.class})
+	public ResponseEntity<?>  handlerEntidadeNaoEncontrado(BusinessException ex, WebRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		Problem problem = this
 				.createProblemBuilder(status, ProblemType.RECURSO_NAO_ENCONTRADO, ex.getMessage(), ex.getMessage());

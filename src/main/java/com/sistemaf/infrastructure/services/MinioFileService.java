@@ -2,6 +2,8 @@ package com.sistemaf.infrastructure.services;
 
 import com.sistemaf.core.SistemFApiProperty;
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.exception.EntityNotFoundException;
+import com.sistemaf.domain.exception.FileNotExistsException;
 import com.sistemaf.domain.model.definition.FileReference;
 import com.sistemaf.domain.service.FileService;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -77,7 +79,7 @@ public class MinioFileService implements FileService {
            return objectStat != null;
         }catch (Exception e) {
             log.error("File does not exists", e.getCause());
-            throw new BusinessException("Erro ao achar arquivo");
+            throw new FileNotExistsException("Arquivo não foi encontrado");
         }
 
     }
