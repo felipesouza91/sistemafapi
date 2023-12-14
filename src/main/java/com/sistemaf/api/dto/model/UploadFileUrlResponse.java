@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class UploadFileUrlDTO {
+public class UploadFileUrlResponse {
 
     private UUID fileReferenceId;
     private URL uploadUrl;
