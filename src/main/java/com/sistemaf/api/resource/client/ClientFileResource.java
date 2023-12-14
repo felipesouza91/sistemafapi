@@ -2,7 +2,7 @@ package com.sistemaf.api.resource.client;
 
 import com.sistemaf.api.dto.input.FileInput;
 import com.sistemaf.api.dto.manager.FileReferenceMapper;
-import com.sistemaf.api.dto.model.UploadFileUrlDTO;
+import com.sistemaf.api.dto.model.UploadFileUrlResponse;
 import com.sistemaf.domain.service.ClientFileService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -16,15 +16,15 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/clients/{clientId}/files")
 @AllArgsConstructor
-public class ClientFileController {
+public class ClientFileResource {
 
     private final ClientFileService clientFileService;
 
     private final FileReferenceMapper fileReferenceMapper = FileReferenceMapper.INSTANCE;
 
-    @PutMapping("/upload")
-    public ResponseEntity<UploadFileUrlDTO> newUploadSignedUrl(@PathVariable Long clientId, @RequestBody FileInput fileInput) {
-       UploadFileUrlDTO fileUrlDTO = clientFileService.generateUploadData(clientId,fileReferenceMapper.toModel(fileInput));
+    @PostMapping("/upload")
+    public ResponseEntity<UploadFileUrlResponse> newUploadSignedUrl(@PathVariable Long clientId, @RequestBody FileInput fileInput) {
+       UploadFileUrlResponse fileUrlDTO = clientFileService.generateUploadData(clientId,fileReferenceMapper.toModel(fileInput));
        return ResponseEntity.ok(fileUrlDTO);
     }
 
