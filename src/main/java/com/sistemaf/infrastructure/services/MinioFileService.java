@@ -16,11 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -71,14 +68,18 @@ public class MinioFileService implements FileService {
     }
 
     @Override
-    public boolean fileExists(FileReference fileReference) {
+    public boolean fileExists(FileReference fileReference)  {
         try {
             StatObjectResponse objectStat =
                     minioClient.statObject(
                             StatObjectArgs.builder().bucket(props.getBucketName()).object(fileReference.getFileName()).build());
            return objectStat != null;
-        }catch (Exception e) {
-            log.error("File does not exists", e.getCause());
+        } catch (ErrorResponseException errorResponseException  ) {
+            log.error("File does not exists: " + fileReference.getFileName(), errorResponseException.getCause());
+           return false;
+        }
+        catch (Exception e) {
+            log.error("File does not exists: " + fileReference.getFileName(), e.getCause());
             throw new FileNotExistsException("Arquivo não foi encontrado");
         }
 
