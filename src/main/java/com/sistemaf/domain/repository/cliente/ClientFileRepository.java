@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface ClientFileRepository extends JpaRepository<ClientFile, UUID> {
     List<ClientFile> findAllByTempIsTrue();
 
+    List<ClientFile> findAllByClientId(Long clientId);
 }

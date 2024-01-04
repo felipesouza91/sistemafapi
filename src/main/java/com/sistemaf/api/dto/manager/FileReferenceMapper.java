@@ -3,6 +3,7 @@ package com.sistemaf.api.dto.manager;
 import com.sistemaf.api.dto.input.ClientInput;
 import com.sistemaf.api.dto.input.FileInput;
 import com.sistemaf.api.dto.model.ClientModel;
+import com.sistemaf.api.dto.model.FileDTO;
 import com.sistemaf.domain.model.Cliente;
 import com.sistemaf.domain.model.definition.FileReference;
 import org.mapstruct.Mapper;
@@ -16,5 +17,7 @@ public interface FileReferenceMapper {
   FileReferenceMapper INSTANCE = Mappers.getMapper(FileReferenceMapper.class);
 
   FileReference toModel(FileInput input);
+
+  FileDTO toDTO(FileReference fileReference);
 
 }

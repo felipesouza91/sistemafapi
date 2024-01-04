@@ -28,6 +28,10 @@ public class ClientFileService {
     private final ClientFileRepository clientFileRepository;
     private final FileService fileService;
 
+    public List<ClientFile> getClientsFileByClientId(Long clientId) {
+        return this.clientFileRepository.findAllByClientId(clientId);
+    }
+
     @Transactional
     public UploadFileUrlResponse generateUploadData(Long clientId, FileReference fileReference) {
         Cliente cliente = clientRepository.findById(clientId).orElseThrow(() -> new BusinessException("O Cliente não foi encontrado"));
@@ -54,7 +58,6 @@ public class ClientFileService {
     }
 
     @Transactional
-    @Scheduled(cron = "59 59 23")
     public void removeOldTempFiles() {
         log.info("Run scheduled to check file is temp");
         List<ClientFile> tempFileList =   this.clientFileRepository.findAllByTempIsTrue();
