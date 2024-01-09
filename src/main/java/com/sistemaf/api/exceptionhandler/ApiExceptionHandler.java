@@ -48,7 +48,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	private final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
 			+ "Tente novamente e se o problema persistir, entre em contato " + "com o administrador do sistema.";
 
-	@ExceptionHandler({EntityNotFoundException.class, FileNotExistsException.class})
+	@ExceptionHandler({EntityNotFoundException.class, FileServiceException.class})
 	public ResponseEntity<?>  handlerEntidadeNaoEncontrado(BusinessException ex, WebRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		Problem problem = this
