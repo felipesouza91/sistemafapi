@@ -22,7 +22,7 @@ import java.util.UUID;
 @Log4j2
 @Service
 @AllArgsConstructor
-public class ClientFileService {
+public class ClientFileService implements  RemoveOldFilesService{
 
     private final ClienteRepository clientRepository;
     private final ClientFileRepository clientFileRepository;
@@ -57,19 +57,31 @@ public class ClientFileService {
         return url;
     }
 
+    @Override
     @Transactional
+    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24, initialDelay = 1000)
     public void removeOldTempFiles() {
-        log.info("Run scheduled to check file is temp");
+        log.info("Run scheduled to check file is temp start");
         List<ClientFile> tempFileList =   this.clientFileRepository.findAllByTempIsTrue();
         tempFileList.forEach(file -> {
-          if(this.fileService.fileExists(file)) {
+            log.info("Check if file {} is temporary", file.getFileName());
+            if(this.fileService.fileExists(file)) {
+              log.info("File exits in Bucket. Update file {} to definitive", file.getFileName());
               file.setTemp(false);
               clientFileRepository.save(file);
-
-          } else {
+            } else {
+              log.info("File does not exits in Bucket. Remove file {}", file.getFileName());
               clientFileRepository.delete(file);
-          }
-          this.clientFileRepository.flush();
+            }
+            this.clientFileRepository.flush();
       });
+        log.info("Run scheduled to check file is temp finish");
+    }
+
+    @Transactional
+    public void deleteByFileId(UUID fileId) {
+        ClientFile clientFile = this.clientFileRepository.findById(fileId).orElseThrow(() ->  new EntityNotFoundException("File not found"));
+        this.clientFileRepository.deleteById(clientFile.getId());
+        this.fileService.deleteFile(clientFile);
     }
 }
