@@ -2,14 +2,10 @@ package com.sistemaf.infrastructure.services;
 
 import com.sistemaf.core.SistemFApiProperty;
 import com.sistemaf.domain.exception.BusinessException;
-import com.sistemaf.domain.exception.EntityNotFoundException;
-import com.sistemaf.domain.exception.FileNotExistsException;
+import com.sistemaf.domain.exception.FileServiceException;
 import com.sistemaf.domain.model.definition.FileReference;
 import com.sistemaf.domain.service.FileService;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
+import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
 import lombok.AllArgsConstructor;
@@ -80,8 +76,20 @@ public class MinioFileService implements FileService {
         }
         catch (Exception e) {
             log.error("File does not exists: " + fileReference.getFileName(), e.getCause());
-            throw new FileNotExistsException("Arquivo não foi encontrado");
+            throw new FileServiceException("Arquivo não foi encontrado");
         }
 
+    }
+
+    @Override
+    public void deleteFile(FileReference fileReference) {
+        try {
+            this.minioClient.removeObject(RemoveObjectArgs.builder()
+                            .bucket(this.props.getBucketName())
+                            .object(fileReference.getFileName())
+                    .build());
+        }catch (Exception e) {
+            throw new FileServiceException("Error to remove file", e.getCause());
+        }
     }
 }
