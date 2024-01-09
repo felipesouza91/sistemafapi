@@ -11,22 +11,13 @@ services:
     ports:
       - 3306:3306
 
-  myapp-main:
-    image: sistemfapi
-    restart: on-failure
-    depends_on:
-      - myapp-mysql
-    networks:
-      - spring-boot-mysql-network
+
+  minio-server:
+    image: minio/minio
+    command: 'server /data --console-address ":9001"'
     ports:
-      - 8080:8080
-    environment:
-      - DATABASE_HOST=myapp-mysql
-      - DATABASE_USER=myapp-user
-      - DATABASE_PASSWORD=password
-      - DATABASE_NAME=MyAppDb
-      - DATABASE_PORT=3306
-      - Dserver.port=8081
+      - 9000:9000
+      - 9001:9001
 
 networks:
   spring-boot-mysql-network:

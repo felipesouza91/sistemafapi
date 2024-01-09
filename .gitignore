@@ -19,7 +19,7 @@ java-mysql-exporter-temp/
 *.ipr
 *.properties
 keystore.p12
-
+*.jks
 ### NetBeans ###
 /nbproject/private/
 /build/

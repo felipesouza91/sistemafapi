@@ -52,7 +52,7 @@ public class OrdemServicoService {
 		this.clienteRepository.findById(ordemServico.getCliente().getId())
 						.orElseThrow(() -> new BusinessException("O Cliente não existe"));
 		this.motivoOsRepository.findById(ordemServico.getMotivoOs().getId()).orElseThrow(() -> new BusinessException("O Motivo da Ordem não existe"));
-		if(osSalva.getFechado()) {
+		if(osSalva.getFechado() != null &&  osSalva.getFechado()) {
 			throw  new BusinessException("A ordem já encontra-se fechada, não é possivel atualizar");
 		}
 		BeanUtils.copyProperties(ordemServico, osSalva, "id", "cliente", "dataAbertura");
