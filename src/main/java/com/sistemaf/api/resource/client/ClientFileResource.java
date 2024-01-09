@@ -7,6 +7,7 @@ import com.sistemaf.api.dto.model.UploadFileUrlResponse;
 import com.sistemaf.core.SistemFApiProperty;
 import com.sistemaf.domain.model.ClientFile;
 import com.sistemaf.domain.service.ClientFileService;
+import com.sistemaf.domain.service.RemoveOldFilesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/clients/{clientId}/files")
 @AllArgsConstructor
-public class ClientFileResource {
+public class ClientFileResource  {
 
     private final ClientFileService clientFileService;
     private final SistemFApiProperty sistemFApiProperty;
@@ -48,13 +49,6 @@ public class ClientFileResource {
                 }).collect(Collectors.toList());
         return list;
     }
-
-    @PostMapping("/upload")
-    public ResponseEntity<UploadFileUrlResponse> newUploadSignedUrl(@PathVariable Long clientId, @RequestBody FileInput fileInput) {
-       UploadFileUrlResponse fileUrlDTO = clientFileService.generateUploadData(clientId,fileReferenceMapper.toModel(fileInput));
-       return ResponseEntity.ok(fileUrlDTO);
-    }
-
     @GetMapping("/{fileId}")
     public ResponseEntity<Void> generateSignedDownloadUrl(@PathVariable Long clientId, @PathVariable UUID fileId) {
         URL downloadUrl = clientFileService.generateDownloadSignedUrl(clientId, fileId);
@@ -62,4 +56,17 @@ public class ClientFileResource {
         headers.add("Location", downloadUrl.toString());
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
- }
+    @PostMapping("/upload")
+    public ResponseEntity<UploadFileUrlResponse> newUploadSignedUrl(@PathVariable Long clientId, @RequestBody FileInput fileInput) {
+       UploadFileUrlResponse fileUrlDTO = clientFileService.generateUploadData(clientId,fileReferenceMapper.toModel(fileInput));
+       return ResponseEntity.ok(fileUrlDTO);
+    }
+
+    @DeleteMapping("/{fileId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFile(@PathVariable UUID fileId) {
+        this.clientFileService.deleteByFileId(fileId);
+    }
+
+
+}
