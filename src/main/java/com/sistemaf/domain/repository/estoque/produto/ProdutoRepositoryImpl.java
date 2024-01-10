@@ -86,7 +86,8 @@ public class ProdutoRepositoryImpl extends PageableUtil implements ProdutoReposi
 					builder.literal(" "), builder.literal("")),
 		"%"+name.replaceAll(" ", "")+"%"));
 		TypedQuery<Produto> query = manager.createQuery(criteria);
-		return Optional.of(query.getSingleResult());
+		var result = query.getResultList();
+		return !result.isEmpty() ? Optional.of(result.get(0)) : Optional.empty();
 	}
 
 }
