@@ -1,26 +1,23 @@
 package com.sistemaf.api.resource.stock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistemaf.api.dto.input.ProductInput;
 import com.sistemaf.api.dto.input.id.ManufacturerInputId;
 import com.sistemaf.api.dto.manager.ProductMapper;
-import com.sistemaf.core.SistemFApiProperty;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.projection.ResumoProduto;
 import com.sistemaf.domain.service.ProdutoService;
+import com.sistemaf.util.BaseWebMvcTestConfig;
 import com.sistemaf.util.FactoryModels;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -29,7 +26,6 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -37,9 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProdutoResource.class)
-@EnableConfigurationProperties(value = SistemFApiProperty.class)
-@TestPropertySource("classpath:tests.properties")
-class ProdutoResourceTest {
+class ProdutoResourceTest extends BaseWebMvcTestConfig {
 
     private final static String PRODUTO_PATH = "/produtos";
 
@@ -47,9 +41,6 @@ class ProdutoResourceTest {
     private ProdutoService produtoService;
 
     private ProductMapper dtoManager = ProductMapper.INSTANCE;
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Autowired
     private MockMvc mockMvc;
 
