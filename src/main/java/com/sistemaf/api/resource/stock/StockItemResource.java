@@ -2,8 +2,7 @@ package com.sistemaf.api.resource.stock;
 
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.api.dto.manager.StockItemMapper;
-import com.sistemaf.domain.contracts.stock.StockItemService;
-import lombok.AllArgsConstructor;
+import com.sistemaf.domain.contracts.stock.AddStockItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +19,12 @@ public class StockItemResource {
     private StockItemMapper stockItemMapper  = StockItemMapper.INSTANCE;
 
     @Autowired
-    private StockItemService stockItemService;
+    private AddStockItemService addStockItemService;
 
 
     @PostMapping
     public void createNewStockItem(@Valid  @RequestBody StockItemInput stockItemInput) {
-        stockItemService.save(stockItemMapper.toModel(stockItemInput));
+        addStockItemService.perform(stockItemMapper.toModel(stockItemInput));
     }
 
 }
