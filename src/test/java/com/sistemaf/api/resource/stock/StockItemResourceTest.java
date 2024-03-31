@@ -1,7 +1,7 @@
 package com.sistemaf.api.resource.stock;
 
 import com.sistemaf.api.dto.input.StockItemInput;
-import com.sistemaf.domain.contracts.stock.StockItemService;
+import com.sistemaf.domain.contracts.stock.AddStockItemService;
 import com.sistemaf.util.BaseWebMvcTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
     private static final String STOCK_ITEM_PATH_REQUEST = "/stock/items";
 
     @MockBean
-    public StockItemService stockItemService;
+    public AddStockItemService addStockItemService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,6 +56,6 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(super.objectMapper.writeValueAsString(input))
                         .with(csrf()));
-        verify(stockItemService, times(1)).save(any());
+        verify(addStockItemService, times(1)).perform(any());
     }
 }
