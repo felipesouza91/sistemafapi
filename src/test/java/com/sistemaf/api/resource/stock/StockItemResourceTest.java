@@ -22,6 +22,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -95,5 +96,15 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(stockItem.getId().toString())))
                 .andExpect(jsonPath("$.product.id", is(produto.getId().intValue())));
+    }
+
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 200 when get Stock Item with resume params")
+    public void given_whenFindResumeParam_thenReturnOk() throws Exception {
+        mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST)
+                .queryParam("resume",""))
+                .andExpect(status().isOk());
     }
 }
