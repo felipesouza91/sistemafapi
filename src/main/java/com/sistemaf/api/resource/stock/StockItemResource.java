@@ -1,10 +1,10 @@
 package com.sistemaf.api.resource.stock;
 
+import com.sistemaf.api.docs.controllers.StockItemResourceOpenApi;
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.api.dto.manager.StockItemMapper;
 import com.sistemaf.api.dto.model.StockItemDTO;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
-import com.sistemaf.domain.event.RecursoCriarEvent;
 import com.sistemaf.domain.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/stock/items")
-public class StockItemResource {
+public class StockItemResource implements StockItemResourceOpenApi {
 
     private StockItemMapper stockItemMapper  = StockItemMapper.INSTANCE;
 
