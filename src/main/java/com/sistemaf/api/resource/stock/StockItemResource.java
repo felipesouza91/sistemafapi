@@ -4,16 +4,17 @@ import com.sistemaf.api.docs.controllers.StockItemResourceOpenApi;
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.api.dto.manager.StockItemMapper;
 import com.sistemaf.api.dto.model.StockItemDTO;
+import com.sistemaf.api.dto.model.StockitemResumeDTO;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
+import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -34,6 +35,12 @@ public class StockItemResource implements StockItemResourceOpenApi {
     public ResponseEntity<StockItemDTO> createNewStockItem(@Valid  @RequestBody StockItemInput stockItemInput, HttpServletResponse response) {
        StockItem stockItem =  addStockItemService.perform(stockItemMapper.toModel(stockItemInput));
         return ResponseEntity.status(HttpStatus.CREATED).body(stockItemMapper.toDTO(stockItem));
+    }
+
+    @GetMapping(params = "resume")
+    @Override
+    public ResponseEntity<Page<StockitemResumeDTO>> findStockItemsResume(StockItemFilter stockItemFilter, Pageable pageable) {
+        return null;
     }
 
 }
