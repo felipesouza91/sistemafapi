@@ -2,12 +2,16 @@ package com.sistemaf.api.docs.controllers;
 
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.api.dto.model.StockItemDTO;
+import com.sistemaf.api.dto.model.StockitemResumeDTO;
+import com.sistemaf.domain.filter.StockItemFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -27,4 +31,10 @@ public interface StockItemResourceOpenApi {
             HttpServletResponse response);
 
 
+    @Operation(summary = "Find Stock items")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "A list with stock items data"),
+
+    })
+    ResponseEntity<Page<StockitemResumeDTO>> findStockItemsResume(StockItemFilter stockItemFilter, Pageable pageable);
 }
