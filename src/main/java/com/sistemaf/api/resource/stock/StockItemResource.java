@@ -6,6 +6,7 @@ import com.sistemaf.api.dto.manager.StockItemMapper;
 import com.sistemaf.api.dto.model.StockItemDTO;
 import com.sistemaf.api.dto.model.StockitemResumeDTO;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
+import com.sistemaf.domain.contracts.stock.FindStockItemServices;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class StockItemResource implements StockItemResourceOpenApi {
     private AddStockItemService addStockItemService;
 
     @Autowired
+    private FindStockItemServices findStockItemServices;
+
+    @Autowired
     private ApplicationEventPublisher publisher;
     @PostMapping
     public ResponseEntity<StockItemDTO> createNewStockItem(@Valid  @RequestBody StockItemInput stockItemInput, HttpServletResponse response) {
@@ -40,7 +44,8 @@ public class StockItemResource implements StockItemResourceOpenApi {
     @GetMapping(params = "resume")
     @Override
     public ResponseEntity<Page<StockitemResumeDTO>> findStockItemsResume(StockItemFilter stockItemFilter, Pageable pageable) {
-        return null;
+        this.findStockItemServices.perform(stockItemFilter, pageable);
+        return ResponseEntity.ok(null);
     }
 
 }
