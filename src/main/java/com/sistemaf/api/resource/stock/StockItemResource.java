@@ -12,6 +12,7 @@ import com.sistemaf.domain.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,9 @@ public class StockItemResource implements StockItemResourceOpenApi {
     @GetMapping(params = "resume")
     @Override
     public ResponseEntity<Page<StockitemResumeDTO>> findStockItemsResume(StockItemFilter stockItemFilter, Pageable pageable) {
-        this.findStockItemServices.perform(stockItemFilter, pageable);
-        return ResponseEntity.ok(null);
+        Page<StockItem> result = this.findStockItemServices.perform(stockItemFilter, pageable);
+        Page<StockitemResumeDTO> resumeList = new PageImpl<>( this.stockItemMapper.toResumeDtoList(result.getContent()), pageable, result.getTotalElements());
+        return ResponseEntity.ok(resumeList);
     }
 
 }
