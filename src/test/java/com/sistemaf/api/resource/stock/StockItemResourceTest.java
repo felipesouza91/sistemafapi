@@ -131,5 +131,15 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
         verify(findStockItemServices, times(1)).perform(any(),any());
     }
 
-
+    @Test
+    @WithMockUser
+    @DisplayName("should return 200 with a body")
+    public void givenInputData_whenFindResumeParam_thenReturn200() throws Exception {
+        given(findStockItemServices.perform(any(),any())).willReturn(new PageImpl<>(Collections.emptyList() ));
+        mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST)
+                .queryParam("resume", "")
+                .param("active", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.size()", is(0)));
+    }
 }
