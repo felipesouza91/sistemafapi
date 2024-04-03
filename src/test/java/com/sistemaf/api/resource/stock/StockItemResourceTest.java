@@ -2,19 +2,27 @@ package com.sistemaf.api.resource.stock;
 
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
+import com.sistemaf.domain.contracts.stock.FindStockItemServices;
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.model.StockItem;
 import com.sistemaf.util.BaseWebMvcTestConfig;
+import org.assertj.core.util.Lists;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,6 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +43,9 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
 
     @MockBean
     public AddStockItemService addStockItemService;
+
+    @MockBean
+    public FindStockItemServices findStockItemServices;
 
     @Autowired
     private MockMvc mockMvc;
@@ -107,4 +119,17 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .queryParam("resume",""))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should call findStockItemServices whit correct Values")
+    public void givenInputData_whenFindResumeParam_thenCallServiceWithCorrectValues() throws Exception {
+        given(findStockItemServices.perform(any(),any())).willReturn(new PageImpl<>(Collections.emptyList() ));
+        mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST)
+                .queryParam("resume", "")
+                        .param("active", "true"));
+        verify(findStockItemServices, times(1)).perform(any(),any());
+    }
+
+
 }
