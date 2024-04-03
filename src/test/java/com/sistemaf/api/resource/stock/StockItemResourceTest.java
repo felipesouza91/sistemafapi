@@ -2,6 +2,7 @@ package com.sistemaf.api.resource.stock;
 
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
+import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
 import com.sistemaf.domain.contracts.stock.FindStockItemServices;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.filter.StockItemFilter;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,19 +40,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(StockItemResource.class)
 public class StockItemResourceTest extends BaseWebMvcTestConfig {
-
     private static final String STOCK_ITEM_PATH_REQUEST = "/stock/items";
-
     @MockBean
     public AddStockItemService addStockItemService;
-
     @MockBean
     public FindStockItemServices findStockItemServices;
-
+    @MockBean
+    public FindStockItemByIdService findStockItemByIdService;
     @Autowired
     private MockMvc mockMvc;
-
-
     @Test
     @DisplayName("should return 400 when data is invalid")
     @WithMockUser
@@ -115,6 +113,8 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
     @WithMockUser
     @DisplayName("should return 200 when get Stock Item with resume params")
     public void given_whenFindResumeParam_thenReturnOk() throws Exception {
+        given(findStockItemServices.perform(any(),any())).willReturn(new PageImpl<>(Collections.emptyList() ));
+
         mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST)
                 .queryParam("resume",""))
                 .andExpect(status().isOk());
@@ -141,5 +141,14 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .param("active", "true"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()", is(0)));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should call FindStockItemByIdService with correct value")
+    public void givenStockItemId_whenFindById_thenCallFindStockItemByIdService() throws Exception {
+        UUID id = UUID.randomUUID();
+        mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST +"/{id}", id));
+        verify(findStockItemByIdService, times(1)).perform(id);
     }
 }
