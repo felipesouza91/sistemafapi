@@ -6,6 +6,7 @@ import com.sistemaf.api.dto.manager.StockItemMapper;
 import com.sistemaf.api.dto.model.StockItemDTO;
 import com.sistemaf.api.dto.model.StockitemResumeDTO;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
+import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
 import com.sistemaf.domain.contracts.stock.FindStockItemServices;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.UUID;
 
 
 @RestController
@@ -35,6 +37,9 @@ public class StockItemResource implements StockItemResourceOpenApi {
     private FindStockItemServices findStockItemServices;
 
     @Autowired
+    private FindStockItemByIdService findStockItemByIdService;
+
+    @Autowired
     private ApplicationEventPublisher publisher;
     @PostMapping
     public ResponseEntity<StockItemDTO> createNewStockItem(@Valid  @RequestBody StockItemInput stockItemInput, HttpServletResponse response) {
@@ -42,12 +47,22 @@ public class StockItemResource implements StockItemResourceOpenApi {
         return ResponseEntity.status(HttpStatus.CREATED).body(stockItemMapper.toDTO(stockItem));
     }
 
-    @GetMapping(params = "resume")
+
     @Override
+    @GetMapping(params = "resume")
     public ResponseEntity<Page<StockitemResumeDTO>> findStockItemsResume(StockItemFilter stockItemFilter, Pageable pageable) {
         Page<StockItem> result = this.findStockItemServices.perform(stockItemFilter, pageable);
         Page<StockitemResumeDTO> resumeList = new PageImpl<>( this.stockItemMapper.toResumeDtoList(result.getContent()), pageable, result.getTotalElements());
         return ResponseEntity.ok(resumeList);
     }
+
+
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<StockItemDTO> findStockItemById(@PathVariable UUID id) {
+        this.findStockItemByIdService.perform(id);
+        return ResponseEntity.ok().build();
+    }
+
 
 }
