@@ -60,8 +60,8 @@ public class StockItemResource implements StockItemResourceOpenApi {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<StockItemDTO> findStockItemById(@PathVariable UUID id) {
-        this.findStockItemByIdService.perform(id);
-        return ResponseEntity.ok().build();
+       StockItem stockItem =  this.findStockItemByIdService.perform(id);
+        return ResponseEntity.ok(stockItemMapper.toDTO(stockItem));
     }
 
 
