@@ -5,6 +5,7 @@ import com.sistemaf.domain.contracts.stock.AddStockItemService;
 import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
 import com.sistemaf.domain.contracts.stock.FindStockItemServices;
 import com.sistemaf.domain.exception.BusinessException;
+import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.model.StockItem;
@@ -150,5 +151,17 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
         UUID id = UUID.randomUUID();
         mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST +"/{id}", id));
         verify(findStockItemByIdService, times(1)).perform(id);
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 404 when stock item not exists")
+    public void givenInvalidID_wheFindById_thenReturnNotFound() throws Exception {
+        UUID id = UUID.randomUUID();
+        given(findStockItemByIdService.perform(id)).willThrow(new EntityNotFoundException("O item não foi encontrado"));
+        mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST +"/{id}", id))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title", is("Recurso não encontrado")));
+
     }
 }
