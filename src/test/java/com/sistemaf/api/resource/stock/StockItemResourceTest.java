@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.Is.isA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -35,20 +34,25 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.jayway.jsonpath.JsonPath.*;
 @WebMvcTest(StockItemResource.class)
 public class StockItemResourceTest extends BaseWebMvcTestConfig {
     private static final String STOCK_ITEM_PATH_REQUEST = "/stock/items";
+
     @MockBean
     private AddStockItemService addStockItemService;
+
     @MockBean
     private FindStockItemServices findStockItemServices;
+
     @MockBean
     private FindStockItemByIdService findStockItemByIdService;
+
     @MockBean
     private UpdateStockItemService updateStockItemService;
+
     @Autowired
     private MockMvc mockMvc;
+
     @Test
     @DisplayName("should return 400 when data is invalid")
     @WithMockUser
@@ -218,5 +222,22 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.title", is("Recurso não encontrado")))
                 .andExpect(jsonPath("$.detail", is("O item não foi encontrado")));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 200 when stock item is updated")
+    public void givenValiData_whenUpdateById_thenReturnOk() throws Exception {
+        StockItem stockItem = Instancio.create(StockItem.class);
+        StockItemInput stockItemInput = new StockItemInput(stockItem.getSerial(), stockItem.getProduto().getId());
+        UUID id = stockItem.getId();
+        given(updateStockItemService.perform(eq(id), any())).willReturn(stockItem);
+        mockMvc.perform(put(String.format("%s/{id}", STOCK_ITEM_PATH_REQUEST), id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(stockItemInput))
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(id.toString())))
+                .andExpect(jsonPath("$.product.id", is(stockItem.getProduto().getId().intValue())));
     }
 }
