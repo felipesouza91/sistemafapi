@@ -179,7 +179,7 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
     @Test
     @WithMockUser
     @DisplayName("should call service when update item")
-    public void given_whenDisableItem_thenUpdateStockItemService() throws Exception {
+    public void given_whenUpdateById_thenCallServiceWithCorrectData() throws Exception {
         StockItemInput stockItemInput = Instancio.create(StockItemInput.class);
         UUID id = UUID.randomUUID();
         mockMvc.perform(put(String.format("%s/{id}", STOCK_ITEM_PATH_REQUEST), id)
@@ -187,5 +187,20 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                         .content(super.objectMapper.writeValueAsString(stockItemInput))
                         .with(csrf()));
         verify(updateStockItemService, times(1)).perform(eq(id), any());
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 400 when invalid data is provide")
+    public void givenInvalidDatA_whenUpdateById_thenReturnBadRequest()  throws Exception {
+        StockItemInput stockItemInput = new StockItemInput() ;
+        UUID id = UUID.randomUUID();
+        mockMvc.perform(put(String.format("%s/{id}", STOCK_ITEM_PATH_REQUEST), id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(super.objectMapper.writeValueAsString(stockItemInput))
+                .with(csrf())
+                ).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title", is("Dados Invalidos")))
+                .andExpect(jsonPath("$.detail", is("Um ou mais campos estão invalidos. Faça o preenchimento correto e tente novamente")));
     }
 }
