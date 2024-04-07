@@ -4,6 +4,7 @@ import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
 import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
 import com.sistemaf.domain.contracts.stock.FindStockItemServices;
+import com.sistemaf.domain.contracts.stock.UpdateStockItemService;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Produto;
@@ -26,12 +27,12 @@ import java.util.UUID;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.Is.isA;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static com.jayway.jsonpath.JsonPath.*;
@@ -39,11 +40,13 @@ import static com.jayway.jsonpath.JsonPath.*;
 public class StockItemResourceTest extends BaseWebMvcTestConfig {
     private static final String STOCK_ITEM_PATH_REQUEST = "/stock/items";
     @MockBean
-    public AddStockItemService addStockItemService;
+    private AddStockItemService addStockItemService;
     @MockBean
-    public FindStockItemServices findStockItemServices;
+    private FindStockItemServices findStockItemServices;
     @MockBean
-    public FindStockItemByIdService findStockItemByIdService;
+    private FindStockItemByIdService findStockItemByIdService;
+    @MockBean
+    private UpdateStockItemService updateStockItemService;
     @Autowired
     private MockMvc mockMvc;
     @Test
@@ -171,5 +174,18 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id",is(id)))
                 .andExpect(jsonPath("$.serial", is(stockItem.getSerial())));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should call service when update item")
+    public void given_whenDisableItem_thenUpdateStockItemService() throws Exception {
+        StockItemInput stockItemInput = Instancio.create(StockItemInput.class);
+        UUID id = UUID.randomUUID();
+        mockMvc.perform(put(String.format("%s/{id}", STOCK_ITEM_PATH_REQUEST), id)
+                .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(stockItemInput))
+                        .with(csrf()));
+        verify(updateStockItemService, times(1)).perform(eq(id), any());
     }
 }
