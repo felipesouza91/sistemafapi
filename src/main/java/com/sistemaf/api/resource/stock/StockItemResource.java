@@ -28,21 +28,15 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/stock/items")
 public class StockItemResource implements StockItemResourceOpenApi {
-
     private StockItemMapper stockItemMapper  = StockItemMapper.INSTANCE;
-
     @Autowired
     private AddStockItemService addStockItemService;
-
     @Autowired
     private FindStockItemServices findStockItemServices;
-
     @Autowired
     private FindStockItemByIdService findStockItemByIdService;
-
     @Autowired
     private UpdateStockItemService updateStockItemService;
-
     @Autowired
     private ApplicationEventPublisher publisher;
     @PostMapping
@@ -64,7 +58,7 @@ public class StockItemResource implements StockItemResourceOpenApi {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<StockItemDTO> findStockItemById(@PathVariable UUID id) {
-       StockItem stockItem =  this.findStockItemByIdService.perform(id);
+        StockItem stockItem =  this.findStockItemByIdService.perform(id);
         return ResponseEntity.ok(stockItemMapper.toDTO(stockItem));
     }
 
@@ -72,8 +66,8 @@ public class StockItemResource implements StockItemResourceOpenApi {
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<StockItemDTO> updateStockItem(@PathVariable  UUID id, @Valid @RequestBody StockItemInput stockItemInput) {
-        this.updateStockItemService.perform(id, stockItemMapper.toModel(stockItemInput));
-        return null;
+        StockItem stockItem = this.updateStockItemService.perform(id, stockItemMapper.toModel(stockItemInput));
+        return ResponseEntity.ok(stockItemMapper.toDTO(stockItem));
     }
 
 
