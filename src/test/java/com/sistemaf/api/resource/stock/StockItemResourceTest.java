@@ -203,4 +203,20 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .andExpect(jsonPath("$.title", is("Dados Invalidos")))
                 .andExpect(jsonPath("$.detail", is("Um ou mais campos estão invalidos. Faça o preenchimento correto e tente novamente")));
     }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 404 when stock item not exits")
+    public void givenInvalidId_whenUpdateById_thenReturnNotFound() throws Exception {
+        StockItemInput stockItemInput = Instancio.create(StockItemInput.class);
+        UUID id = UUID.randomUUID();
+        given(updateStockItemService.perform(eq(id), any())).willThrow(new EntityNotFoundException("O item não foi encontrado"));
+        mockMvc.perform(put(String.format("%s/{id}", STOCK_ITEM_PATH_REQUEST), id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(stockItemInput))
+                        .with(csrf()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title", is("Recurso não encontrado")))
+                .andExpect(jsonPath("$.detail", is("O item não foi encontrado")));
+    }
 }
