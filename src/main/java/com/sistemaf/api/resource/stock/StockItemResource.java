@@ -71,7 +71,7 @@ public class StockItemResource implements StockItemResourceOpenApi {
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<StockItemDTO> updateStockItem(@PathVariable  UUID id,@RequestBody StockItemInput stockItemInput) {
+    public ResponseEntity<StockItemDTO> updateStockItem(@PathVariable  UUID id, @Valid @RequestBody StockItemInput stockItemInput) {
         this.updateStockItemService.perform(id, stockItemMapper.toModel(stockItemInput));
         return null;
     }
