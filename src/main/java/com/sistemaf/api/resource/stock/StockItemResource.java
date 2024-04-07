@@ -8,6 +8,7 @@ import com.sistemaf.api.dto.model.StockitemResumeDTO;
 import com.sistemaf.domain.contracts.stock.AddStockItemService;
 import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
 import com.sistemaf.domain.contracts.stock.FindStockItemServices;
+import com.sistemaf.domain.contracts.stock.UpdateStockItemService;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class StockItemResource implements StockItemResourceOpenApi {
     private FindStockItemByIdService findStockItemByIdService;
 
     @Autowired
+    private UpdateStockItemService updateStockItemService;
+
+    @Autowired
     private ApplicationEventPublisher publisher;
     @PostMapping
     public ResponseEntity<StockItemDTO> createNewStockItem(@Valid  @RequestBody StockItemInput stockItemInput, HttpServletResponse response) {
@@ -62,6 +66,14 @@ public class StockItemResource implements StockItemResourceOpenApi {
     public ResponseEntity<StockItemDTO> findStockItemById(@PathVariable UUID id) {
        StockItem stockItem =  this.findStockItemByIdService.perform(id);
         return ResponseEntity.ok(stockItemMapper.toDTO(stockItem));
+    }
+
+
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<StockItemDTO> updateStockItem(@PathVariable  UUID id,@RequestBody StockItemInput stockItemInput) {
+        this.updateStockItemService.perform(id, stockItemMapper.toModel(stockItemInput));
+        return null;
     }
 
 

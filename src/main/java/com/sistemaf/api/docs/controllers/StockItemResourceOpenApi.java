@@ -52,4 +52,13 @@ public interface StockItemResourceOpenApi {
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
     ResponseEntity<StockItemDTO> findStockItemById( UUID id);
+
+
+    @Operation(summary = "Update a stock item")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Stock Item details"),
+            @ApiResponse(responseCode = "404", description = "Stock Item not found",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
+    })
+    ResponseEntity<StockItemDTO> updateStockItem(UUID id, StockItemInput stockItemInput);
 }
