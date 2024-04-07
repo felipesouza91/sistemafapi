@@ -210,6 +210,22 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
 
     @Test
     @WithMockUser
+    @DisplayName("should return 400 when invalid product id is provide")
+    public void givenInvalidProductId_whenUpdateById_thenReturnBadRequest()  throws Exception {
+        StockItemInput stockItemInput = Instancio.create(StockItemInput.class) ;
+        UUID id = UUID.randomUUID();
+        given(updateStockItemService.perform(eq(id), any())).willThrow(new BusinessException("O produto informado não existe"));
+        mockMvc.perform(put(String.format("%s/{id}", STOCK_ITEM_PATH_REQUEST), id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(stockItemInput))
+                        .with(csrf())
+                ).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title", is("Violação de regra de negocio")))
+                .andExpect(jsonPath("$.detail", is("O produto informado não existe")));
+    }
+
+    @Test
+    @WithMockUser
     @DisplayName("should return 404 when stock item not exits")
     public void givenInvalidId_whenUpdateById_thenReturnNotFound() throws Exception {
         StockItemInput stockItemInput = Instancio.create(StockItemInput.class);
