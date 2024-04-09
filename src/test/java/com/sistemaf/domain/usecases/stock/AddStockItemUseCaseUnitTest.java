@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.mockito.BDDMockito.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,5 +49,13 @@ class AddStockItemUseCaseUnitTest {
         verify(stockItemRepository, times(1)).findBySerial(stockItem.getSerial());
     }
 
-
+    @Test
+    @DisplayName("should call throw if serial exists")
+    public void givenInputData_whenExecuteUseCase_thenThrowsIfSerialExists() {
+        StockItem stockItem = Instancio.create(StockItem.class);
+        stockItem.setId(null);
+        given(stockItemRepository.findBySerial(stockItem.getSerial())).willReturn(Optional.of(stockItem));
+        Exception exception = assertThrows(BusinessException.class, () ->  addStockItemUseCase.perform(stockItem));
+        assertThat(exception.getMessage(), is("O serial já esta cadastrado"));
+    }
 }
