@@ -39,10 +39,12 @@ class AddStockItemUseCaseUnitTest {
 
     @Test
     @DisplayName("should call findBySerial repository with correct value")
-    public void givenInputData_whenExecuteUseCase_thenCalledRepository() {
+    public void givenInputData_whenExecuteUseCase_thenCalledFindBySerialRepository() {
         StockItem stockItem = Instancio.create(StockItem.class);
         stockItem.setId(null);
         addStockItemUseCase.perform(stockItem);
         verify(stockItemRepository, times(1)).findBySerial(stockItem.getSerial());
     }
+
+
 }
