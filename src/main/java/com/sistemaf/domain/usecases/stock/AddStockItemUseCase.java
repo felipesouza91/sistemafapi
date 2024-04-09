@@ -21,7 +21,6 @@ public class AddStockItemUseCase implements AddStockItemService {
         if(usedStockItem.isPresent()) {
             throw new BusinessException("O serial já esta cadastrado");
         }
-        this.stockItemRepository.save(data);
-        return null;
+        return this.stockItemRepository.save(data);
     }
 }
