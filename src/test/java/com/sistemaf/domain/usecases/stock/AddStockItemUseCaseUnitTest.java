@@ -1,7 +1,9 @@
 package com.sistemaf.domain.usecases.stock;
 
 
+import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.model.StockItem;
+import com.sistemaf.domain.repository.StockItemRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,14 +12,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class AddStockItemUseCaseUnitTest {
 
+    @Spy
+    private StockItemRepository stockItemRepository;
 
     @Spy
+    @InjectMocks
     private AddStockItemUseCase addStockItemUseCase;
 
     @Test
@@ -27,5 +35,14 @@ class AddStockItemUseCaseUnitTest {
         stockItem.setId(null);
         addStockItemUseCase.perform(stockItem);
         verify(addStockItemUseCase, times(1)).perform(stockItem);
+    }
+
+    @Test
+    @DisplayName("should call findBySerial repository with correct value")
+    public void givenInputData_whenExecuteUseCase_thenCalledRepository() {
+        StockItem stockItem = Instancio.create(StockItem.class);
+        stockItem.setId(null);
+        addStockItemUseCase.perform(stockItem);
+        verify(stockItemRepository, times(1)).findBySerial(stockItem.getSerial());
     }
 }
