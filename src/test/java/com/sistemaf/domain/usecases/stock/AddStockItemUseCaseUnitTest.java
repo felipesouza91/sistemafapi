@@ -58,4 +58,13 @@ class AddStockItemUseCaseUnitTest {
         Exception exception = assertThrows(BusinessException.class, () ->  addStockItemUseCase.perform(stockItem));
         assertThat(exception.getMessage(), is("O serial já esta cadastrado"));
     }
+
+    @Test
+    @DisplayName("should call save stock item repository method with correct values")
+    public void givenInputData_whenExecuteUseCase_thenCallSaveRepositoryWithCorrectData() {
+        StockItem stockItem = Instancio.create(StockItem.class);
+        stockItem.setId(null);
+        addStockItemUseCase.perform(stockItem);
+        verify(stockItemRepository, times(1)).save(stockItem);
+    }
 }
