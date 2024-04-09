@@ -13,11 +13,13 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -66,5 +68,22 @@ class AddStockItemUseCaseUnitTest {
         stockItem.setId(null);
         addStockItemUseCase.perform(stockItem);
         verify(stockItemRepository, times(1)).save(stockItem);
+    }
+
+    @Test
+    @DisplayName("should return saved stock item")
+    public void givenInputData_whenExecuteUseCase_thenReturnSavedStockItem() {
+        StockItem stockItem = Instancio.create(StockItem.class);
+        stockItem.setId(null);
+        given(stockItemRepository.findBySerial(stockItem.getSerial())).willReturn(Optional.empty());
+        given(stockItemRepository.save(stockItem)).will( args -> {
+            StockItem stockItem1 = args.getArgument(0);
+            stockItem1.setId(UUID.randomUUID());
+            return stockItem1;
+        });
+        StockItem savedStockItem =  addStockItemUseCase.perform(stockItem);
+        assertNotNull(savedStockItem.getId());
+        assertThat(savedStockItem.getSerial(), is(stockItem.getSerial()));
+        assertNotNull(savedStockItem.getCreatedAt());
     }
 }
