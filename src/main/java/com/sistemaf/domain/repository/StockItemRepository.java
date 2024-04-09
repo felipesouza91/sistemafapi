@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface StockItemRepository {
     Optional<StockItem> findBySerial(String serial);
+
+    StockItem save(StockItem stockItem);
 }
