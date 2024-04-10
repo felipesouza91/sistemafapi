@@ -1,14 +1,17 @@
 package com.sistemaf.domain.usecases.stock;
 
 
+import com.sistemaf.api.dto.model.resume.ProductResumeModel;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.model.StockItem;
 import com.sistemaf.domain.repository.StockItemRepository;
+import com.sistemaf.domain.repository.estoque.produto.ProdutoRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -25,6 +28,9 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class AddStockItemUseCaseUnitTest {
+
+    @Mock
+    private ProdutoRepository productRepository;
 
     @Spy
     private StockItemRepository stockItemRepository;
@@ -85,5 +91,15 @@ class AddStockItemUseCaseUnitTest {
         assertNotNull(savedStockItem.getId());
         assertThat(savedStockItem.getSerial(), is(stockItem.getSerial()));
         assertNotNull(savedStockItem.getCreatedAt());
+    }
+
+    @Test
+    @DisplayName("should throws if product do not exits")
+    public void givenInvalidProduct_whenExecuteUseCase_thenThrows() {
+        StockItem inputData = Instancio.create(StockItem.class);
+        inputData.setId(null);
+        given(productRepository.findById(inputData.getProduto().getId())).willReturn(Optional.empty());
+        Exception exception = assertThrows(BusinessException.class, () -> addStockItemUseCase.perform(inputData));
+        assertThat(exception.getMessage(), is("O produto informado não foi encontrado"));
     }
 }
