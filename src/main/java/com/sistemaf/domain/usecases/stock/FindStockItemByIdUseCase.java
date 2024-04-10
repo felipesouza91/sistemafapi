@@ -21,6 +21,6 @@ public class FindStockItemByIdUseCase implements FindStockItemByIdService {
         if(existStockItem.isEmpty()) {
             throw new EntityNotFoundException("O Item não foi encontrado");
         }
-        return null;
+        return existStockItem.get();
     }
 }
