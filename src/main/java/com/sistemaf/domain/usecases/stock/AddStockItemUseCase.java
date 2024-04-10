@@ -25,7 +25,7 @@ public class AddStockItemUseCase implements AddStockItemService {
             throw new BusinessException("O serial já esta cadastrado");
         }
         Optional<Produto> productExists = this.productRepository.findById(data.getProduto().getId());
-        if( productExists.isEmpty()) {
+        if( productExists.isEmpty() ) {
             throw new BusinessException("O produto informado não foi encontrado");
         }
         return this.stockItemRepository.save(data);
