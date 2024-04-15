@@ -16,7 +16,6 @@ public class FindStockItemServicesUseCase implements FindStockItemServices {
     private StockItemRepository stockItemRepository;
     @Override
     public Page<StockItem> perform(StockItemFilter stockItemFilter, Pageable pageable) {
-        this.stockItemRepository.findWithFilter(stockItemFilter, pageable);
-        return null;
+        return this.stockItemRepository.findWithFilter(stockItemFilter, pageable);
     }
 }
