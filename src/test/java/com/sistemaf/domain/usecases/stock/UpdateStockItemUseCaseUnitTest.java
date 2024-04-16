@@ -22,6 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -75,7 +76,7 @@ class UpdateStockItemUseCaseUnitTest {
 
     @Test
     @DisplayName("should throws if serial exits with different id ")
-    public void givenValidData_whenUpdateStockItem_ThenSuccess() {
+    public void givenExistsSerial_whenUpdateStockItem_thenThrows() {
         UUID id = UUID.randomUUID();
         Produto product = mockInputValue.getProduto();
         StockItem stockItem = Instancio.create(StockItem.class);
@@ -84,5 +85,22 @@ class UpdateStockItemUseCaseUnitTest {
         given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
         Exception exception = assertThrows(BusinessException.class, () -> updateStockItemUseCase.perform(id, mockInputValue));
         assertThat(exception.getMessage(), is("O serial já esta cadastrado em outro item"));
+    }
+
+    @Test
+    @DisplayName("should return update stockItem")
+    public void givenValidData_whenUpdateStockItem_throws() {
+        UUID id = UUID.randomUUID();
+        Produto product = mockInputValue.getProduto();
+        given(stockItemRepository.findById(id)).willReturn(Optional.of(mockInputValue));
+        given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
+        given(stockItemRepository.save(any())).will( args -> {
+            StockItem mockMethodStockItem = args.getArgument(0);
+            mockMethodStockItem.setId(id);
+            return mockMethodStockItem;
+        });
+        StockItem updatedStockItem = this.updateStockItemUseCase.perform(id, mockInputValue);
+        assertThat(updatedStockItem.getId(), is(id));
+        assertThat(updatedStockItem.getCreatedAt(), is(mockInputValue.getCreatedAt()));
     }
 }
