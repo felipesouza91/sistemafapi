@@ -44,6 +44,9 @@ class UpdateStockItemUseCaseUnitTest {
     public void given_whenUpdateStockItem_thenCallWithCorrectItem() {
 
         UUID id = UUID.randomUUID();
+        given(stockItemRepository.findById(id)).willReturn(Optional.of(mockInputValue));
+        given(productRepository.findById(mockInputValue.getProduto().getId())).willReturn(Optional.of(mockInputValue.getProduto()));
+
         updateStockItemUseCase.perform(id, mockInputValue);
         verify(updateStockItemUseCase, times(1)).perform(id, mockInputValue);
     }
