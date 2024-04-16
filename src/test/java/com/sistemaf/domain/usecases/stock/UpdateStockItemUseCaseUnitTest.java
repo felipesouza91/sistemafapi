@@ -1,6 +1,8 @@
 package com.sistemaf.domain.usecases.stock;
 
+import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
+import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.model.StockItem;
 import com.sistemaf.domain.repository.StockItemRepository;
 import com.sistemaf.domain.repository.estoque.produto.ProdutoRepository;
@@ -69,5 +71,18 @@ class UpdateStockItemUseCaseUnitTest {
         given(productRepository.findById(mockInputValue.getProduto().getId())).willReturn(Optional.empty());
         Exception exception = assertThrows(EntityNotFoundException.class, () -> updateStockItemUseCase.perform(id, mockInputValue));
         assertThat(exception.getMessage(), is("O produto não foi encontrado"));
+    }
+
+    @Test
+    @DisplayName("should throws if serial exits with different id ")
+    public void givenValidData_whenUpdateStockItem_ThenSuccess() {
+        UUID id = UUID.randomUUID();
+        Produto product = mockInputValue.getProduto();
+        StockItem stockItem = Instancio.create(StockItem.class);
+        given(stockItemRepository.findById(id)).willReturn(Optional.of(mockInputValue));
+        given(stockItemRepository.findBySerial(mockInputValue.getSerial())).willReturn(Optional.of(stockItem));
+        given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
+        Exception exception = assertThrows(BusinessException.class, () -> updateStockItemUseCase.perform(id, mockInputValue));
+        assertThat(exception.getMessage(), is("O serial já esta cadastrado em outro item"));
     }
 }
