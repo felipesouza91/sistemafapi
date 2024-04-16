@@ -4,7 +4,6 @@ package com.sistemaf.domain.repository.estoque.stockitem;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.Produto_;
 import com.sistemaf.domain.model.StockItem;
-import com.sistemaf.domain.model.StockItem_;
 import com.sistemaf.infrastructure.util.interfaces.FilterUtil;
 import com.sistemaf.infrastructure.util.interfaces.PageableUtil;
 import org.springframework.data.domain.Page;
@@ -40,16 +39,16 @@ public class FindStockItemQueryImpl  extends PageableUtil implements FindStockIt
     public Predicate[] criarRestricoes(StockItemFilter filter, CriteriaBuilder builder, Root<StockItem> root) {
         List<Predicate> predicateList = new ArrayList<>();
         if(!filter.getSerial().isEmpty()) {
-            predicateList.add(builder.like(builder.lower(root.get(StockItem_.SERIAL)),
+            predicateList.add(builder.like(builder.lower(root.get("serial")),
                     "%"+filter.getSerial().toLowerCase()+"%"));
         }
         if (filter.getProductId() != null) {
-            predicateList.add(builder.equal(root.get(StockItem_.PRODUTO).get(Produto_.id.getName()),
+            predicateList.add(builder.equal(root.get("produto").get(Produto_.id.getName()),
                     filter.getProductId()));
         }
         if (filter.getActive() != null) {
             predicateList.add(
-                    builder.equal(root.get(StockItem_.ACTIVE), filter.getActive())
+                    builder.equal(root.get("active"), filter.getActive())
             );
         }
         return predicateList.toArray(new Predicate[predicateList.size()]);
