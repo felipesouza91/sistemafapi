@@ -8,6 +8,7 @@ import com.sistemaf.domain.model.StockItem;
 import com.sistemaf.domain.repository.StockItemRepository;
 import com.sistemaf.domain.repository.estoque.produto.ProdutoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,8 +23,8 @@ public class UpdateStockItemUseCase implements UpdateStockItemService {
 
     @Override
     public StockItem perform(UUID id, StockItem data) {
-        Optional<StockItem> exitsStockItem = this.stockItemRepository.findById(id);
-        if(exitsStockItem.isEmpty()) {
+        Optional<StockItem> exitsStockItemOptional = this.stockItemRepository.findById(id);
+        if(exitsStockItemOptional.isEmpty()) {
             throw new EntityNotFoundException("O item não foi encontrado");
         }
         Optional<Produto> exitsDataProduct = this.productRepositoy.findById(data.getProduto().getId());
@@ -36,6 +37,8 @@ public class UpdateStockItemUseCase implements UpdateStockItemService {
                 throw new BusinessException("O serial já esta cadastrado em outro item");
             }
         });
-        return null;
+        StockItem exitsStockItem = exitsStockItemOptional.get();
+        BeanUtils.copyProperties(data, exitsStockItem, "id","createdBy", "createdAt");
+        return this.stockItemRepository.save(exitsStockItem);
     }
 }
