@@ -3,6 +3,7 @@ package com.sistemaf.domain.usecases.stock;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.StockItem;
 import com.sistemaf.domain.repository.StockItemRepository;
+import com.sistemaf.domain.repository.estoque.produto.ProdutoRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,9 @@ class UpdateStockItemUseCaseUnitTest {
     @Mock
     private StockItemRepository stockItemRepository;
 
+    @Mock
+    private ProdutoRepository productRepository;
+
     @Spy
     @InjectMocks
     private UpdateStockItemUseCase updateStockItemUseCase;
@@ -51,5 +55,16 @@ class UpdateStockItemUseCaseUnitTest {
         given(stockItemRepository.findById(id)).willReturn(Optional.empty());
         Exception exception = assertThrows(EntityNotFoundException.class, () -> updateStockItemUseCase.perform(id, mockInputValue));
         assertThat(exception.getMessage(), is("O item não foi encontrado"));
+    }
+
+    @Test
+    @DisplayName("should throws if product not exits")
+    public void givenInvalidProductId_whenUpdateStockItem_thenThrows() {
+        UUID id = UUID.randomUUID();
+        mockInputValue.setId(id);
+        given(stockItemRepository.findById(id)).willReturn(Optional.of(mockInputValue));
+        given(productRepository.findById(mockInputValue.getProduto().getId())).willReturn(Optional.empty());
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> updateStockItemUseCase.perform(id, mockInputValue));
+        assertThat(exception.getMessage(), is("O produto não foi encontrado"));
     }
 }
