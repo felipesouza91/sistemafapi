@@ -3,7 +3,7 @@ package com.sistemaf.domain.usecases.stock;
 import com.sistemaf.domain.contracts.stock.FindStockItemServices;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
-import com.sistemaf.domain.repository.StockItemRepository;
+import com.sistemaf.domain.repository.estoque.stockitem.StockItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

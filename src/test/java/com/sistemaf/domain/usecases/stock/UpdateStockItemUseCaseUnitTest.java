@@ -4,7 +4,7 @@ import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Produto;
 import com.sistemaf.domain.model.StockItem;
-import com.sistemaf.domain.repository.StockItemRepository;
+import com.sistemaf.domain.repository.estoque.stockitem.StockItemRepository;
 import com.sistemaf.domain.repository.estoque.produto.ProdutoRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;

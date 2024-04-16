@@ -2,7 +2,7 @@ package com.sistemaf.domain.usecases.stock;
 
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
-import com.sistemaf.domain.repository.StockItemRepository;
+import com.sistemaf.domain.repository.estoque.stockitem.StockItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

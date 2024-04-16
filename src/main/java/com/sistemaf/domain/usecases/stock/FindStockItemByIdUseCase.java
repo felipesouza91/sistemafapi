@@ -3,7 +3,7 @@ package com.sistemaf.domain.usecases.stock;
 import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.StockItem;
-import com.sistemaf.domain.repository.StockItemRepository;
+import com.sistemaf.domain.repository.estoque.stockitem.StockItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
