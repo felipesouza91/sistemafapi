@@ -30,6 +30,12 @@ public class UpdateStockItemUseCase implements UpdateStockItemService {
         if(exitsDataProduct.isEmpty()) {
             throw new EntityNotFoundException("O produto não foi encontrado");
         }
+        Optional<StockItem> exitsSerial = this.stockItemRepository.findBySerial(data.getSerial());
+        exitsSerial.ifPresent((value) -> {
+            if(!value.getId().equals(id)) {
+                throw new BusinessException("O serial já esta cadastrado em outro item");
+            }
+        });
         return null;
     }
 }
