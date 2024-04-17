@@ -15,6 +15,7 @@ public interface StockItemMapper {
 
     StockItemMapper INSTANCE = Mappers.getMapper(StockItemMapper.class);
 
+    @Mapping(source= "productId" , target = "produto.id")
     StockItem toModel(StockItemInput input);
 
     @Mapping(source= "produto" , target = "product")
