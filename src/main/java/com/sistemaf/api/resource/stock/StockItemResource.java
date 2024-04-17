@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/stock/items")
+@RequestMapping(path = "/stock/items",  produces = MediaType.APPLICATION_JSON_VALUE)
 public class StockItemResource implements StockItemResourceOpenApi {
     private StockItemMapper stockItemMapper  = StockItemMapper.INSTANCE;
     @Autowired
@@ -39,6 +40,7 @@ public class StockItemResource implements StockItemResourceOpenApi {
     private UpdateStockItemService updateStockItemService;
     @Autowired
     private ApplicationEventPublisher publisher;
+
     @PostMapping
     public ResponseEntity<StockItemDTO> createNewStockItem(@Valid  @RequestBody StockItemInput stockItemInput, HttpServletResponse response) {
        StockItem stockItem =  addStockItemService.perform(stockItemMapper.toModel(stockItemInput));
