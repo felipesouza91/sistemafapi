@@ -38,11 +38,11 @@ public class FindStockItemQueryImpl  extends PageableUtil implements FindStockIt
     @Override
     public Predicate[] criarRestricoes(StockItemFilter filter, CriteriaBuilder builder, Root<StockItem> root) {
         List<Predicate> predicateList = new ArrayList<>();
-        if(!filter.getSerial().isEmpty()) {
+        if(filter.getSerial() != null && !filter.getSerial().isEmpty()) {
             predicateList.add(builder.like(builder.lower(root.get("serial")),
                     "%"+filter.getSerial().toLowerCase()+"%"));
         }
-        if (filter.getProductId() != null) {
+        if ( filter.getProductId() != null) {
             predicateList.add(builder.equal(root.get("produto").get(Produto_.id.getName()),
                     filter.getProductId()));
         }
