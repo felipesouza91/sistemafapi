@@ -1,14 +1,12 @@
 package com.sistemaf.domain.repository.estoque.stockitem;
 
-import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface StockItemRepository extends  FindStockItemQuery, JpaRepository<StockItem, UUID> {
+public interface StockItemRepository extends JpaRepository<StockItem, UUID>, FindStockItemQuery {
     Optional<StockItem> findBySerial(String serial);
 
     StockItem save(StockItem stockItem);
