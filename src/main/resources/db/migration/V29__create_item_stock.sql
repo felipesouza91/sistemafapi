@@ -1,7 +1,6 @@
-UPDATE permissao SET descricao='RL_CAD_STOCK_ITEM' where id= 55;
-UPDATE permissao SET descricao='RL_REM_STOCK_ITEM' where id= 56;
-UPDATE permissao SET descricao='RL_PES_STOCK_ITEM' where id= 57;
-
+INSERT INTO permissao (id, descricao) values (55, 'RL_CAD_STOCK_ITEM');
+INSERT INTO permissao (id, descricao) values (56, 'RL_REM_STOCK_ITEM');
+INSERT INTO permissao (id, descricao) values (57, 'RL_PES_STOCK_ITEM');
 
 CREATE TABLE if NOT EXISTS items_stock (
     id CHAR(36) DEFAULT (uuid()) PRIMARY KEY NOT NULL,
