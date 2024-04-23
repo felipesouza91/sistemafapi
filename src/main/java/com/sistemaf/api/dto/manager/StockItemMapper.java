@@ -21,7 +21,10 @@ public interface StockItemMapper {
     @Mapping(source= "produto" , target = "product")
     StockItemDTO toDTO(StockItem stockItem);
 
-    @Mapping(source = "produto.model", target = "productModel")
-    @Mapping(source = "produto.model.fabricante.descricao", target = "manufactureName")
+    @Mapping(source = "produto.modelo", target = "productModel")
+    @Mapping(source = "produto.fabricante.descricao", target = "manufactureName")
+    StockitemResumeDTO toResumeDTO( StockItem stockItem);
+
+
     List<StockitemResumeDTO> toResumeDtoList(List<StockItem> result);
 }
