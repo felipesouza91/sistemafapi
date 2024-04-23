@@ -32,6 +32,7 @@ public class FindStockItemQueryImpl  extends PageableUtil implements FindStockIt
         Predicate[] predicates = this.criarRestricoes(stockItemFilter, builder, root);
         criteriaQuery.where(predicates);
         TypedQuery<StockItem> query = manager.createQuery(criteriaQuery);
+        super.adicionarRestricoesDePaginacao(query, page);
         return new PageImpl<>(query.getResultList(), page, super.total(manager, predicates, root, StockItem.class));
     }
 
