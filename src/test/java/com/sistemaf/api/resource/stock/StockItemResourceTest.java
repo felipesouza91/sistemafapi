@@ -16,12 +16,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
@@ -117,11 +120,13 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
     @WithMockUser
     @DisplayName("should return 200 when get Stock Item with resume params")
     public void given_whenFindResumeParam_thenReturnOk() throws Exception {
-        given(findStockItemServices.perform(any(),any())).willReturn(new PageImpl<>(Collections.emptyList() ));
-
+        List<StockItem> list = Instancio.ofList(StockItem.class).create();
+        given(findStockItemServices.perform(any(),any())).willReturn(new PageImpl<>(list));
         mockMvc.perform(get(STOCK_ITEM_PATH_REQUEST)
                 .queryParam("resume",""))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.[0].productModel", is(list.get(0).getProduto().getModelo())))
+                .andExpect(jsonPath("$.content.[0].manufactureName", is(list.get(0).getProduto().getFabricante().getDescricao())));
     }
 
     @Test
