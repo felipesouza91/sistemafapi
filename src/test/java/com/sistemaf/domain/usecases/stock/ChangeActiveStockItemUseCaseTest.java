@@ -17,8 +17,7 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,5 +57,12 @@ class ChangeActiveStockItemUseCaseTest {
             assertThat(argument.getActive(), is(inverseValue));
             return true;
         }));
+    }
+
+    @Test
+    @DisplayName("should throws if repository throws")
+    public void given_whenPerform_thenThrows() {
+        given(stockItemRepository.findById(any())).willThrow(new RuntimeException());
+        assertThrows(Exception.class, () -> sut.perform(UUID.randomUUID(), true));
     }
 }
