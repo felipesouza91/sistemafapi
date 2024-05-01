@@ -26,8 +26,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -274,5 +273,22 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 ).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.title", is("Dados Invalidos")))
                 .andExpect(jsonPath("$.detail", is("Um ou mais campos estão invalidos. Faça o preenchimento correto e tente novamente")));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 404 when field not provided when path method")
+    public void givenInvalidId_whenPathActiveItem_thenReturnNotFound() throws Exception {
+        Map<String, Boolean> input = new HashMap<>();
+        input.put("active", true);
+        UUID id = UUID.randomUUID();
+        doThrow(new EntityNotFoundException("O item do stock nao foi encontrado")).when(changeActiveStockItemService).perform(any(),any());
+        mockMvc.perform(patch(String.format("%s/{id}/active", STOCK_ITEM_PATH_REQUEST), id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(input))
+                        .with(csrf()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.title", is("Recurso não encontrado")))
+                .andExpect(jsonPath("$.detail", is("O item do stock nao foi encontrado")));
     }
 }
