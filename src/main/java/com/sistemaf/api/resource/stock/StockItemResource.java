@@ -1,14 +1,12 @@
 package com.sistemaf.api.resource.stock;
 
 import com.sistemaf.api.docs.controllers.StockItemResourceOpenApi;
+import com.sistemaf.api.dto.input.ChangeActiveInput;
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.api.dto.manager.StockItemMapper;
 import com.sistemaf.api.dto.model.StockItemDTO;
 import com.sistemaf.api.dto.model.StockitemResumeDTO;
-import com.sistemaf.domain.contracts.stock.AddStockItemService;
-import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
-import com.sistemaf.domain.contracts.stock.FindStockItemServices;
-import com.sistemaf.domain.contracts.stock.UpdateStockItemService;
+import com.sistemaf.domain.contracts.stock.*;
 import com.sistemaf.domain.filter.StockItemFilter;
 import com.sistemaf.domain.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,9 @@ public class StockItemResource implements StockItemResourceOpenApi {
     private FindStockItemByIdService findStockItemByIdService;
     @Autowired
     private UpdateStockItemService updateStockItemService;
+
+    @Autowired
+    private ChangeActiveStockItemService changeActiveStockItemService;
     @Autowired
     private ApplicationEventPublisher publisher;
 
@@ -70,6 +71,13 @@ public class StockItemResource implements StockItemResourceOpenApi {
     public ResponseEntity<StockItemDTO> updateStockItem(@PathVariable  UUID id, @Valid @RequestBody StockItemInput stockItemInput) {
         StockItem stockItem = this.updateStockItemService.perform(id, stockItemMapper.toModel(stockItemInput));
         return ResponseEntity.ok(stockItemMapper.toDTO(stockItem));
+    }
+
+    @Override
+    @PatchMapping("/{id}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changeActiveStockItem(@PathVariable UUID id, @Valid @RequestBody ChangeActiveInput input) {
+        this.changeActiveStockItemService.perform(id, input.getActive());
     }
 
 

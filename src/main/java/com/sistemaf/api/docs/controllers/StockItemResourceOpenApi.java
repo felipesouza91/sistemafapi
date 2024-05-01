@@ -1,5 +1,6 @@
 package com.sistemaf.api.docs.controllers;
 
+import com.sistemaf.api.dto.input.ChangeActiveInput;
 import com.sistemaf.api.dto.input.StockItemInput;
 import com.sistemaf.api.dto.model.StockItemDTO;
 import com.sistemaf.api.dto.model.StockitemResumeDTO;
@@ -31,7 +32,9 @@ public interface StockItemResourceOpenApi {
 
     @Operation(summary = "Create a Stock Item" )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Stock Item created success")
+            @ApiResponse(responseCode = "201", description = "Stock Item created success"),
+            @ApiResponse(responseCode = "400", description = "Request body validation fails",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
     })
     ResponseEntity<StockItemDTO> createNewStockItem(
             @Parameter(name = "body",description = "Stock Item Input") @Valid @RequestBody StockItemInput input,
@@ -49,19 +52,29 @@ public interface StockItemResourceOpenApi {
     @Operation(summary = "Find Stock By Id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Stock Item details"),
-            @ApiResponse(responseCode = "400", description = "Stock Item invalid",
-                    content = @Content(schema = @Schema(implementation = Problem.class))),
             @ApiResponse(responseCode = "404", description = "Stock Item not found",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
     ResponseEntity<StockItemDTO> findStockItemById(@Parameter(required = true) UUID id);
 
-
     @Operation(summary = "Update a stock item")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Stock Item details"),
+            @ApiResponse(responseCode = "204", description = "Stock Item status changed"),
+            @ApiResponse(responseCode = "400", description = "Request body validation fails",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
             @ApiResponse(responseCode = "404", description = "Stock Item not found",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
     ResponseEntity<StockItemDTO> updateStockItem(UUID id, StockItemInput stockItemInput);
+
+    @Operation(summary = "Change stock item status")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Stock Item status changed"),
+            @ApiResponse(responseCode = "400", description = "Request body validation fails",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404", description = "Stock Item not found",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
+    })
+    void changeActiveStockItem(UUID id, ChangeActiveInput active);
 }
+
