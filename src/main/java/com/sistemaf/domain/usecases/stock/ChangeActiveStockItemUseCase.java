@@ -21,5 +21,8 @@ public class ChangeActiveStockItemUseCase implements ChangeActiveStockItemServic
         if(findStockItem.isEmpty()) {
             throw new EntityNotFoundException("O item do stock nao foi encontrado");
         }
+        StockItem stockItem = findStockItem.get();
+        stockItem.setActive(active);
+        this.stockItemRepository.save(stockItem);
     }
 }
