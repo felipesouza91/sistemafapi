@@ -262,7 +262,7 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
     @Test
     @WithMockUser
     @DisplayName("should return 400 when field not provided when path method")
-    public void givenInvalidBody_whenPathActiveItem_thenReturnBadRequest() throws Exception {
+    public void givenInvalidBody_whenPatchActiveItem_thenReturnBadRequest() throws Exception {
         Map<String, Boolean> input = new HashMap<>();
 
         UUID id = UUID.randomUUID();
@@ -278,7 +278,7 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
     @Test
     @WithMockUser
     @DisplayName("should return 404 when field not provided when path method")
-    public void givenInvalidId_whenPathActiveItem_thenReturnNotFound() throws Exception {
+    public void givenInvalidId_whenPatchActiveItem_thenReturnNotFound() throws Exception {
         Map<String, Boolean> input = new HashMap<>();
         input.put("active", true);
         UUID id = UUID.randomUUID();
@@ -290,5 +290,21 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.title", is("Recurso não encontrado")))
                 .andExpect(jsonPath("$.detail", is("O item do stock nao foi encontrado")));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 204 when success")
+    public void givenValid_whenPatchActiveItem_thenReturnNotFound() throws Exception {
+        Map<String, Boolean> input = new HashMap<>();
+        input.put("active", true);
+        UUID id = UUID.randomUUID();
+        doNothing().when(changeActiveStockItemService).perform(id, true);
+        mockMvc.perform(patch(String.format("%s/{id}/active", STOCK_ITEM_PATH_REQUEST), id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(input))
+                        .with(csrf()))
+                .andExpect(status().isNoContent());
+
     }
 }
