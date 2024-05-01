@@ -1,10 +1,8 @@
 package com.sistemaf.api.resource.stock;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sistemaf.api.dto.input.StockItemInput;
-import com.sistemaf.domain.contracts.stock.AddStockItemService;
-import com.sistemaf.domain.contracts.stock.FindStockItemByIdService;
-import com.sistemaf.domain.contracts.stock.FindStockItemServices;
-import com.sistemaf.domain.contracts.stock.UpdateStockItemService;
+import com.sistemaf.domain.contracts.stock.*;
 import com.sistemaf.domain.exception.BusinessException;
 import com.sistemaf.domain.exception.EntityNotFoundException;
 import com.sistemaf.domain.model.Produto;
@@ -22,10 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,6 +47,9 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
 
     @MockBean
     private UpdateStockItemService updateStockItemService;
+
+    @MockBean
+    private ChangeActiveStockItemService changeActiveStockItemService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -260,5 +258,21 @@ public class StockItemResourceTest extends BaseWebMvcTestConfig {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(id.toString())))
                 .andExpect(jsonPath("$.product.id", is(stockItem.getProduto().getId().intValue())));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("should return 400 when field not provided when path method")
+    public void givenInvalidBody_whenPathActiveItem_thenReturnBadRequest() throws Exception {
+        Map<String, Boolean> input = new HashMap<>();
+
+        UUID id = UUID.randomUUID();
+        mockMvc.perform(patch(String.format("%s/{id}/active", STOCK_ITEM_PATH_REQUEST), id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(super.objectMapper.writeValueAsString(input))
+                        .with(csrf())
+                ).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title", is("Dados Invalidos")))
+                .andExpect(jsonPath("$.detail", is("Um ou mais campos estão invalidos. Faça o preenchimento correto e tente novamente")));
     }
 }
