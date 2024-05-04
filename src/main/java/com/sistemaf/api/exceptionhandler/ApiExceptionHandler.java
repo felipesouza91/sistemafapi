@@ -224,8 +224,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		String detail = "Um ou mais campos estão invalidos. Faça o preenchimento correto e tente novamente";
 		List<Problem.Field> fields = this.buildFields(bindingResult.getAllErrors());
+		String uri = this.sistemaProperty.getApiUrl() +ProblemType.DADOS_INVALIDOS.getPath();
+
 		Problem problem = Problem.builder().status(status.value())
-							.type(ProblemType.DADOS_INVALIDOS.getTitle()).detail(detail)
+				.type(uri).title(ProblemType.DADOS_INVALIDOS.getTitle()).detail(detail)
 							.userMessage(detail).objects(fields).build();
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
