@@ -33,9 +33,11 @@ class ChangeActiveStockItemUseCaseTest {
     @Test
     @DisplayName("should call repository with correct value")
     public void given_whenPerform_thenCallRepositoryCorrect() {
-        UUID id = UUID.randomUUID();
-        sut.perform(id, true);
-        verify(stockItemRepository, times(1)).findById(id);
+        StockItem stockItem = Instancio.create(StockItem.class);
+
+        given(stockItemRepository.findById(stockItem.getId())).willReturn(Optional.of(stockItem));
+        sut.perform(stockItem.getId(), true);
+        verify(stockItemRepository, times(1)).findById(stockItem.getId());
     }
 
     @Test
