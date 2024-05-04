@@ -5,7 +5,7 @@
 
 	<groupId>com.sistemaf.api</groupId>
 	<artifactId>sistemafapi</artifactId>
-	<version>0.0.9b</version>
+	<version>0.0.10</version>
 	<packaging>jar</packaging>
 
 	<name>SistemaFApi</name>
